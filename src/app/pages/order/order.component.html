@@ -1,0 +1,41 @@
+<div class="content">
+  <article>
+    <header>
+      <h1>O que pediram ?</h1>
+      <p>Adicione item por item</p>
+    </header>
+
+    <section class="input-content">
+
+      <input class="food_name_input input-text" type="text" placeholder="Ex: Polenta frita">
+
+      <div class="food_price">
+        <span class="field field-price">R$</span>
+        <input class="input-text input-text-price" type="number">
+      </div>
+
+      <div class="quantity">
+        <button class="field field-less" (click)="subtractQuantity();">-</button>
+        <input class="input-text input-text-quantity" type="text" [placeholder]="quantity">
+        <button class="field field-add" (click)="addQuantity();">+</button>
+      </div>
+
+    </section>
+
+
+    <div class="checkbox-content">
+      <div class="editar">
+        <p>Dividir valor entre</p>
+        <app-button-link title="editar pessoas" (buttonAction)="editarPessoas();"></app-button-link>
+      </div>
+      <form class="form-content" *ngFor="let name of usersList; let i = index">
+        <input type="checkbox">
+        <label for="name">{{name}}</label>
+      </form>
+    </div>
+  </article>
+  <footer class="btn-content">
+    <app-button buttonTitle="testes" styleButton="primary" [isDisabled]="false" (buttonAction)="teste()"></app-button>
+    <app-button-link title="Finalizar pedidos >"></app-button-link>
+  </footer>
+</div>

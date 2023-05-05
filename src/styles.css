@@ -1,0 +1,23 @@
+:root {
+  --blue-primary-500: #4E77FF;
+  --blue-primary-600: #305AE5;
+  --yellow-500: #F2FA5B;
+  --yellow-400: #FEFCBF;
+  --gray: #1F2633;
+  --gray2: #565D6C;
+  --gray3: #A3A9B7;
+}
+
+
+* {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+
+html,
+body, input, button, p{
+  background: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+}

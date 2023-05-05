@@ -1,0 +1,6 @@
+a{
+  font-size: 1rem;
+  text-decoration: underline;
+  color: var(--gray);
+  opacity: 70%;
+}

@@ -1,0 +1,21 @@
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 182px;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+.primary {
+  background-color: var(--blue-primary-500);
+  color: var(--yellow-400);
+}
+
+.secundary {
+  background-color: none;
+  border: 2px solid var(--blue-primary-600);
+  color: var(--blue-primary-600);
+}

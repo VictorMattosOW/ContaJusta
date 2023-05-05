@@ -1,0 +1,10 @@
+<div>
+  <button 
+    class="btn" 
+    [ngClass]="styleButton" 
+    [disabled]="isDisabled" 
+    (click)="buttonAction.emit();"
+    >
+    {{ buttonTitle }}
+  </button>
+</div>

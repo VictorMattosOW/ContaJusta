@@ -1,0 +1,159 @@
+.content {
+  width: 100vw;
+  height: 100vh;
+  padding: 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.content h1 {
+  color: var(--blue-primary-500);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.content p {
+  color: var(--gray2);
+  font-size: 1rem;
+}
+
+.input-content {
+  display: grid;
+  grid-template-areas: 
+  'food_name_input food_name_input food_name_input food_name_input'
+  'food_price food_price food_price quantity';
+}
+
+.food_name_input {
+  grid-area: food_name_input;
+  width: 100%;
+}
+
+.food_price {
+  grid-area: food_price;
+  display: flex;
+  flex-direction: row;
+}
+
+.quantity {
+  grid-area: quantity;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.input-text {
+  padding: 1rem 0.8rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  display: block;
+  border: 1px solid var(--gray2);
+  height: 50px;
+  font-size: 1rem;
+  opacity: 60%;
+}
+
+.input-text-price {
+  width: 100%;
+  border-radius: 0 8px 8px 0;
+}
+
+.input-text-quantity {
+  width: 40%;
+  border-radius: 0;
+  text-align: center;
+}
+
+.field {
+  padding: 0.8rem;
+  margin-top: 1rem;
+  display: block;
+  border: 1px solid var(--gray2);
+  background: var(--gray2);
+  color: #f9f9f9;
+  height: 50px;
+}
+
+.field-price {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  width: 50px;
+}
+
+.field-less {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  width: 2rem;
+}
+
+.field-add {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  width: 2rem;
+}
+
+.checkbox-content {
+  margin-top: 3rem;
+}
+
+.checkbox-content>p {
+  margin-bottom: 1.2rem;
+}
+
+.checkbox-content p {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+}
+
+.editar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.editar>a {
+  text-decoration: underline;
+  color: var(--gray);
+  opacity: 70%;
+}
+
+input[type="checkbox"] {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  border: 1px solid #1F2633;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 16px;
+}
+
+input[type="checkbox"]:checked {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../../../assets/Vector.svg');
+  background-size: 70%;
+  background-color: #1F2633;
+}
+
+.price-quantity {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-content {
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  gap: 1rem;
+}
