@@ -6,6 +6,9 @@
   height: 100vh;
   background: var(--blue-primary-500);
   box-sizing: border-box;  
+}
+
+.description-content {
   padding: 3rem 3rem;
 }
 
@@ -22,7 +25,9 @@
 }
 
 .button {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 4.15rem;
   width: 100%;
   height: 50px;
@@ -30,16 +35,10 @@
   border-radius: 8px;
   color: var(--blue-primary-600);
   font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
 }
 
 .image {
-  position: fixed;
-  left: 0;
-  bottom: 0;
   width: 100%;
-  height: 40%;
+  height: 100%;
 }
