@@ -1,7 +1,4 @@
 .content {
-  width: 100vw;
-  height: 100vh;
-  padding: 3rem 3rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
