@@ -13,6 +13,12 @@
   color: var(--yellow-400);
   margin: 1rem 0 3.5rem 0;
 }
+
+.btn {
+  position: relative;
+  z-index: 10;
+}
+
 .image {
   position: fixed;
   right: 0;
@@ -34,5 +40,6 @@
     right: 0;
     bottom: -20px;
     opacity: 70%;
+    z-index: 0;
   }
 }
