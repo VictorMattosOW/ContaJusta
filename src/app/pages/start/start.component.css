@@ -14,7 +14,7 @@
   margin: 1rem 0 3.5rem 0;
 }
 .image {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 0;
 }
