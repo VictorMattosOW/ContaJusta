@@ -1,14 +1,19 @@
 <div class="content">
-  <section class="description-content">
+  <section>
     <header>
       <h1 class="title">Cansou de pedir só uma aguinha e pagar pelo banquete do amigo?</h1>
-    </header>
-    <section>
       <p class="subtitle">Com a <strong>conjunta</strong>, você paga somente o que consumiu.</p>
-      <a class="button" href="userRegistration">dividir com contajusta</a>
-    </section>
+    </header>
   </section>
   <footer>
+    <app-button 
+      class="btn"
+      buttonTitle="dividir com contajusta" 
+      styleButton="yellow-primary" 
+      [isDisabled]="false"
+      (buttonAction)="goToUserRegister()"
+    ></app-button>
+
     <img class="image" src="./assets/CJ.svg" alt="">
   </footer>
 </div>

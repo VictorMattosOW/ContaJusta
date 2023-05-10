@@ -8,16 +8,43 @@
   --gray3: #A3A9B7;
 }
 
-
 * {
   padding: 0;
   margin: 0;
   border: 0;
   box-sizing: border-box;
 }
+html {
+    height: 100%;
+}
+body {
+    min-height: 100%;
+}
 
 html,
-body, input, button, p{
-  background: #f9f9f9;
+body,
+input,
+button,
+p {
   font-family: 'Poppins', sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.125rem;
+}
+
+h5 {
+  font-size: 0,075rem;
+}
+
+p {
+  font-size: 1rem;
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../services/session.service';
@@ -13,7 +13,7 @@ interface Users {
   styleUrls: ['./user-registration.component.css']
 })
 
-export class UserRegistrationComponent {
+export class UserRegistrationComponent implements AfterViewInit {
 
   form: FormGroup;
 
@@ -35,6 +35,12 @@ export class UserRegistrationComponent {
         console.error(error);
       }
     })
+  }
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.sessionService.setBackgroundColor('white');
+    });
   }
 
   get inputs(): FormArray {

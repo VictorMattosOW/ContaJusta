@@ -3,10 +3,11 @@
   align-items: center;
   justify-content: center;
   height: 50px;
-  width: 182px;
+  width: 100%;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 700;
   border-radius: 8px;
+  z-index: 1;
 }
 
 .primary {
@@ -18,4 +19,13 @@
   background-color: none;
   border: 2px solid var(--blue-primary-600);
   color: var(--blue-primary-600);
+}
+
+.yellow-primary {
+  background-color: var(--yellow-500);
+  color: var(--blue-primary-600);
+}
+
+.yellow-secundary {
+
 }
