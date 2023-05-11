@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./start.component.css']
 })
 export class StartComponent implements AfterViewInit {
+  isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
 
   constructor(
     private sessionService: SessionService,
