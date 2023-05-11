@@ -32,6 +32,10 @@ header {
   z-index: 0;
 }
 
+.logoMenor {
+  margin-bottom: 1.75rem;
+}
+
 @media (max-width: 375px) {
   .subtitle {
     margin: 1rem 0 2rem 0;
