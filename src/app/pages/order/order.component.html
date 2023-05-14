@@ -5,21 +5,21 @@
       <p>Adicione item por item</p>
     </header>
 
-    <section class="input-content">
+    <section>
+      <form action="submit"  class="input-content">
+        <input class="food_name_input input-text" type="text" placeholder="Ex: Polenta frita">
 
-      <input class="food_name_input input-text" type="text" placeholder="Ex: Polenta frita">
+        <div class="food_price">
+          <span class="field field-price">R$</span>
+          <input class="input-text input-text-price" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
+        </div>
 
-      <div class="food_price">
-        <span class="field field-price">R$</span>
-        <input class="input-text input-text-price" type="number">
-      </div>
-
-      <div class="quantity">
-        <button class="field field-less" (click)="subtractQuantity();">-</button>
-        <input class="input-text input-text-quantity" type="number" [placeholder]="quantity" readonly>
-        <button class="field field-add" (click)="addQuantity();">+</button>
-      </div>
-
+        <div class="quantity">
+          <button class="field field-less" (click)="subtractQuantity();">-</button>
+          <input class="input-text input-text-quantity" type="number" [placeholder]="quantity" readonly>
+          <button class="field field-add" (click)="addQuantity();">+</button>
+        </div>
+      </form>
     </section>
 
 
@@ -35,7 +35,13 @@
     </div>
   </article>
   <footer class="btn-content">
-    <app-button buttonTitle="testes" styleButton="primary" [isDisabled]="false" (buttonAction)="teste()"></app-button>
+    <app-button
+      buttonTitle="próximo item"
+      styleButton="primary"
+      size="large"
+      [isDisabled]="false"
+      (buttonAction)="teste()"
+    ></app-button>
     <app-button-link title="Finalizar pedidos >"></app-button-link>
   </footer>
 </div>

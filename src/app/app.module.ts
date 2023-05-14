@@ -6,8 +6,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from './components/button/button.component';
-import { ButtonLinkComponent } from './components/button-link/button-link.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +16,7 @@ import { ButtonLinkComponent } from './components/button-link/button-link.compon
     AppRoutingModule,
     HttpClientModule,
     PagesModule,
-    CommonModule
+    CommonModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
 .content {
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -17,9 +18,9 @@
 
 .input-content {
   display: grid;
-  grid-template-areas: 
-  'food_name_input food_name_input food_name_input food_name_input'
-  'food_price food_price food_price quantity';
+  grid-template-areas:
+    "food_name_input food_name_input food_name_input food_name_input"
+    "food_price food_price food_price quantity";
 }
 
 .food_name_input {
@@ -94,7 +95,7 @@
   margin-top: 3rem;
 }
 
-.checkbox-content>p {
+.checkbox-content > p {
   margin-bottom: 1.2rem;
 }
 
@@ -117,7 +118,7 @@
   margin-bottom: 20px;
 }
 
-.editar>a {
+.editar > a {
   text-decoration: underline;
   color: var(--gray);
   opacity: 70%;
@@ -127,7 +128,7 @@ input[type="checkbox"] {
   width: 24px;
   height: 24px;
   border-radius: 8px;
-  border: 1px solid #1F2633;
+  border: 1px solid #1f2633;
   appearance: none;
   outline: none;
   cursor: pointer;
@@ -138,9 +139,9 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked {
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url('../../../assets/Vector.svg');
+  background-image: url("../../../assets/Vector.svg");
   background-size: 70%;
-  background-color: #1F2633;
+  background-color: #1f2633;
 }
 
 .price-quantity {
@@ -153,4 +154,5 @@ input[type="checkbox"]:checked {
   flex-direction: column;
   align-items: end;
   gap: 1rem;
+  margin-bottom: 2rem;
 }

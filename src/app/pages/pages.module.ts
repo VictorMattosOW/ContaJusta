@@ -1,3 +1,4 @@
+import { NgxCurrencyModule } from 'ngx-currency';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -24,6 +25,7 @@ import { ButtonLinkComponent } from '../components/button-link/button-link.compo
     PagesRoutingModule,
     RouterModule,
     ReactiveFormsModule,
+    NgxCurrencyModule, // aqui importamos o NgxCurrencyModule
   ],
   exports: [StartComponent, UserRegistrationComponent, OrderComponent, ButtonComponent, ButtonLinkComponent]
 })

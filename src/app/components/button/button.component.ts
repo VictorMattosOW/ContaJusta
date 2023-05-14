@@ -9,5 +9,6 @@ export class ButtonComponent {
   @Input() buttonTitle: string;
   @Input() isDisabled?: boolean = false;
   @Input() styleButton: 'primary' | 'secundary' | 'yellow-primary' | 'yellow-secundary';
+  @Input() size: 'large' | 'small';
   @Output() buttonAction: EventEmitter<void> = new EventEmitter();
 }
