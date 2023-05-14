@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class StartComponent implements AfterViewInit {
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
+  isSafariOnIphone = navigator.userAgent.includes('iPhone') && navigator.userAgent.includes('Safari');
 
   constructor(
     private sessionService: SessionService,
