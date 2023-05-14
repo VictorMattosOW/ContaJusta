@@ -6,7 +6,6 @@
     <form [formGroup]="form" action="submit();">
       <div formArrayName="inputs">
         <div class="btn-link" *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">
-          <label for="name"></label>
             <input type="text" formControlName="name" autofocus>
             <app-button-link (buttonAction)="deleteUser(i);" title="excluir"></app-button-link>
         </div>
@@ -20,9 +19,9 @@
     </div>
   </div>
   <div class="btn-next">
-    <app-button 
-      buttonTitle="próximo item" 
-      [isDisabled]="!isFormValid()" 
+    <app-button
+      buttonTitle="próximo item"
+      [isDisabled]="!isFormValid()"
       styleButton="primary"
       size="large"
       (buttonAction)="submit();"
