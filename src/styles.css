@@ -1,11 +1,12 @@
 :root {
-  --blue-primary-500: #4E77FF;
-  --blue-primary-600: #305AE5;
-  --yellow-500: #F2FA5B;
-  --yellow-400: #FEFCBF;
-  --gray: #1F2633;
-  --gray2: #565D6C;
-  --gray3: #A3A9B7;
+  --white: #F9F9F9;
+  --blue-primary-500: #4e77ff;
+  --blue-primary-600: #305ae5;
+  --yellow-500: #f2fa5b;
+  --yellow-400: #fefcbf;
+  --gray: #1f2633;
+  --gray2: #565d6c;
+  --gray3: #a3a9b7;
 }
 
 * {
@@ -14,11 +15,9 @@
   border: 0;
   box-sizing: border-box;
 }
-html {
-    height: 100%;
-}
-body {
-    height: 100%;
+html, body {
+  height: 100%;
+  background: var(--white);
 }
 
 html,
@@ -26,7 +25,7 @@ body,
 input,
 button,
 p {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 h1 {
@@ -42,7 +41,7 @@ h3 {
 }
 
 h5 {
-  font-size: 0,075rem;
+  font-size: 0, 075rem;
 }
 
 p {
