@@ -6,7 +6,8 @@
     <form [formGroup]="form">
       <div formArrayName="inputs">
         <div class="btn-link" *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">
-            <input type="text" formControlName="name">
+          <label for="name"></label>
+            <input type="text" formControlName="name" autofocus>
             <app-button-link (buttonAction)="deleteUser(i);" title="excluir"></app-button-link>
         </div>
       </div>
