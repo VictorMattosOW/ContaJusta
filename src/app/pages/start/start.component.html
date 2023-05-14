@@ -1,6 +1,5 @@
 <div class="content">
   <section>
-    <h1>{{isSafariOnIphone}}</h1>
     <header>
       <img class="logoMenor" src="../../../assets/logoMenor.svg" alt="">
       <h1 class="title">Cansou de pedir só uma aguinha e pagar pelo banquete do amigo?</h1>
@@ -17,6 +16,6 @@
       (buttonAction)="goToUserRegister()"
     ></app-button>
 
-    <img *ngIf="!isXiaomiBrowser || !isSafariOnIphone" class="image" src="../../../assets/logoBg.svg" alt="">
+    <img *ngIf="!isSafariOnIphone" class="image" src="../../../assets/logoBg.svg" alt="">
   </footer>
 </div>
