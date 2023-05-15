@@ -24,11 +24,20 @@ export class UserRegistrationComponent implements AfterViewInit {
     this.form = new FormGroup({
       inputs: new FormArray([])
     });
+  }
 
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.sessionService.setBackgroundColor('white');
+      this.loadUsersFromSession();
+    });
+  }
+
+  loadUsersFromSession() {
     this.sessionService.getUsersObservable().subscribe({
       next: (users: Users[]) => {
         if (users) {
-          users.forEach(users => this.handleAddNewUser(users.name));
+          users.forEach(users => this.addNewUserInput(users.name));
         }
       },
       error: (error) => {
@@ -37,30 +46,33 @@ export class UserRegistrationComponent implements AfterViewInit {
     })
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.sessionService.setBackgroundColor('white');
-    });
-  }
-
   get inputs(): FormArray {
     return this.form.get('inputs') as FormArray;
   }
 
-  handleAddNewUser(user?: string) {
-    const newInput = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(25)])
-    });
-
-    if (!user && this.form.valid) {
-      this.inputs.push(newInput);
-    } else if (user && this.form.valid) {
-      newInput.controls['name'].setValue(user);
-      this.inputs.push(newInput);
+  addNewUserInput(user?: string): void {
+    const newUserInput = this.createNewUserInputFormGroup(user);
+    if (this.isValidForm()) {
+      this.inputs.push(newUserInput);
     }
   }
 
-  isFormValid(): boolean {
+  createNewUserInputFormGroup(user?: string): FormGroup {
+    const newInput = new FormGroup({
+      name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(25)])
+    });
+    if (user) {
+      newInput.get('name').setValue(user);
+    }
+    return newInput;
+  }
+
+  isValidForm(): boolean {
+    this.form.markAllAsTouched();
+    return this.form.valid;
+  }
+
+  canEnableSubmitButton(): boolean {
     return this.inputs.length >= 2 && this.form.valid;
   }
 

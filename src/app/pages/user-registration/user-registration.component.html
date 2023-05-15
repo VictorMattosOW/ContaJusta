@@ -12,16 +12,16 @@
       </div>
     </form>
     <div class="btn-link">
-      <a class="btn-add" (click)="handleAddNewUser()">
+      <button class="btn-add" (click)="addNewUserInput()">
         <p>Nome da pessoa</p>
-      </a>
+      </button>
       <app-button-link class="test" (buttonAction)="deleteUser();" title="excluir"></app-button-link>
     </div>
   </div>
   <div class="btn-next">
     <app-button
       buttonTitle="próximo item"
-      [isDisabled]="!isFormValid()"
+      [isDisabled]="!canEnableSubmitButton()"
       styleButton="primary"
       size="large"
       (buttonAction)="submit();"
