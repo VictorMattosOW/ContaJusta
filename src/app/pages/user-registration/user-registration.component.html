@@ -3,7 +3,7 @@
     <h1>Pra começar,
       quem está no rolê?
     </h1>
-    <form [formGroup]="form" onsubmit="submit()">
+    <form [formGroup]="form" (ngSubmit)="submit();">
       <div formArrayName="inputs">
         <div class="btn-link" *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">
             <input type="text" formControlName="name" appAutofocus>
