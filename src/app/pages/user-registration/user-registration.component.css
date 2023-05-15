@@ -11,10 +11,11 @@
   margin-bottom: 2.5rem;
 }
 
-.form-content {
-  max-height: 650px;
+/* .form-content {
+  max-height: 600px;
   overflow: scroll;
-}
+  background-color: aqua;
+} */
 
 .content input {
   padding: 1rem 0.8rem;

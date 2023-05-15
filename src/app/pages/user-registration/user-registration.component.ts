@@ -28,7 +28,7 @@ export class UserRegistrationComponent implements AfterViewInit {
     this.sessionService.getUsersObservable().subscribe({
       next: (users: Users[]) => {
         if (users) {
-          users.forEach(users => this.addInput(users.name));
+          users.forEach(users => this.handleAddNewUser(users.name));
         }
       },
       error: (error) => {
@@ -47,7 +47,7 @@ export class UserRegistrationComponent implements AfterViewInit {
     return this.form.get('inputs') as FormArray;
   }
 
-  addInput(user?: string) {
+  handleAddNewUser(user?: string) {
     const newInput = new FormGroup({
       name: new FormControl('', [Validators.required, Validators.minLength(2)])
     });
@@ -58,6 +58,10 @@ export class UserRegistrationComponent implements AfterViewInit {
       newInput.controls['name'].setValue(user);
       this.inputs.push(newInput);
     }
+  }
+
+  setFocus(inputElement: HTMLInputElement) {
+    inputElement.focus();
   }
 
   isFormValid(): boolean {

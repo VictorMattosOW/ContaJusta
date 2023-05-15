@@ -3,16 +3,16 @@
     <h1>Pra começar,
       quem está no rolê?
     </h1>
-    <form [formGroup]="form" action="submit();">
+    <form [formGroup]="form" onsubmit="submit()">
       <div formArrayName="inputs">
         <div class="btn-link" *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">
-            <input type="text" formControlName="name" autofocus>
+            <input type="text" formControlName="name" (click)="setFocus($event.target)">
             <app-button-link (buttonAction)="deleteUser(i);" title="excluir"></app-button-link>
         </div>
       </div>
     </form>
     <div class="btn-link">
-      <a class="btn-add" (click)="addInput()">
+      <a class="btn-add" (click)="handleAddNewUser()">
         <p>Nome da pessoa</p>
       </a>
       <app-button-link class="test" (buttonAction)="deleteUser();" title="excluir"></app-button-link>
