@@ -38,6 +38,7 @@ export class UserRegistrationComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
     setTimeout(() => {
       this.sessionService.setBackgroundColor('white');
     });
@@ -52,16 +53,14 @@ export class UserRegistrationComponent implements AfterViewInit {
       name: new FormControl('', [Validators.required, Validators.minLength(2)])
     });
 
+    newInput['autofocus'] = true;
+
     if (!user && this.form.valid) {
       this.inputs.push(newInput);
     } else if (user && this.form.valid) {
       newInput.controls['name'].setValue(user);
       this.inputs.push(newInput);
     }
-  }
-
-  setFocus(inputElement: HTMLInputElement) {
-    inputElement.focus();
   }
 
   isFormValid(): boolean {

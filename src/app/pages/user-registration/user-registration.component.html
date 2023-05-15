@@ -6,7 +6,7 @@
     <form [formGroup]="form" onsubmit="submit()">
       <div formArrayName="inputs">
         <div class="btn-link" *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">
-            <input type="text" formControlName="name" (click)="setFocus($event.target)">
+            <input type="text" formControlName="name">
             <app-button-link (buttonAction)="deleteUser(i);" title="excluir"></app-button-link>
         </div>
       </div>
