@@ -38,7 +38,6 @@ export class UserRegistrationComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
     setTimeout(() => {
       this.sessionService.setBackgroundColor('white');
     });
@@ -50,10 +49,8 @@ export class UserRegistrationComponent implements AfterViewInit {
 
   handleAddNewUser(user?: string) {
     const newInput = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(2)])
+      name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(25)])
     });
-
-    newInput['autofocus'] = true;
 
     if (!user && this.form.valid) {
       this.inputs.push(newInput);
