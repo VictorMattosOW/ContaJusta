@@ -10,6 +10,7 @@ import { UserRegistrationComponent } from './user-registration/user-registration
 import { OrderComponent } from './order/order.component';
 import { ButtonComponent } from '../components/button/button.component';
 import { ButtonLinkComponent } from '../components/button-link/button-link.component';
+import { AutofocusDirective } from '../diretivas/autofocus.directive';
 
 
 @NgModule({
@@ -18,14 +19,15 @@ import { ButtonLinkComponent } from '../components/button-link/button-link.compo
     UserRegistrationComponent,
     OrderComponent,
     ButtonComponent,
-    ButtonLinkComponent
+    ButtonLinkComponent,
+    AutofocusDirective
   ],
   imports: [
     CommonModule,
     PagesRoutingModule,
     RouterModule,
     ReactiveFormsModule,
-    NgxCurrencyModule, // aqui importamos o NgxCurrencyModule
+    NgxCurrencyModule,
   ],
   exports: [StartComponent, UserRegistrationComponent, OrderComponent, ButtonComponent, ButtonLinkComponent]
 })

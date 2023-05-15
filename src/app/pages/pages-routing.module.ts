@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { OrderComponent } from './order/order.component';
-import { AutofocusDirective } from '../diretivas/autofocus.directive';
 
 const routes: Routes = [
   {
@@ -22,9 +21,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  declarations: [
-    AutofocusDirective,
-  ]
+  exports: [RouterModule]
 })
 export class PagesRoutingModule { }
