@@ -6,7 +6,7 @@
     </header>
 
     <section>
-      <form action="submit"  class="input-content">
+      <form class="input-content">
         <input class="food_name_input input-text" type="text" placeholder="Ex: Polenta frita">
 
         <div class="food_price">
@@ -15,9 +15,9 @@
         </div>
 
         <div class="quantity">
-          <button class="field field-less" (click)="subtractQuantity();">-</button>
+          <button class="field field-less" (click)="updateQuantity($event, 'subtract');"  (touchstart)="updateQuantity($event, 'subtract');">-</button>
           <input class="input-text input-text-quantity" type="number" [placeholder]="quantity" readonly>
-          <button class="field field-add" (click)="addQuantity();">+</button>
+          <button class="field field-add" (click)="updateQuantity($event, 'add');"  (touchstart)="updateQuantity($event, 'add');">+</button>
         </div>
       </form>
     </section>

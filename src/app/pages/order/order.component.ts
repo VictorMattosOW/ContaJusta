@@ -37,7 +37,7 @@ export class OrderComponent implements OnInit {
     this.sessionService.getUsersObservable().subscribe({
       next: (users) => {
         if (users.length === 0) {
-          // this.router.navigate(['userRegistration']);
+          this.router.navigate(['userRegistration']);
         }
         this.usersList = users.map(user => {
           return user.name;
@@ -46,12 +46,12 @@ export class OrderComponent implements OnInit {
     });
   }
 
-  addQuantity() {
-    this.quantity++;
-  }
+  updateQuantity(event: Event, operation: 'add' | 'subtract') {
+    event.preventDefault();
 
-  subtractQuantity() {
-    if(this.quantity > 1) {
+    if (operation === 'add') {
+      this.quantity++;
+    } else if (operation === 'subtract' && this.quantity > 1) {
       this.quantity--;
     }
   }
