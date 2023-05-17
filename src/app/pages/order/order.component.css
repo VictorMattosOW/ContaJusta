@@ -106,7 +106,7 @@
 
 .form-content {
   overflow: scroll;
-  height: 300px;
+  max-height: 300px;
 }
 
 .form-checkbox {
