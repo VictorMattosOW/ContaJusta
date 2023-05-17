@@ -11,7 +11,7 @@
 
         <div class="food_price">
           <span class="field field-price">R$</span>
-          <input class="input-text input-text-price" currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"/>
+          <input class="input-text input-text-price" formControlName="value"/>
         </div>
 
         <div class="quantity">
@@ -28,10 +28,12 @@
         <p>Dividir valor entre</p>
         <app-button-link title="editar pessoas" (buttonAction)="editarPessoas();"></app-button-link>
       </div>
-      <form class="form-content" *ngFor="let name of usersList; let i = index">
-        <input type="checkbox">
-        <label for="name">{{name}}</label>
-      </form>
+      <div class="form-content">
+        <form class="form-checkbox" *ngFor="let name of usersList; let i = index">
+          <input type="checkbox">
+          <label for="name">{{name}}</label>
+        </form>
+      </div>
     </div>
   </article>
   <footer class="btn-content">

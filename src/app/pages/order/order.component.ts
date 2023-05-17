@@ -19,7 +19,8 @@ export class OrderComponent implements OnInit {
   usersList = [];
   orderFood = {} as Food;
   quantity = 1;
-
+  value = '';
+// TODO: retirar o mask e colocar outra biblioteca
   constructor(
     private sessionService: SessionService,
     private router: Router

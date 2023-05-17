@@ -105,6 +105,11 @@
 }
 
 .form-content {
+  overflow: scroll;
+  height: 280px;
+}
+
+.form-checkbox {
   display: flex;
   flex-direction: row;
   gap: 0.8rem;
