@@ -1,22 +1,23 @@
 <div class="content">
-  <div class="form-content">
+  <div>
     <h1>Pra começar,
       quem está no rolê?
     </h1>
-    <form [formGroup]="form" (ngSubmit)="submit();">
+    <form class="form-content" #conteudo [formGroup]="form" (ngSubmit)="submit();" [scrollTop]="conteudo.scrollHeight">
       <div formArrayName="inputs">
         <div class="btn-link" *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">
             <input type="text" formControlName="name" appAutofocus>
             <app-button-link (buttonAction)="deleteUser(i);" title="excluir"></app-button-link>
         </div>
       </div>
+      <div class="btn-link">
+        <button class="btn-add" (click)="addNewUserInput();">
+          <p>Nome da pessoa</p>
+        </button>
+        <app-button-link class="test" (buttonAction)="deleteUser();" title="excluir"></app-button-link>
+      </div>
     </form>
-    <div class="btn-link">
-      <button class="btn-add" (click)="addNewUserInput()">
-        <p>Nome da pessoa</p>
-      </button>
-      <app-button-link class="test" (buttonAction)="deleteUser();" title="excluir"></app-button-link>
-    </div>
+
   </div>
   <div class="btn-next">
     <app-button

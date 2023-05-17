@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../services/session.service';
@@ -14,7 +14,7 @@ interface Users {
 })
 
 export class UserRegistrationComponent implements AfterViewInit {
-
+  @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
   form: FormGroup;
 
   constructor(
