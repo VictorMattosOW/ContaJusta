@@ -72,3 +72,9 @@
   align-items: center;
   justify-content: space-between;
 }
+
+@media (max-height: 700px) {
+  .form-content {
+    max-height: 300px;
+  }
+}
