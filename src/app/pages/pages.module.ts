@@ -1,4 +1,3 @@
-import { NgxCurrencyModule } from 'ngx-currency';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -27,7 +26,6 @@ import { AutofocusDirective } from '../diretivas/autofocus.directive';
     PagesRoutingModule,
     RouterModule,
     ReactiveFormsModule,
-    NgxCurrencyModule,
   ],
   exports: [StartComponent, UserRegistrationComponent, OrderComponent, ButtonComponent, ButtonLinkComponent]
 })
