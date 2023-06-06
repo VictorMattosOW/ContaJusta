@@ -10,6 +10,7 @@ import { OrderComponent } from './order/order.component';
 import { ButtonComponent } from '../components/button/button.component';
 import { ButtonLinkComponent } from '../components/button-link/button-link.component';
 import { AutofocusDirective } from '../diretivas/autofocus.directive';
+import { NgxCurrencyModule } from 'ngx-currency';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import { AutofocusDirective } from '../diretivas/autofocus.directive';
     PagesRoutingModule,
     RouterModule,
     ReactiveFormsModule,
+    NgxCurrencyModule,
   ],
   exports: [StartComponent, UserRegistrationComponent, OrderComponent, ButtonComponent, ButtonLinkComponent]
 })

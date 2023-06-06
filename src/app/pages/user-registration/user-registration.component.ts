@@ -10,20 +10,14 @@ interface Users {
 @Component({
   selector: 'app-user-registration',
   templateUrl: './user-registration.component.html',
-  styleUrls: ['./user-registration.component.css']
+  styleUrls: ['./user-registration.component.css'],
 })
-
 export class UserRegistrationComponent implements AfterViewInit {
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
   form: FormGroup;
 
-  constructor(
-    private router: Router,
-    private sessionService: SessionService
-  ) {
-    this.form = new FormGroup({
-      inputs: new FormArray([])
-    });
+  constructor(private router: Router, private sessionService: SessionService) {
+    this.buildForm();
   }
 
   ngAfterViewInit(): void {
@@ -33,17 +27,23 @@ export class UserRegistrationComponent implements AfterViewInit {
     });
   }
 
+  buildForm() {
+    this.form = new FormGroup({
+      inputs: new FormArray([]),
+    });
+  }
+
   loadUsersFromSession() {
     this.sessionService.getUsersObservable().subscribe({
       next: (users: Users[]) => {
         if (users) {
-          users.forEach(users => this.addNewUserInput(users.name));
+          users.forEach((users) => this.addNewUserInput(users.name));
         }
       },
       error: (error) => {
         console.error(error);
-      }
-    })
+      },
+    });
   }
 
   get inputs(): FormArray {
@@ -59,7 +59,11 @@ export class UserRegistrationComponent implements AfterViewInit {
 
   createNewUserInputFormGroup(user?: string): FormGroup {
     const newInput = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(25)])
+      name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(25),
+      ]),
     });
     if (user) {
       newInput.get('name').setValue(user);
@@ -81,7 +85,7 @@ export class UserRegistrationComponent implements AfterViewInit {
   }
 
   submit() {
-    if(this.canEnableSubmitButton()) {
+    if (this.canEnableSubmitButton()) {
       this.sessionService.setUsers(this.inputs.value);
       this.router.navigate(['order']);
     }

@@ -6,12 +6,12 @@
     </header>
 
     <section>
-      <form class="input-content">
-        <input class="food_name_input input-text" type="text" placeholder="Ex: Polenta frita">
+      <form class="input-content" [formGroup]="orderForm">
+        <input class="food_name_input input-text" type="text" formControlName="name" placeholder="Ex: Polenta frita">
 
         <div class="food_price">
           <span class="field field-price">R$</span>
-          <input class="input-text input-text-price" formControlName="value"/>
+          <input class="input-text input-text-price" formControlName="price" placeholder="0,00" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"/>
         </div>
 
         <div class="quantity">

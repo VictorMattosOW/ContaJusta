@@ -1,5 +1,6 @@
 import { SessionService } from './../services/session.service';
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 interface Food {
@@ -20,14 +21,30 @@ export class OrderComponent implements OnInit {
   orderFood = {} as Food;
   quantity = 1;
   value = '';
+
+  orderForm: FormGroup;
 // TODO: retirar o mask e colocar outra biblioteca
   constructor(
     private sessionService: SessionService,
     private router: Router
-  ) { }
+  ) {
+    this.buildForm();
+   }
 
   ngOnInit(): void {
+    this.buildForm();
     this.getUsers();
+  }
+
+  buildForm() {
+    this.orderForm = new FormGroup({
+      name: new FormControl('', [
+        Validators.required,
+        Validators.minLength(2),
+        Validators.maxLength(25),
+      ]),
+      price: new FormControl('', [Validators.required])
+    })
   }
 
   editarPessoas() {
@@ -74,7 +91,7 @@ export class OrderComponent implements OnInit {
   }
 
   teste() {
-    console.log('consegui');
+    console.log(this.orderForm.value);
 
   }
 }
