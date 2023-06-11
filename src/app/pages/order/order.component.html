@@ -1,9 +1,22 @@
 <div class="content">
   <article>
-    <header>
+    <header class="title">
       <h1>O que pediram ?</h1>
       <p>Adicione item por item</p>
     </header>
+
+    <section class="card" *ngIf="orders.length !== 0">
+      <header class="card_title"><h5>Já ta na conta</h5></header>
+      <div class="info" *ngFor="let order of orders">
+        <div class="orderAndPerson">
+          <legend>{{order.name}}</legend>
+          <legend class="orderAndPerson_name">{{order.persons}}</legend>
+        </div>
+        <div class="price">
+          R$49.90
+        </div>
+      </div>
+    </section>
 
     <section>
       <form class="input-content" [formGroup]="orderForm">
@@ -11,7 +24,7 @@
 
         <div class="food_price">
           <span class="field field-price">R$</span>
-          <input class="input-text input-text-price" formControlName="price" placeholder="0,00" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"/>
+          <input class="input-text input-text-price" type="number" formControlName="price" placeholder="0,00" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"/>
         </div>
 
         <div class="quantity">

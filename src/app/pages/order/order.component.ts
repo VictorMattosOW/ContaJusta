@@ -13,23 +13,30 @@ interface Food {
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css']
+  styleUrls: ['./order.component.css'],
 })
 export class OrderComponent implements OnInit {
-
   usersList = [];
   orderFood = {} as Food;
   quantity = 1;
   value = '';
 
+  orders = [
+    {
+      name: 'Polenta frita',
+      persons: ['Mariana', 'Victor', 'Paula'],
+    },
+    {
+      name: 'Batata frita',
+      persons: ['Paula'],
+    },
+  ];
+
   orderForm: FormGroup;
-// TODO: retirar o mask e colocar outra biblioteca
-  constructor(
-    private sessionService: SessionService,
-    private router: Router
-  ) {
+  // TODO: retirar o mask e colocar outra biblioteca
+  constructor(private sessionService: SessionService, private router: Router) {
     this.buildForm();
-   }
+  }
 
   ngOnInit(): void {
     this.buildForm();
@@ -43,8 +50,8 @@ export class OrderComponent implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(25),
       ]),
-      price: new FormControl('', [Validators.required])
-    })
+      price: new FormControl('', [Validators.required]),
+    });
   }
 
   editarPessoas() {
@@ -55,12 +62,12 @@ export class OrderComponent implements OnInit {
     this.sessionService.getUsersObservable().subscribe({
       next: (users) => {
         if (users.length === 0) {
-          this.router.navigate(['userRegistration']);
+          // this.router.navigate(['userRegistration']);
         }
-        this.usersList = users.map(user => {
+        this.usersList = users.map((user) => {
           return user.name;
         });
-      }
+      },
     });
   }
 
@@ -87,11 +94,10 @@ export class OrderComponent implements OnInit {
     //   sharedFood: ['teste']
     // }
     // this.orderFood.sharedFood.push('teste2')
-    console.log( this.orderFood);
+    console.log(this.orderFood);
   }
 
   teste() {
     console.log(this.orderForm.value);
-
   }
 }
