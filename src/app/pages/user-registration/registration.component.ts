@@ -1,8 +1,9 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../services/session.service';
 import { User } from 'src/app/shared/models/user.model';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-registration',
@@ -13,7 +14,11 @@ export class RegistrationComponent implements AfterViewInit {
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
   form: FormGroup;
 
-  constructor(private router: Router, private sessionService: SessionService) {
+  constructor(
+    private router: Router,
+    private sessionService: SessionService,
+    private cd: ChangeDetectorRef
+  ) {
     this.buildForm();
   }
 
@@ -22,6 +27,7 @@ export class RegistrationComponent implements AfterViewInit {
       this.sessionService.setBackgroundColor('white');
       this.loadUsersFromSession();
     });
+    this.cd.detectChanges();
   }
 
   buildForm() {
@@ -49,6 +55,7 @@ export class RegistrationComponent implements AfterViewInit {
 
   addNewUserInput(user?: string): void {
     const newUserInput = this.createNewUserInputFormGroup(user);
+
     if (this.isValidForm()) {
       this.inputs.push(newUserInput);
     }
@@ -61,6 +68,7 @@ export class RegistrationComponent implements AfterViewInit {
         Validators.minLength(2),
         Validators.maxLength(25),
       ]),
+      id: new FormControl(uuid.v4()),
     });
     if (user) {
       newInput.get('name').setValue(user);
@@ -79,6 +87,7 @@ export class RegistrationComponent implements AfterViewInit {
 
   deleteUser(index?: number) {
     this.inputs.removeAt(index);
+    this.cd.detectChanges();
   }
 
   submit() {
