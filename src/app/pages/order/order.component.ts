@@ -2,13 +2,9 @@ import { SessionService } from './../services/session.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
-interface Food {
-  price: number;
-  name: string;
-  amount: number;
-  sharedFood: string[];
-}
+import { Order } from 'src/app/shared/models/order.model';
+import { User } from 'src/app/shared/models/user.model';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-order',
@@ -16,24 +12,14 @@ interface Food {
   styleUrls: ['./order.component.css'],
 })
 export class OrderComponent implements OnInit {
-  usersList = [];
-  orderFood = {} as Food;
+  usersList: string[] = [];
   quantity = 1;
   value = '';
 
-  orders = [
-    {
-      name: 'Polenta frita',
-      persons: ['Mariana', 'Victor', 'Paula'],
-    },
-    {
-      name: 'Batata frita',
-      persons: ['Paula'],
-    },
-  ];
+  orders: User[];
+  ordersList: string[] = [];
 
   orderForm: FormGroup;
-  // TODO: retirar o mask e colocar outra biblioteca
   constructor(private sessionService: SessionService, private router: Router) {
     this.buildForm();
   }
@@ -50,19 +36,19 @@ export class OrderComponent implements OnInit {
         Validators.minLength(2),
         Validators.maxLength(25),
       ]),
-      price: new FormControl('', [Validators.required]),
+      price: new FormControl(0, [Validators.required]),
     });
   }
 
   editarPessoas() {
-    this.router.navigate(['userRegistration']);
+    this.router.navigate(['registration']);
   }
 
   getUsers() {
     this.sessionService.getUsersObservable().subscribe({
       next: (users) => {
         if (users.length === 0) {
-          // this.router.navigate(['userRegistration']);
+          this.router.navigate(['registration']);
         }
         this.usersList = users.map((user) => {
           return user.name;
@@ -83,21 +69,26 @@ export class OrderComponent implements OnInit {
 
   selectedUser(event, i) {
     if (event.target.checked) {
-      this.orderFood.sharedFood.push(this.usersList[i]);
+      this.ordersList.push(this.usersList[i]);
     } else if (!event.target.checked) {
-      this.orderFood.sharedFood.splice(0, this.usersList[i]);
+      this.ordersList = this.ordersList.filter(
+        (element) => element !== this.usersList[i]
+      );
     }
-    // this.orderFood = {
-    //   amount: 1,
-    //   name: 'comida',
-    //   price: 12.70,
-    //   sharedFood: ['teste']
-    // }
-    // this.orderFood.sharedFood.push('teste2')
-    console.log(this.orderFood);
   }
 
-  teste() {
-    console.log(this.orderForm.value);
+  selectOrder() {
+    const order: Order = {
+      id: uuid.v4(),
+      name: this.orderForm.get('name').value,
+      price: Number(this.orderForm.get('price').value),
+      quantity: this.quantity,
+      sharedUsers: []
+    };
+
+    // const user: User = {
+    // };
+    console.log(order);
+    // this.orders.push()
   }
 }

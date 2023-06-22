@@ -21,8 +21,8 @@ export class StartComponent implements AfterViewInit {
     });
   }
 
-  goToUserRegister() {
-    this.router.navigate(['userRegistration']);
+  goToRegister() {
+    this.router.navigate(['registration']);
   }
 
 }

@@ -2,17 +2,14 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SessionService } from '../services/session.service';
-
-interface Users {
-  name: string;
-}
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
-  selector: 'app-user-registration',
-  templateUrl: './user-registration.component.html',
-  styleUrls: ['./user-registration.component.css'],
+  selector: 'app-registration',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.css'],
 })
-export class UserRegistrationComponent implements AfterViewInit {
+export class RegistrationComponent implements AfterViewInit {
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
   form: FormGroup;
 
@@ -35,7 +32,7 @@ export class UserRegistrationComponent implements AfterViewInit {
 
   loadUsersFromSession() {
     this.sessionService.getUsersObservable().subscribe({
-      next: (users: Users[]) => {
+      next: (users: User[]) => {
         if (users) {
           users.forEach((users) => this.addNewUserInput(users.name));
         }
@@ -86,6 +83,8 @@ export class UserRegistrationComponent implements AfterViewInit {
 
   submit() {
     if (this.canEnableSubmitButton()) {
+      console.log(this.inputs.value);
+
       this.sessionService.setUsers(this.inputs.value);
       this.router.navigate(['order']);
     }

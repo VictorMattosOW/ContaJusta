@@ -5,18 +5,18 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { StartComponent } from './start/start.component';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { OrderComponent } from './order/order.component';
 import { ButtonComponent } from '../components/button/button.component';
 import { ButtonLinkComponent } from '../components/button-link/button-link.component';
 import { AutofocusDirective } from '../diretivas/autofocus.directive';
 import { NgxCurrencyModule } from 'ngx-currency';
+import { RegistrationComponent } from './user-registration/registration.component';
 
 
 @NgModule({
   declarations: [
     StartComponent,
-    UserRegistrationComponent,
+    RegistrationComponent,
     OrderComponent,
     ButtonComponent,
     ButtonLinkComponent,
@@ -29,6 +29,6 @@ import { NgxCurrencyModule } from 'ngx-currency';
     ReactiveFormsModule,
     NgxCurrencyModule,
   ],
-  exports: [StartComponent, UserRegistrationComponent, OrderComponent, ButtonComponent, ButtonLinkComponent]
+  exports: [StartComponent, RegistrationComponent, OrderComponent, ButtonLinkComponent, ButtonComponent]
 })
 export class PagesModule { }

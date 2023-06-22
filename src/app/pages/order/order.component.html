@@ -5,7 +5,7 @@
       <p>Adicione item por item</p>
     </header>
 
-    <section class="card" *ngIf="orders.length !== 0">
+    <!-- <section class="card" *ngIf="orders.length !== 0">
       <header class="card_title"><h5>Já ta na conta</h5></header>
       <div class="info" *ngFor="let order of orders">
         <div class="orderAndPerson">
@@ -16,7 +16,7 @@
           R$49.90
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section>
       <form class="input-content" [formGroup]="orderForm">
@@ -24,12 +24,12 @@
 
         <div class="food_price">
           <span class="field field-price">R$</span>
-          <input class="input-text input-text-price" type="number" formControlName="price" placeholder="0,00" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"/>
+          <input class="input-text input-text-price" type="tel" formControlName="price" placeholder="0,00" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"/>
         </div>
 
         <div class="quantity">
           <button class="field field-less" (click)="updateQuantity($event, 'subtract');"  (touchstart)="updateQuantity($event, 'subtract');">-</button>
-          <input class="input-text input-text-quantity" type="number" [placeholder]="quantity" readonly>
+          <input class="input-text input-text-quantity" type="number" name="quantity" [placeholder]="quantity">
           <button class="field field-add" (click)="updateQuantity($event, 'add');"  (touchstart)="updateQuantity($event, 'add');">+</button>
         </div>
       </form>
@@ -43,7 +43,7 @@
       </div>
       <div class="form-content">
         <form class="form-checkbox" *ngFor="let name of usersList; let i = index">
-          <input type="checkbox">
+          <input type="checkbox" name="name" (click)="selectedUser($event, i)">
           <label for="name">{{name}}</label>
         </form>
       </div>
@@ -55,7 +55,7 @@
       styleButton="primary"
       size="large"
       [isDisabled]="false"
-      (buttonAction)="teste()"
+      (buttonAction)="selectOrder()"
     ></app-button>
     <app-button-link title="Finalizar pedidos >"></app-button-link>
   </footer>

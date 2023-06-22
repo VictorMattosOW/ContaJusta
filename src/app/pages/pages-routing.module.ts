@@ -1,8 +1,8 @@
 import { StartComponent } from './start/start.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { OrderComponent } from './order/order.component';
+import { RegistrationComponent } from './user-registration/registration.component';
 
 const routes: Routes = [
   {
@@ -10,8 +10,8 @@ const routes: Routes = [
     component: StartComponent
   },
   {
-    path: 'userRegistration',
-    component: UserRegistrationComponent
+    path: 'registration',
+    component: RegistrationComponent
   },
   {
     path: 'order',
