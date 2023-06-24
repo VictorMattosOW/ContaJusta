@@ -158,6 +158,7 @@ input[type="checkbox"]:checked {
   flex-direction: column;
   align-items: end;
   gap: 1rem;
+  margin-top: 2rem;
 }
 
 .title {
