@@ -11,10 +11,6 @@
   margin-bottom: 2.5rem;
 }
 
-.form-content {
-  overflow: scroll;
-}
-
 .content input {
   padding: 1rem 0.8rem;
   border-radius: 8px;

@@ -5,56 +5,98 @@
       <p>Adicione item por item</p>
     </header>
 
-    <!-- <section class="card" *ngIf="orders.length !== 0">
+    <section class="card" *ngIf="orders.length !== 0">
       <header class="card_title"><h5>Já ta na conta</h5></header>
-      <div class="info" *ngFor="let order of orders">
-        <div class="orderAndPerson">
-          <legend>{{order.name}}</legend>
-          <legend class="orderAndPerson_name">{{order.persons}}</legend>
+      <div class="info" *ngFor="let order of orders; let i = index">
+        <div>
+          <p class="foodName">{{ order.name }}</p>
+          <p class="orderAndPerson_name">
+            {{ getSharedUserNames(order) }}
+          </p>
         </div>
-        <div class="price">
-          R$49.90
+        <div class="deleteItem">
+          <p class="price">R${{ order.price }}</p>
+          <a (click)="deleteItem(order)"><img class="btn-close" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botao fechar"></a>
         </div>
       </div>
-    </section> -->
+    </section>
 
     <section>
       <form class="input-content" [formGroup]="orderForm">
-        <input class="food_name_input input-text" type="text" formControlName="name" placeholder="Ex: Polenta frita">
+        <input
+          class="food_name_input input-text"
+          type="text"
+          formControlName="foodName"
+          placeholder="Ex: Polenta frita"
+        />
 
         <div class="food_price">
           <span class="field field-price">R$</span>
-          <input class="input-text input-text-price" type="tel" formControlName="price" placeholder="0,00" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',' }"/>
+          <input
+            class="input-text input-text-price"
+            type="tel"
+            formControlName="price"
+            placeholder="0,00"
+            currencyMask
+            [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+          />
         </div>
 
         <div class="quantity">
-          <button class="field field-less" (click)="updateQuantity($event, 'subtract');"  (touchstart)="updateQuantity($event, 'subtract');">-</button>
-          <input class="input-text input-text-quantity" type="number" name="quantity" [placeholder]="quantity">
-          <button class="field field-add" (click)="updateQuantity($event, 'add');"  (touchstart)="updateQuantity($event, 'add');">+</button>
+          <button
+            class="field field-less"
+            (click)="updateQuantity($event, 'subtract')"
+            (touchstart)="updateQuantity($event, 'subtract')"
+          >
+            -
+          </button>
+          <input
+            class="input-text input-text-quantity"
+            type="number"
+            name="quantity"
+            [placeholder]="quantity"
+          />
+          <button
+            class="field field-add"
+            (click)="updateQuantity($event, 'add')"
+            (touchstart)="updateQuantity($event, 'add')"
+          >
+            +
+          </button>
         </div>
       </form>
     </section>
 
-
     <div class="checkbox-content">
       <div class="editar">
         <p>Dividir valor entre</p>
-        <app-button-link title="editar pessoas" (buttonAction)="editarPessoas();"></app-button-link>
+        <app-button-link
+          title="editar pessoas"
+          (buttonAction)="editarPessoas()"
+        ></app-button-link>
       </div>
       <div class="form-content">
-        <form class="form-checkbox" *ngFor="let name of usersList; let i = index">
-          <input type="checkbox" name="name" (click)="selectedUser($event, i)">
-          <label for="name">{{name}}</label>
+        <form
+          class="form-checkbox"
+          *ngFor="let user of usersList; let i = index"
+        >
+          <input
+            type="checkbox"
+            name="name"
+            [(ngModel)]="selectedUsers[i]"
+            (click)="selectedUser($event.target.checked, i)"
+          />
+          <label for="name">{{ user.name }}</label>
         </form>
       </div>
     </div>
   </article>
   <footer class="btn-content">
     <app-button
-      buttonTitle="próximo item"
+      buttonTitle="incluir item"
       styleButton="primary"
       size="large"
-      [isDisabled]="false"
+      [isDisabled]="this.orderForm.invalid"
       (buttonAction)="selectOrder()"
     ></app-button>
     <app-button-link title="Finalizar pedidos >"></app-button-link>

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PagesRoutingModule } from './pages-routing.module';
 import { StartComponent } from './start/start.component';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderComponent } from './order/order.component';
 import { ButtonComponent } from '../components/button/button.component';
 import { ButtonLinkComponent } from '../components/button-link/button-link.component';
@@ -28,6 +28,7 @@ import { RegistrationComponent } from './user-registration/registration.componen
     RouterModule,
     ReactiveFormsModule,
     NgxCurrencyModule,
+    FormsModule,
   ],
   exports: [StartComponent, RegistrationComponent, OrderComponent, ButtonLinkComponent, ButtonComponent]
 })

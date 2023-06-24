@@ -13,7 +13,6 @@
 
 .content p {
   color: var(--gray2);
-  font-size: 1rem;
 }
 
 .input-content {
@@ -181,6 +180,17 @@ input[type="checkbox"]:checked {
   margin-bottom: 1rem;
 }
 
+.card_title > h5 {
+  font-size: 0.875rem;
+}
+
+
+.btn-close {
+  width: 24px;
+  height: 18px;
+  padding-bottom: 1px;
+}
+
 .info {
   display: flex;
   flex-direction: row;
@@ -188,16 +198,27 @@ input[type="checkbox"]:checked {
   margin-bottom: 0.75rem;
 }
 
-.orderAndPerson {
+.deleteItem {
+  display: flex;
+}
+
+.deleteItem > a {
+  /* margin: 0;
+  padding: 0; */
+  cursor: pointer;
+}
+
+.foodName {
   font-size: 0.75rem;
   color: var(--gray);
 }
 
 .orderAndPerson_name {
-  font-size: 0.65rem;
+  font-size: 0.55rem;
   color: var(--gray3);
 }
 
 .price {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
+  color: var(--gray);
 }

@@ -4,6 +4,6 @@ export interface Order {
   id: string;
   name: string;
   quantity: number;
-  price: number;
+  price: string;
   sharedUsers: User[];
 }

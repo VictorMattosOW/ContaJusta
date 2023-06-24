@@ -12,14 +12,16 @@ import * as uuid from 'uuid';
   styleUrls: ['./order.component.css'],
 })
 export class OrderComponent implements OnInit {
-  usersList: string[] = [];
+  usersList: User[] = [];
   quantity = 1;
   value = '';
 
-  orders: User[];
-  ordersList: string[] = [];
+  orders: Order[] = [];
+  sharedFood: User[] = [];
 
   orderForm: FormGroup;
+  sharedUsers: FormGroup;
+  selectedUsers: boolean[] = [];
   constructor(private sessionService: SessionService, private router: Router) {
     this.buildForm();
   }
@@ -31,7 +33,7 @@ export class OrderComponent implements OnInit {
 
   buildForm() {
     this.orderForm = new FormGroup({
-      name: new FormControl('', [
+      foodName: new FormControl('', [
         Validators.required,
         Validators.minLength(2),
         Validators.maxLength(25),
@@ -50,9 +52,7 @@ export class OrderComponent implements OnInit {
         if (users.length === 0) {
           this.router.navigate(['registration']);
         }
-        this.usersList = users.map((user) => {
-          return user.name;
-        });
+        this.usersList = users;
       },
     });
   }
@@ -67,12 +67,14 @@ export class OrderComponent implements OnInit {
     }
   }
 
-  selectedUser(event, i) {
-    if (event.target.checked) {
-      this.ordersList.push(this.usersList[i]);
-    } else if (!event.target.checked) {
-      this.ordersList = this.ordersList.filter(
-        (element) => element !== this.usersList[i]
+  selectedUser(checked: boolean, index: number) {
+    if (checked) {
+      this.sharedFood.push(this.usersList[index]);
+      this.selectedUsers[index] = checked;
+    } else if (!checked) {
+      this.selectedUsers[index] = checked;
+      this.sharedFood = this.sharedFood.filter(
+        (element) => element !== this.usersList[index],
       );
     }
   }
@@ -80,15 +82,22 @@ export class OrderComponent implements OnInit {
   selectOrder() {
     const order: Order = {
       id: uuid.v4(),
-      name: this.orderForm.get('name').value,
-      price: Number(this.orderForm.get('price').value),
+      name: this.orderForm.get('foodName').value,
+      price: this.orderForm.get('price').value,
       quantity: this.quantity,
-      sharedUsers: []
+      sharedUsers: this.sharedFood,
     };
+    this.orders.push(order);
+    this.orderForm.reset();
+    this.sharedFood = [];
+    this.selectedUsers = [];
+  }
 
-    // const user: User = {
-    // };
-    console.log(order);
-    // this.orders.push()
+  deleteItem(orderToDelete: Order) {
+    this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
+  }
+
+  getSharedUserNames(order: Order): string {
+    return order.sharedUsers.map((user) => user.name).join(', ');
   }
 }
