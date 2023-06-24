@@ -89,6 +89,7 @@ export class OrderComponent implements OnInit {
     };
     this.orders.push(order);
     this.orderForm.reset();
+    this.quantity = 1;
     this.sharedFood = [];
     this.selectedUsers = [];
   }
