@@ -1,20 +1,31 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Order } from 'src/app/shared/models/order.model';
+import { User } from 'src/app/shared/models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  private users = new BehaviorSubject<[]>([]);
+  private users = new BehaviorSubject<User[]>([]);
+  private orders = new BehaviorSubject<Order[]>([]);
   private changeBgColor = new BehaviorSubject<string>('white');
   constructor() { }
 
-  setUsers(users: any): void {
+  setUsers(users: User[]): void {
     this.users.next(users);
   }
 
-  getUsersObservable(): Observable<any> {
+  getUsersObservable(): Observable<User[]> {
     return this.users.asObservable();
+  }
+
+  setOrders(orders: Order[]): void {
+    this.orders.next(orders);
+  }
+
+  getOrdersObservable(): Observable<Order[]> {
+    return this.orders.asObservable();
   }
 
   setBackgroundColor(color: string) {

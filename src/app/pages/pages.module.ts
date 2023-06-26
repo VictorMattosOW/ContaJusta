@@ -11,6 +11,7 @@ import { ButtonLinkComponent } from '../components/button-link/button-link.compo
 import { AutofocusDirective } from '../diretivas/autofocus.directive';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { RegistrationComponent } from './user-registration/registration.component';
+import { SummaryComponent } from './summary/summary.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { RegistrationComponent } from './user-registration/registration.componen
     OrderComponent,
     ButtonComponent,
     ButtonLinkComponent,
-    AutofocusDirective
+    SummaryComponent,
+    AutofocusDirective,
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,6 @@ import { RegistrationComponent } from './user-registration/registration.componen
     NgxCurrencyModule,
     FormsModule,
   ],
-  exports: [StartComponent, RegistrationComponent, OrderComponent, ButtonLinkComponent, ButtonComponent]
+  exports: [StartComponent, RegistrationComponent, OrderComponent, SummaryComponent, ButtonLinkComponent, ButtonComponent]
 })
 export class PagesModule { }

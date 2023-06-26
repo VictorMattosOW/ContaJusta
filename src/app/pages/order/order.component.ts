@@ -22,13 +22,17 @@ export class OrderComponent implements OnInit {
   orderForm: FormGroup;
   sharedUsers: FormGroup;
   selectedUsers: boolean[] = [];
-  constructor(private sessionService: SessionService, private router: Router) {
+  constructor(
+    private sessionService: SessionService,
+    private router: Router,
+  ) {
     this.buildForm();
   }
 
   ngOnInit(): void {
     this.buildForm();
     this.getUsers();
+    this.getOrders();
   }
 
   buildForm() {
@@ -43,6 +47,7 @@ export class OrderComponent implements OnInit {
   }
 
   editarPessoas() {
+    this.sessionService.setOrders(this.orders);
     this.router.navigate(['registration']);
   }
 
@@ -55,6 +60,14 @@ export class OrderComponent implements OnInit {
         this.usersList = users;
       },
     });
+  }
+
+  getOrders() {
+    this.sessionService.getOrdersObservable().subscribe({
+      next: (orders) => {
+        this.orders = orders;
+      }
+    })
   }
 
   updateQuantity(event: Event, operation: 'add' | 'subtract') {
