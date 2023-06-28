@@ -12,6 +12,7 @@ import { AutofocusDirective } from '../diretivas/autofocus.directive';
 import { NgxCurrencyModule } from 'ngx-currency';
 import { RegistrationComponent } from './user-registration/registration.component';
 import { SummaryComponent } from './summary/summary.component';
+import { CurrencyPipe } from 'src/pipes/currency.pipe';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { SummaryComponent } from './summary/summary.component';
     ButtonLinkComponent,
     SummaryComponent,
     AutofocusDirective,
+    CurrencyPipe
   ],
   imports: [
     CommonModule,

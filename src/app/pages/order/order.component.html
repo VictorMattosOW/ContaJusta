@@ -16,8 +16,8 @@
         </div>
         <div class="deleteItem">
           <div>
-            <p class="price">R${{multiplyValues(order.quantity, order.price)}}</p>
-            <p class="quantity">({{order.quantity}}x R${{order.price}})</p>
+            <p class="price">R${{multiplyValues(order.quantity, order.price) | currency }}</p>
+            <p class="quantity">({{order.quantity}}x R${{order.price | currency }})</p>
           </div>
           <a (click)="deleteItem(order)"><img class="btn-close" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botao fechar"></a>
         </div>
