@@ -96,8 +96,8 @@ export class OrderComponent implements OnInit {
     const order: Order = {
       id: uuid.v4(),
       name: this.orderForm.get('foodName').value,
-      price: this.orderForm.get('price').value,
-      quantity: this.quantity,
+      price: Number(this.orderForm.get('price').value),
+      quantity: Number(this.quantity),
       sharedUsers: this.sharedFood,
     };
     this.orders.push(order);
@@ -113,5 +113,9 @@ export class OrderComponent implements OnInit {
 
   getSharedUserNames(order: Order): string {
     return order.sharedUsers.map((user) => user.name).join(', ');
+  }
+
+  multiplyValues(quantity: number, price: number): number {
+    return quantity * price;
   }
 }
