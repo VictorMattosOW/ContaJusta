@@ -4,21 +4,21 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
-}
 
-.content h1 {
-  color: var(--blue-primary-500);
-  margin-bottom: 2.5rem;
-}
+  & h1 {
+    color: var(--blue-primary-500);
+    margin-bottom: 2.5rem;
+  }
 
-.content input {
-  padding: 1rem 0.8rem;
-  border-radius: 8px;
-  display: block;
-  border: 1px solid var(--gray2);
-  width: 80%;
-  height: 50px;
-  font-size: 1rem;
+  & input[type="text"] {
+    padding: 1rem 0.8rem;
+    border-radius: 8px;
+    display: block;
+    border: 1px solid var(--gray2);
+    width: 80%;
+    height: 50px;
+    font-size: 1rem;
+  }
 }
 
 .btn-add {
@@ -32,10 +32,10 @@
   opacity: 40%;
   display: flex;
   align-items: center;
-}
 
-.btn-add p {
-  font-size: 1rem;
+  & p {
+    font-size: 1rem;
+  }
 }
 
 .btn {
@@ -55,7 +55,7 @@
   margin-top: 2rem;
 }
 
-.btn-link {
+.form-group {
   display: flex;
   flex-direction: row;
   align-items: center;
