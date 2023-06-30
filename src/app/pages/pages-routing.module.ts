@@ -11,15 +11,15 @@ const routes: Routes = [
     component: StartComponent
   },
   {
-    path: 'registration',
+    path: 'registrar',
     component: RegistrationComponent
   },
   {
-    path: 'order',
+    path: 'ordens',
     component: OrderComponent
   },
   {
-    path: 'summary',
+    path: 'resumo',
     component: SummaryComponent
   }
 ];

@@ -25,7 +25,7 @@
   color: var(--yellow-400);
 }
 
-.secundary {
+.secondary {
   background-color: none;
   border: 2px solid var(--blue-primary-600);
   color: var(--blue-primary-600);
@@ -34,8 +34,4 @@
 .yellow-primary {
   background-color: var(--yellow-500);
   color: var(--blue-primary-600);
-}
-
-.yellow-secundary {
-
 }

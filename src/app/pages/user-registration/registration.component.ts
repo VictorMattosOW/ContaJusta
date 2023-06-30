@@ -93,7 +93,7 @@ export class RegistrationComponent implements AfterViewInit {
   submit() {
     if (this.canEnableSubmitButton()) {
       this.sessionService.setUsers(this.inputs.value);
-      this.router.navigate(['order']);
+      this.router.navigate(['ordens']);
     }
   }
 }

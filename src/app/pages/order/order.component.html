@@ -99,9 +99,9 @@
       buttonTitle="incluir item"
       styleButton="primary"
       size="large"
-      [isDisabled]="this.orderForm.invalid"
+      [isDisabled]="!this.canEnableSubmitButton()"
       (buttonAction)="selectOrder()"
     ></app-button>
-    <app-button-link title="Finalizar pedidos >"></app-button-link>
+    <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary();"></app-button-link>
   </footer>
 </main>

@@ -22,7 +22,7 @@ export class StartComponent implements AfterViewInit {
   }
 
   goToRegister() {
-    this.router.navigate(['registration']);
+    this.router.navigate(['registrar']);
   }
 
 }

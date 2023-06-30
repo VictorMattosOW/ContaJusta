@@ -23,6 +23,10 @@ body {
   background: var(--white);
 }
 
+input[type="text"]:focus-visible {
+  outline: 1px solid black;
+}
+
 html,
 body,
 input,

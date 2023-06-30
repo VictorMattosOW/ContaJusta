@@ -48,14 +48,14 @@ export class OrderComponent implements OnInit {
 
   editarPessoas() {
     this.sessionService.setOrders(this.orders);
-    this.router.navigate(['registration']);
+    this.router.navigate(['registrar']);
   }
 
   getUsers() {
     this.sessionService.getUsersObservable().subscribe({
       next: (users) => {
         if (users.length === 0) {
-          this.router.navigate(['registration']);
+          this.router.navigate(['registrar']);
         }
         this.usersList = users;
       },
@@ -93,18 +93,20 @@ export class OrderComponent implements OnInit {
   }
 
   selectOrder() {
-    const order: Order = {
-      id: uuid.v4(),
-      name: this.orderForm.get('foodName').value,
-      price: Number(this.orderForm.get('price').value),
-      quantity: Number(this.quantity),
-      sharedUsers: this.sharedFood,
-    };
-    this.orders.push(order);
-    this.orderForm.reset();
-    this.quantity = 1;
-    this.sharedFood = [];
-    this.selectedUsers = [];
+    if (this.canEnableSubmitButton()) {
+      const order: Order = {
+        id: uuid.v4(),
+        name: this.orderForm.get('foodName').value,
+        price: Number(this.orderForm.get('price').value),
+        quantity: Number(this.quantity),
+        sharedUsers: this.sharedFood,
+      };
+      this.orders.push(order);
+      this.orderForm.reset();
+      this.quantity = 1;
+      this.sharedFood = [];
+      this.selectedUsers = [];
+    }
   }
 
   deleteItem(orderToDelete: Order) {
@@ -117,5 +119,13 @@ export class OrderComponent implements OnInit {
 
   multiplyValues(quantity: number, price: number): number {
     return quantity * price;
+  }
+
+  canEnableSubmitButton(): boolean {
+    return this.orderForm.valid && this.sharedFood.length !== 0;
+  }
+
+  goToSummary() {
+    this.router.navigate(['resumo']);
   }
 }
