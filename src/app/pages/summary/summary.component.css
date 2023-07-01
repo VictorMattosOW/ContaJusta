@@ -1,7 +1,90 @@
 .content {
-  min-height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.title {
+  margin-bottom: 2rem;
+}
+
+.description {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
+
+  & h4 {
+    color: var(--cinza, #1f2633);
+    /* h4 */
+    font-size: 18px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  & h3 {
+    color: var(--cinza, #1f2633);
+    text-align: right;
+    /* h3 */
+    font-size: 18px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  & legend {
+    color: var(--cinza-2, #565d6c);
+    /* legend */
+    font-size: 12px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+}
+
+.description-food {
+  display: flex;
+  flex-direction: row;
+}
+
+.description-price {
+  display: flex;
+  flex-direction: row;
+
+  & legend {
+    text-align: end;
+  }
+
+  & button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 15px;
+    background-color: transparent;
+  }
+}
+
+
+
+.icon {
+  display: flex;
+  width: 40px;
+  padding: 8px;
+  margin-right: 0.75rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 8px 8px 0px 8px;
+  background: var(--cinza-2, #565d6c);
+
+  & span {
+    color: var(--branco, #f9f9f9);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
 }

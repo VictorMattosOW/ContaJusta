@@ -19,7 +19,6 @@
 }
 html,
 body {
-  /* height: 100dvh; */
   background: var(--white);
 }
 
@@ -36,6 +35,7 @@ p {
 }
 
 h1 {
+  color: var(--blue-primary-500);
   font-size: 2rem;
 }
 

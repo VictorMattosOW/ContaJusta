@@ -6,7 +6,6 @@
   align-items: flex-end;
 
   & h1 {
-    color: var(--blue-primary-500);
     margin-bottom: 2.5rem;
   }
 
