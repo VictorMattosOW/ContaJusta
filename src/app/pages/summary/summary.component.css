@@ -1,6 +1,6 @@
 .content {
-  display: grid;
-  grid-template-columns: 1fr;
+  /* display: grid;
+  grid-template-columns: 1fr; */
 }
 
 .title {
@@ -11,7 +11,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-
+  padding: 0.5rem 0;
   & h4 {
     color: var(--cinza, #1f2633);
     /* h4 */
@@ -42,6 +42,14 @@
     font-weight: 400;
     line-height: normal;
   }
+}
+
+.description:is(:focus, :active) {
+  padding: 0.5rem 3rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: aqua;
 }
 
 .description-food {
