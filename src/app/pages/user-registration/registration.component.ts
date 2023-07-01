@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SessionService } from '../services/session.service';
 import { User } from 'src/app/shared/models/user.model';
+import { SessionService } from 'src/app/shared/services/session.service';
 import * as uuid from 'uuid';
 
 @Component({
