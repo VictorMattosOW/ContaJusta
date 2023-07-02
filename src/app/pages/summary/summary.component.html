@@ -2,22 +2,26 @@
   <div>
     <h1 class="title">Resumo da conta</h1>
   </div>
-  <a class="description" >
-    <div class="description-food">
-      <div class="icon">
-        <span>1</span>
+  <section class="description" *ngFor="let order of orders">
+    <a class="btn-description"
+      [class.fixed]="activeIndex !== null"
+      (click)="activeIndex = i">
+      <div class="description-food">
+        <div class="icon">
+          <span>1</span>
+        </div>
+        <div>
+          <h4>{{order.name}}</h4>
+          <legend>{{ getSharedUserNames(order)}}</legend>
+        </div>
       </div>
-      <div>
-        <h4>Polenta frita</h4>
-        <legend>Mariana, Victor, Luna</legend>
+      <div class="description-price">
+        <div class="price">
+          <h3>R${{multiplyValues(order.quantity, order.price) | currency}}</h3>
+          <legend>R${{(order.price | currency)}}</legend>
+        </div>
+        <button ><img width="8" src="../../../assets/icon _nav.svg" alt=""></button>
       </div>
-    </div>
-    <div class="description-price">
-      <div class="price">
-        <h3>R$99,80</h3>
-        <legend>(R$49,90)</legend>
-      </div>
-      <button ><img width="8" src="../../../assets/icon _nav.svg" alt=""></button>
-    </div>
-  </a>
+    </a>
+  </section>
 </main>

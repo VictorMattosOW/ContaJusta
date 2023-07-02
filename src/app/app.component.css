@@ -4,7 +4,7 @@ router-outlet {
 
 .container {
   min-height: 100dvh;
-  padding: 2rem 3rem 2rem 3rem;
+  padding: 2rem 2rem 2rem 2rem;
   position: relative;
   display: grid;
 }

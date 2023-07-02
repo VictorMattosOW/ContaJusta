@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
 
   & h1 {
     margin-bottom: 2.5rem;
@@ -52,6 +51,7 @@
 
 .btn-next {
   margin-top: 2rem;
+  align-self: flex-end;
 }
 
 .form-group {

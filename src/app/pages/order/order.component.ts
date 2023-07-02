@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Order } from 'src/app/shared/models/order.model';
 import { User } from 'src/app/shared/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import * as uuid from 'uuid';
 
 @Component({
@@ -11,7 +12,7 @@ import * as uuid from 'uuid';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
 })
-export class OrderComponent implements OnInit {
+export class OrderComponent extends AbstractComponent implements OnInit {
   usersList: User[] = [];
   quantity = 1;
   value = '';
@@ -26,6 +27,7 @@ export class OrderComponent implements OnInit {
     private sessionService: SessionService,
     private router: Router,
   ) {
+    super();
     this.buildForm();
   }
 
@@ -111,14 +113,6 @@ export class OrderComponent implements OnInit {
 
   deleteItem(orderToDelete: Order) {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
-  }
-
-  getSharedUserNames(order: Order): string {
-    return order.sharedUsers.map((user) => user.name).join(', ');
-  }
-
-  multiplyValues(quantity: number, price: number): number {
-    return quantity * price;
   }
 
   canEnableSubmitButton(): boolean {

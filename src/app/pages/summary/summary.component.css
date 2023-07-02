@@ -1,20 +1,20 @@
-.content {
-  /* display: grid;
-  grid-template-columns: 1fr; */
-}
-
 .title {
   margin-bottom: 2rem;
 }
 
-.description {
+/* .description {
+  display: flex;
+  flex-direction: column;
+  gap: ;
+} */
+
+.btn-description {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0.5rem 0;
+  padding: 0.8rem 0;
   & h4 {
     color: var(--cinza, #1f2633);
-    /* h4 */
     font-size: 18px;
     font-family: Poppins;
     font-style: normal;
@@ -42,14 +42,13 @@
     font-weight: 400;
     line-height: normal;
   }
-}
 
-.description:is(:focus, :active) {
-  padding: 0.5rem 3rem;
-  position: absolute;
-  left: 0;
-  right: 0;
-  background-color: #EBEFFF;
+  &:is(:focus, :active) {
+    margin-left: -2rem;
+    margin-right: -2rem;
+    background-color: #ebefff;
+    padding: 0.8rem 2rem;
+  }
 }
 
 .description-food {
@@ -69,12 +68,10 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    width: 15px;
+    width: 1.25rem;
     background-color: transparent;
   }
 }
-
-
 
 .icon {
   display: flex;
