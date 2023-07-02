@@ -1,27 +1,61 @@
 <main class="content">
   <div>
-    <h1 class="title">Resumo da conta</h1>
+    <header>
+      <h1 class="title">Resumo da conta</h1>
+    </header>
+    <section class="description" *ngFor="let order of orders">
+      <a class="btn-description">
+        <div class="description-food">
+          <div class="icon">
+            <span>1</span>
+          </div>
+          <div>
+            <h4>{{ order.name }}</h4>
+            <legend>{{ getSharedUserNames(order) }}</legend>
+          </div>
+        </div>
+        <div class="description-price">
+          <div class="price">
+            <h3>
+              R${{ multiplyValues(order.quantity, order.price) | currency }}
+            </h3>
+            <legend>R${{ order.price | currency }}</legend>
+          </div>
+          <button>
+            <img width="8" src="../../../assets/icon _nav.svg" alt="" />
+          </button>
+        </div>
+      </a>
+    </section>
+    <section class="service-payment">
+      <h4>Taxa de serviço</h4>
+      <div class="percent-content">
+        <input type="number" name="percent" placeholder="10" max="100" maxlength="3" />
+        <h3>%</h3>
+      </div>
+    </section>
+
+    <section class="resume">
+      <h2>Total</h2>
+      <div>
+        <h1>R$200,15</h1>
+        <legend>com taxa de 10%</legend>
+      </div>
+    </section>
   </div>
-  <section class="description" *ngFor="let order of orders">
-    <a class="btn-description"
-      [class.fixed]="activeIndex !== null"
-      (click)="activeIndex = i">
-      <div class="description-food">
-        <div class="icon">
-          <span>1</span>
-        </div>
-        <div>
-          <h4>{{order.name}}</h4>
-          <legend>{{ getSharedUserNames(order)}}</legend>
-        </div>
-      </div>
-      <div class="description-price">
-        <div class="price">
-          <h3>R${{multiplyValues(order.quantity, order.price) | currency}}</h3>
-          <legend>R${{(order.price | currency)}}</legend>
-        </div>
-        <button ><img width="8" src="../../../assets/icon _nav.svg" alt=""></button>
-      </div>
-    </a>
-  </section>
+
+  <footer class="button-content">
+    <app-button
+      [isDisabled]="false"
+      buttonTitle="incluir item"
+      size="small"
+      styleButton="secondary"
+    ></app-button>
+    <app-button
+      [isDisabled]="false"
+      buttonTitle="dividir"
+      size="small"
+      styleButton="primary"
+    ></app-button>
+  </footer>
 </main>

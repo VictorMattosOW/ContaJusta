@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ButtonComponent {
   @Input() buttonTitle: string;
   @Input() isDisabled?: boolean = false;
-  @Input() styleButton: 'primary' | 'secundary' | 'yellow-primary' | 'yellow-secundary';
+  @Input() styleButton: 'primary' | 'secondary' | 'yellow-primary' | 'yellow-secondary';
   @Input() size: 'large' | 'small' | 'full';
   @Output() buttonAction: EventEmitter<void> = new EventEmitter();
 }
