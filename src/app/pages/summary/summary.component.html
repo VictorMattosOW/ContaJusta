@@ -1,4 +1,22 @@
 <main class="content">
+<dialog class="modal" #dialog>
+  <div class="btn-close-content">
+    <button (click)="closeDialog()">
+      <img width="30" height="30" src="../../../assets/close.svg">
+    </button>
+  </div>
+  <div class="quantity-content">
+    <h2>
+      Altere a quantidade
+    </h2>
+    <div class="quantity">
+      <button>-</button>
+      <span>1</span>
+      <button>+</button>
+    </div>
+  </div>
+</dialog>
+
   <div>
     <header>
       <h1 class="title">Resumo da conta</h1>
@@ -7,7 +25,7 @@
       <a class="btn-description">
         <div class="description-food">
           <div class="icon">
-            <span>1</span>
+            <a (click)="openDialog()">1</a>
           </div>
           <div>
             <h4>{{ order.name }}</h4>
@@ -59,3 +77,4 @@
     ></app-button>
   </footer>
 </main>
+

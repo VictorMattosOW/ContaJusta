@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Order } from 'src/app/shared/models/order.model';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 
@@ -8,6 +8,8 @@ import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
   styleUrls: ['./summary.component.css']
 })
 export class SummaryComponent extends AbstractComponent {
+  @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
+
   activeIndex: number | null = null;
   orders: Order[] = [
     {
@@ -35,6 +37,14 @@ export class SummaryComponent extends AbstractComponent {
 
   constructor() {
     super();
+  }
+
+  openDialog(): void {
+    this.dialogElement.nativeElement.show();
+  }
+
+  closeDialog(): void {
+    this.dialogElement.nativeElement.close();
   }
 
 }
