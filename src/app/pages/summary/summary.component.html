@@ -24,14 +24,18 @@
           +
         </button>
       </div>
-        <app-button
+      <app-button
         [isDisabled]="false"
         buttonTitle="confirmar"
         size="large"
         styleButton="primary"
-        (buttonAction)="closeDialog();"
+        (buttonAction)="closeDialog()"
       ></app-button>
     </div>
+  </dialog>
+
+  <dialog class="modal-edit" #dialogEdit>
+
   </dialog>
 
   <div>
@@ -80,7 +84,7 @@
     <section class="resume">
       <h2>Total</h2>
       <div>
-        <h1>R${{sumTotalOrders() | currency}}</h1>
+        <h1>{{ sumTotalOrders() | currency }}</h1>
         <legend>com taxa de 10%</legend>
       </div>
     </section>

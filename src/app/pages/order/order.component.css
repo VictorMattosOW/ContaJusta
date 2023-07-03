@@ -3,15 +3,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
-  & h1 {
-    margin-bottom: 0.5rem;
-  }
 }
 
-/* .content > p {
-  color: var(--gray2);
-} */
+.content > h1 {
+  margin-bottom: 0.5rem;
+}
 
 .input-content {
   display: grid;
@@ -90,12 +86,12 @@
 
 .checkbox-content {
   margin-top: 3rem;
+}
 
-  & p {
-    font-size: 1.1rem;
-    font-weight: 600;
-    margin-bottom: 1.2rem;
-  }
+.checkbox-content > p {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
 }
 
 .form-checkbox {
@@ -110,12 +106,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+}
 
-  & a {
-    text-decoration: underline;
-    color: var(--gray);
-    opacity: 70%;
-  }
+.editar > a {
+  text-decoration: underline;
+  color: var(--gray);
+  opacity: 70%;
 }
 
 input[type="checkbox"] {
@@ -169,10 +165,10 @@ input[type="checkbox"]:checked {
   color: var(--gray);
   align-self: center;
   margin-bottom: 1rem;
+}
 
-  & h5 {
-    font-size: 0.875rem;
-  }
+.card_title > h5 {
+  font-size: 0.875rem;
 }
 
 .btn-close {
@@ -190,10 +186,10 @@ input[type="checkbox"]:checked {
 
 .deleteItem {
   display: flex;
+}
 
-  & a {
-    cursor: pointer;
-  }
+.deleteItem > a {
+  cursor: pointer;
 }
 
 .foodName {

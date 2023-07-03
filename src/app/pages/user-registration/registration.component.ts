@@ -38,8 +38,6 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
     this.sessionService.getPath().subscribe({
       next: (path) => {
         this.isEdit = path === '/ordens';
-        console.log(this.isEdit);
-
       },
     })
   }

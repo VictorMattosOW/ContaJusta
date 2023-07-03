@@ -12,6 +12,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class SummaryComponent extends AbstractComponent implements OnInit{
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
+  @ViewChild('dialogEdit') dialogElementEdit!: ElementRef<HTMLDialogElement>;
+
   orderToEdit = {} as Order;
   orders: Order[] = [];
   totalOrders: number;
@@ -60,6 +62,11 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
       return sum + this.calcularValorFinal(this.multiplyValues(order.quantity, order.price), percent) ;
     }, 0)
     return this.totalOrders;
+  }
+
+  openDialogEdit(order: Order): void {
+    this.orderToEdit = order;
+    this.dialogElementEdit.nativeElement.show();
   }
 
   openDialog(order: Order): void {
