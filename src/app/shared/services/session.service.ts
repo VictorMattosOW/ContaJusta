@@ -10,6 +10,7 @@ export class SessionService {
   private users = new BehaviorSubject<User[]>([]);
   private orders = new BehaviorSubject<Order[]>([]);
   private changeBgColor = new BehaviorSubject<string>('white');
+  private path = new BehaviorSubject<string>('');
   constructor() { }
 
   setUsers(users: User[]): void {
@@ -34,5 +35,13 @@ export class SessionService {
 
   getBackgroundColor(): Observable<string> {
     return this.changeBgColor.asObservable();
+  }
+
+  setPath(path: string) {
+    this.path.next(path);
+  }
+
+  getPath(): Observable<string> {
+    return this.path.asObservable();
   }
 }

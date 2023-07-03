@@ -1,8 +1,12 @@
 <main class="content">
   <section>
-    <h1>Pra começar,
+    <h1 *ngIf="!isEdit">Pra começar,
       quem está no rolê?
     </h1>
+    <h1 *ngIf="isEdit">
+      Deseja excluir ou adicionar alguém?
+    </h1>
+
     <form class="form-content"  [formGroup]="form" (ngSubmit)="submit();" #conteudo [scrollTop]="conteudo.scrollHeight">
       <div formArrayName="inputs">
         <div class="form-group" *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">

@@ -50,6 +50,7 @@ export class OrderComponent extends AbstractComponent implements OnInit {
 
   editarPessoas() {
     this.sessionService.setOrders(this.orders);
+    this.sessionService.setPath('/ordens');
     this.router.navigate(['registrar']);
   }
 

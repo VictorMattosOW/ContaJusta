@@ -1,7 +1,7 @@
 <main class="content">
   <dialog class="modal" #dialog>
     <div class="btn-close-content">
-      <button (click)="closeDialog()">
+      <button class="btn-close-modal" (click)="closeDialog()">
         <img width="30" height="30" src="../../../assets/close.svg" />
       </button>
     </div>
@@ -24,6 +24,13 @@
           +
         </button>
       </div>
+        <app-button
+        [isDisabled]="false"
+        buttonTitle="confirmar"
+        size="large"
+        styleButton="primary"
+        (buttonAction)="closeDialog();"
+      ></app-button>
     </div>
   </dialog>
 
@@ -57,22 +64,23 @@
     </section>
     <section class="service-payment">
       <h4>Taxa de serviço</h4>
-      <div class="percent-content">
-        <input
-          type="number"
-          name="percent"
-          placeholder="10"
-          max="100"
-          maxlength="3"
-        />
-        <h3>%</h3>
-      </div>
+      <form action="" [formGroup]="orderForm">
+        <div class="percent-content">
+          <input
+            formControlName="percent"
+            type="number"
+            name="percent"
+            placeholder="10"
+          />
+          <h3>%</h3>
+        </div>
+      </form>
     </section>
 
     <section class="resume">
       <h2>Total</h2>
       <div>
-        <h1>R$200,15</h1>
+        <h1>R${{sumTotalOrders() | currency}}</h1>
         <legend>com taxa de 10%</legend>
       </div>
     </section>

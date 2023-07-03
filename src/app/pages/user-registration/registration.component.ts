@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import * as uuid from 'uuid';
@@ -10,24 +10,38 @@ import * as uuid from 'uuid';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
 })
-export class RegistrationComponent implements AfterViewInit {
+export class RegistrationComponent implements AfterViewInit, OnInit {
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
   form: FormGroup;
-
+  isEdit = false;
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private sessionService: SessionService,
     private cd: ChangeDetectorRef
   ) {
+  }
+  ngOnInit(): void {
     this.buildForm();
   }
 
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.sessionService.setBackgroundColor('white');
+      this.getPath();
       this.loadUsersFromSession();
     });
     this.cd.detectChanges();
+  }
+
+  getPath() {
+    this.sessionService.getPath().subscribe({
+      next: (path) => {
+        this.isEdit = path === '/ordens';
+        console.log(this.isEdit);
+
+      },
+    })
   }
 
   buildForm() {

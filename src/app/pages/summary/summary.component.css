@@ -179,7 +179,7 @@
   height: 100%;
   padding: 2rem;
 
-  & button {
+  & .btn-close-modal {
     width: 30px;
     height: 30px;
     background: none;
@@ -209,7 +209,7 @@
   & .quantity {
     display: flex;
     align-items: center;
-    margin-top: 3.25rem;
+    margin: 3.25rem 0;
 
     & span {
       display: flex;
@@ -231,6 +231,7 @@
   }
 
   .btn {
+    background: none;
     color: var(--blue-primary-500, #4e77ff);
     font-size: 32px;
     font-family: Poppins;
