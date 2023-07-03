@@ -1,31 +1,41 @@
 <main class="content">
-<dialog class="modal" #dialog>
-  <div class="btn-close-content">
-    <button (click)="closeDialog()">
-      <img width="30" height="30" src="../../../assets/close.svg">
-    </button>
-  </div>
-  <div class="quantity-content">
-    <h2>
-      Altere a quantidade
-    </h2>
-    <div class="quantity">
-      <button>-</button>
-      <span>1</span>
-      <button>+</button>
+  <dialog class="modal" #dialog>
+    <div class="btn-close-content">
+      <button (click)="closeDialog()">
+        <img width="30" height="30" src="../../../assets/close.svg" />
+      </button>
     </div>
-  </div>
-</dialog>
+    <div class="quantity-content">
+      <h2>Altere a quantidade</h2>
+      <div class="quantity">
+        <button
+          class="btn"
+          [ngClass]="{ 'btn-disabled': orderToEdit.quantity <= 1 }"
+          [disabled]="orderToEdit.quantity === 1"
+          (click)="orderToEdit.quantity = orderToEdit.quantity - 1"
+        >
+          -
+        </button>
+        <span>{{ orderToEdit.quantity }}</span>
+        <button
+          class="btn"
+          (click)="orderToEdit.quantity = orderToEdit.quantity + 1"
+        >
+          +
+        </button>
+      </div>
+    </div>
+  </dialog>
 
   <div>
     <header>
       <h1 class="title">Resumo da conta</h1>
     </header>
-    <section class="description" *ngFor="let order of orders">
+    <section class="description" *ngFor="let order of orders; let i = index">
       <a class="btn-description">
         <div class="description-food">
           <div class="icon">
-            <a (click)="openDialog()">1</a>
+            <a (click)="openDialog(order)">{{ order.quantity }}</a>
           </div>
           <div>
             <h4>{{ order.name }}</h4>
@@ -48,7 +58,13 @@
     <section class="service-payment">
       <h4>Taxa de serviço</h4>
       <div class="percent-content">
-        <input type="number" name="percent" placeholder="10" max="100" maxlength="3" />
+        <input
+          type="number"
+          name="percent"
+          placeholder="10"
+          max="100"
+          maxlength="3"
+        />
         <h3>%</h3>
       </div>
     </section>
@@ -77,4 +93,3 @@
     ></app-button>
   </footer>
 </main>
-
