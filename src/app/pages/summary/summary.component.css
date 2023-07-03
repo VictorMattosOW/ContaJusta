@@ -25,7 +25,7 @@
   line-height: normal;
 }
 
-.btn-description > h3 {
+.btn-description > div > h3 {
   color: var(--cinza, #1f2633);
   text-align: right;
   /* h3 */
@@ -36,7 +36,7 @@
   line-height: normal;
 }
 
-.btn-description > legend {
+.btn-description > div > legend {
   color: var(--cinza-2, #565d6c);
   /* legend */
   font-size: 12px;
@@ -142,7 +142,7 @@
   margin-top: 4.5rem;
 }
 
-.resume > h1 {
+.resume > div > h1 {
   color: var(--gray, #1f2633);
   font-size: 32px;
   font-style: normal;
@@ -158,7 +158,7 @@
   line-height: normal;
 }
 
-.resume > legend {
+.resume > div >legend {
   color: var(--gray, #1f2633);
   text-align: right;
   font-size: 12px;
