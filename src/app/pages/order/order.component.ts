@@ -1,5 +1,12 @@
 import { User } from './../../shared/models/user.model';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Order } from 'src/app/shared/models/order.model';
@@ -12,23 +19,16 @@ import * as uuid from 'uuid';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
 })
-export class OrderComponent extends AbstractComponent implements OnInit {
+export class OrderComponent
+  extends AbstractComponent
+  implements OnInit, AfterViewInit
+{
   @Input() isEdit: boolean = false;
   @Output() buttonAction: EventEmitter<void> = new EventEmitter();
-  @Input() set orderEdit({name, price, sharedUsers = [], quantity}: Order) {
-    this.orderForm.patchValue({
-      foodName: name,
-      price: price,
-    });
-
-    this.quantity = quantity;
-    // TODO: bug na hora de setar os inputs
-    this.usersList.forEach((user: User) => {
-      const index = sharedUsers.findIndex((userList: User) => userList.id === user.id);
-      if (index !== -1) {
-        this.selectedUser(true, index);
-      }
-    });
+  @Input() set orderEdit(order: Order) {
+    this.selectedUsers = [];
+    this.sharedFood = [];
+    this.setOrderForEdit(order);
   }
 
   usersList: User[] = [];
@@ -45,10 +45,31 @@ export class OrderComponent extends AbstractComponent implements OnInit {
     this.buildForm();
   }
 
+  ngAfterViewInit(): void {}
+
   ngOnInit(): void {
     this.buildForm();
     this.getUsers();
     this.getOrders();
+  }
+
+  setOrderForEdit({ name, price, sharedUsers = [], quantity }: Order) {
+    this.orderForm.patchValue({
+      foodName: name,
+      price: price,
+    });
+    this.quantity = quantity;
+
+    sharedUsers.forEach((user: User, index: number) => {
+      const foundIndex = this.usersList.findIndex(
+        (userList: User) => userList.id === user.id
+      );
+      if (foundIndex !== -1) {
+        this.selectedUser(true, foundIndex);
+      } else {
+        this.selectedUser(false, index);
+      }
+    });
   }
 
   buildForm() {
