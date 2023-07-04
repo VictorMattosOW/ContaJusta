@@ -52,7 +52,7 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
     this.sessionService.getUsersObservable().subscribe({
       next: (users: User[]) => {
         if (users) {
-          users.forEach((users) => this.addNewUserInput(users.name));
+          users.forEach((users) => this.addNewUserInput(users));
         }
       },
       error: (error) => {
@@ -65,7 +65,7 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
     return this.form.get('inputs') as FormArray;
   }
 
-  addNewUserInput(user?: string): void {
+  addNewUserInput(user?: User): void {
     const newUserInput = this.createNewUserInputFormGroup(user);
 
     if (this.isValidForm()) {
@@ -73,7 +73,7 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
     }
   }
 
-  createNewUserInputFormGroup(user?: string): FormGroup {
+  createNewUserInputFormGroup(user?: User): FormGroup {
     const newInput = new FormGroup({
       name: new FormControl('', [
         Validators.required,
@@ -83,7 +83,8 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
       id: new FormControl(uuid.v4()),
     });
     if (user) {
-      newInput.get('name').setValue(user);
+      newInput.get('name').setValue(user.name);
+      newInput.get('id').setValue(user.id);
     }
     return newInput;
   }

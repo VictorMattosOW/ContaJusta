@@ -34,13 +34,13 @@
     </div>
   </dialog>
 
-  <dialog  class="modal-edit" #dialogEdit>
+  <dialog class="modal-edit" #dialogEdit>
     <div class="btn-close-content">
       <button class="btn-close-modal" (click)="closeDialogEdit()">
         <img width="30" height="30" src="../../../assets/close.svg" />
       </button>
     </div>
-      <app-order isEdit="true" [orderEdit]="this.orderToEdit" (buttonAction)="deleteOrder(this.orderToEdit)" #appOrder></app-order>
+      <app-order [isEdit]="true" [orderEdit]="this.orderToEdit" (buttonAction)="deleteOrder(this.orderToEdit)" #appOrder></app-order>
   </dialog>
 
   <div>

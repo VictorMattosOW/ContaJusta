@@ -19,7 +19,6 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   orders: Order[] = [];
   totalOrders: number;
   orderForm: FormGroup;
-  isModalOpen = false;
   constructor(
     private sessionService: SessionService,
     private router: Router,
@@ -72,14 +71,12 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   openDialogEdit(order: Order): void {
     if(!!this.appOrder) {
       this.orderToEdit = order;
-      // this.isModalOpen = true;
       this.dialogElementEdit.nativeElement.show();
     }
   }
 
   closeDialogEdit(): void {
     this.dialogElementEdit.nativeElement.close();
-    this.isModalOpen = false;
   }
 
   deleteOrder(orderToDelete?: Order) {
