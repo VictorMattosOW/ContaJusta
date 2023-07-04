@@ -147,6 +147,24 @@ input[type="checkbox"]:checked {
   margin-top: 2rem;
 }
 
+.btn-trash {
+  margin-top: 43px;
+}
+
+.btn-trash > a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.btn-content-edit {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
 .title {
   margin-bottom: 2rem;
 }

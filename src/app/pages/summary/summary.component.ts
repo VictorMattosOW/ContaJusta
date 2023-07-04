@@ -1,9 +1,10 @@
 import { Router } from '@angular/router';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Order } from 'src/app/shared/models/order.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OrderComponent } from '../order/order.component';
 
 @Component({
   selector: 'app-summary',
@@ -13,12 +14,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class SummaryComponent extends AbstractComponent implements OnInit{
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
   @ViewChild('dialogEdit') dialogElementEdit!: ElementRef<HTMLDialogElement>;
-
+  @ViewChild(OrderComponent, { static: false }) appOrder!: OrderComponent;
   orderToEdit = {} as Order;
   orders: Order[] = [];
   totalOrders: number;
   orderForm: FormGroup;
-
+  isModalOpen = false;
   constructor(
     private sessionService: SessionService,
     private router: Router,
@@ -43,12 +44,16 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   getOrders() {
     this.sessionService.getOrdersObservable().subscribe({
       next: (orders: Order[]) => {
-        if(orders.length === 0) {
-          this.router.navigate(['registrar']);
-        }
         this.orders = orders;
+        this.isOrderEmpty();
       },
     })
+  }
+
+  isOrderEmpty() {
+    if(this.orders.length === 0) {
+      this.router.navigate(['registrar']);
+    }
   }
 
   calcularValorFinal(valorInicial: number, porcentagem: number): number {
@@ -65,9 +70,25 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   }
 
   openDialogEdit(order: Order): void {
-    this.orderToEdit = order;
-    this.dialogElementEdit.nativeElement.show();
+    if(!!this.appOrder) {
+      this.orderToEdit = order;
+      // this.isModalOpen = true;
+      this.dialogElementEdit.nativeElement.show();
+    }
   }
+
+  closeDialogEdit(): void {
+    this.dialogElementEdit.nativeElement.close();
+    this.isModalOpen = false;
+  }
+
+  deleteOrder(orderToDelete?: Order) {
+    this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
+    this.sessionService.setOrders(this.orders);
+    this.closeDialogEdit();
+    this.isOrderEmpty();
+  }
+
 
   openDialog(order: Order): void {
     this.orderToEdit = order;
@@ -81,5 +102,10 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
       }
     });
     this.dialogElement.nativeElement.close();
+  }
+
+  goToOrder() {
+    this.sessionService.setOrders(this.orders);
+    this.router.navigate(['ordens']);
   }
 }

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { User } from './../../shared/models/user.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Order } from 'src/app/shared/models/order.model';
-import { User } from 'src/app/shared/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import * as uuid from 'uuid';
@@ -13,6 +13,24 @@ import * as uuid from 'uuid';
   styleUrls: ['./order.component.css'],
 })
 export class OrderComponent extends AbstractComponent implements OnInit {
+  @Input() isEdit: boolean = false;
+  @Output() buttonAction: EventEmitter<void> = new EventEmitter();
+  @Input() set orderEdit({name, price, sharedUsers = [], quantity}: Order) {
+    this.orderForm.patchValue({
+      foodName: name,
+      price: price,
+    });
+
+    this.quantity = quantity;
+    // TODO: bug na hora de setar os inputs
+    this.usersList.forEach((user: User) => {
+      const index = sharedUsers.findIndex((userList: User) => userList.id === user.id);
+      if (index !== -1) {
+        this.selectedUser(true, index);
+      }
+    });
+  }
+
   usersList: User[] = [];
   quantity = 1;
   value = '';
@@ -21,12 +39,8 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   sharedFood: User[] = [];
 
   orderForm: FormGroup;
-  sharedUsers: FormGroup;
   selectedUsers: boolean[] = [];
-  constructor(
-    private sessionService: SessionService,
-    private router: Router,
-  ) {
+  constructor(private sessionService: SessionService, private router: Router) {
     super();
     this.buildForm();
   }
@@ -69,8 +83,8 @@ export class OrderComponent extends AbstractComponent implements OnInit {
     this.sessionService.getOrdersObservable().subscribe({
       next: (orders) => {
         this.orders = orders;
-      }
-    })
+      },
+    });
   }
 
   updateQuantity(event: Event, operation: 'add' | 'subtract') {
@@ -90,7 +104,7 @@ export class OrderComponent extends AbstractComponent implements OnInit {
     } else if (!checked) {
       this.selectedUsers[index] = checked;
       this.sharedFood = this.sharedFood.filter(
-        (element) => element !== this.usersList[index],
+        (element) => element !== this.usersList[index]
       );
     }
   }
@@ -121,6 +135,10 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   }
 
   goToSummary() {
+    console.log(this.usersList);
+
+    this.sessionService.setOrders(this.orders);
+    this.sessionService.setUsers(this.usersList);
     this.router.navigate(['resumo']);
   }
 }

@@ -1,13 +1,21 @@
 <main class="content">
   <article>
     <header class="title">
-      <h1>O que pediram ?</h1>
-      <p>Adicione item por item</p>
+      <h1 *ngIf="isEdit">Modificar item</h1>
+      <div *ngIf="!isEdit">
+        <h1>O que pediram ?</h1>
+        <p>Adicione item por item</p>
+      </div>
     </header>
 
-    <section class="card" *ngIf="orders.length !== 0">
-      <header class="card_title"><h5>Já ta na conta</h5></header>
-      <div class="info" *ngFor="let order of orders; let i = index">
+    <section class="card" *ngIf="orders.length !== 0 && !isEdit">
+      <header class="card_title">
+        <h5>Já ta na conta</h5>
+      </header>
+      <div
+        class="info"
+        *ngFor="let order of orders; let i = index"
+      >
         <div>
           <p class="foodName">{{ order.name }}</p>
           <p class="orderAndPerson_name">
@@ -16,10 +24,19 @@
         </div>
         <div class="deleteItem">
           <div>
-            <p class="price">R${{multiplyValues(order.quantity, order.price) | currency }}</p>
-            <p class="quantity">({{order.quantity}}x R${{order.price | currency }})</p>
+            <p class="price">
+              R${{ multiplyValues(order.quantity, order.price) | currency }}
+            </p>
+            <p class="quantity">
+              ({{ order.quantity }}x R${{ order.price | currency }})
+            </p>
           </div>
-          <a (click)="deleteItem(order)"><img class="btn-close" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botao fechar"></a>
+          <a (click)="deleteItem(order)"
+            ><img
+              class="btn-close"
+              src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg"
+              alt="botão fechar"
+          /></a>
         </div>
       </div>
     </section>
@@ -69,7 +86,6 @@
         </div>
       </form>
     </section>
-
     <div class="checkbox-content">
       <div class="editar">
         <p>Dividir valor entre</p>
@@ -91,10 +107,16 @@
           />
           <label for="name">{{ user.name }}</label>
         </form>
+        <div class="btn-trash" *ngIf="isEdit">
+          <a (click)="buttonAction.emit();">
+            <img src="../../../assets/trash_.svg" alt="" />
+            <app-button-link title="Excluir item"></app-button-link>
+          </a>
+        </div>
       </div>
     </div>
   </article>
-  <footer class="btn-content">
+  <footer class="btn-content" *ngIf="!isEdit">
     <app-button
       buttonTitle="incluir item"
       styleButton="primary"
@@ -102,6 +124,24 @@
       [isDisabled]="!this.canEnableSubmitButton()"
       (buttonAction)="selectOrder()"
     ></app-button>
-    <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary();"></app-button-link>
+    <app-button-link
+      title="Finalizar pedidos >"
+      (buttonAction)="goToSummary()"
+    ></app-button-link>
+  </footer>
+
+  <footer class="btn-content-edit" *ngIf="isEdit">
+    <app-button
+      buttonTitle="voltar"
+      styleButton="secondary"
+      size="small"
+      [isDisabled]=""
+    ></app-button>
+    <app-button
+      buttonTitle="salvar"
+      styleButton="primary"
+      size="small"
+      [isDisabled]=""
+    ></app-button>
   </footer>
 </main>
