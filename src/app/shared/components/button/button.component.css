@@ -25,18 +25,22 @@
   color: var(--yellow-400);
 }
 
+.primary:hover{
+  background: var(--blue-primary-600);
+}
+
 .secondary {
   background-color: var(--white);
   border: 2px solid var(--blue-primary-600);
   color: var(--blue-primary-600);
 }
 
-button:disabled {
-  opacity: 60%;
+.secondary:hover {
+  background: #ECF540;
 }
 
-button:hover {
-  background: var(--blue-primary-600);
+button:disabled {
+  opacity: 60%;
 }
 
 .yellow-primary {
