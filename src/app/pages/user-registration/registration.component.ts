@@ -92,7 +92,13 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     const inputValue = inputControl.value;
 
     if (inputControl.touched && inputControl.invalid) {
-      this.errorMsg = (inputValue.length === 0) ? 'Ops! Esse nome está em branco.' : 'O nome precisa ter mais de uma letra.';
+      if (inputValue.length === 0) {
+        this.errorMsg = 'Ops! Esse nome está em branco.';
+      } else if (inputValue.length > 25) {
+        this.errorMsg = 'O nome não pode ter mais de 25 caracteres.';
+      } else {
+        this.errorMsg = 'O nome precisa ter mais de uma letra.';
+      }
       return true;
     }
     return false;
