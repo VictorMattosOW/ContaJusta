@@ -91,10 +91,8 @@ export class RegistrationComponent
       name: new FormControl('', {
         validators: [
           Validators.required,
-          // Validators.minLength(2),
           Validators.maxLength(25),
         ],
-        // updateOn: 'blur'
       }),
       id: new FormControl(uuid.v4()),
     });
