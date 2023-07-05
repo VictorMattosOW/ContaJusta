@@ -13,13 +13,12 @@ export class StartComponent implements AfterViewChecked {
     navigator.userAgent.includes('iPhone') &&
     navigator.userAgent.includes('Safari');
 
-  constructor(private sessionService: SessionService, private router: Router,private cd: ChangeDetectorRef) {}
+  constructor(private sessionService: SessionService, private router: Router) {}
 
   ngAfterViewChecked() {
     setTimeout(() => {
       this.sessionService.setBackgroundColor('blue');
     }, 0);
-    this.cd.detectChanges();
   }
 
   goToRegister() {
