@@ -1,4 +1,13 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.model';
@@ -10,11 +19,18 @@ import * as uuid from 'uuid';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
 })
-export class RegistrationComponent implements OnInit, AfterViewChecked, AfterViewInit {
+export class RegistrationComponent
+  implements OnInit, AfterViewChecked, AfterViewInit
+{
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
-  form: FormGroup;
+
+  form: FormGroup = new FormGroup({
+    inputs: new FormArray([]),
+  },);
+
   isEdit = false;
-  errorMsg: string;
+  errorMsg = '';
+  erro = false;
   constructor(
     private router: Router,
     private sessionService: SessionService,
@@ -24,12 +40,11 @@ export class RegistrationComponent implements OnInit, AfterViewChecked, AfterVie
   ngAfterViewInit(): void {
     setInterval(() => {
       this.sessionService.setBackgroundColor('white');
-    })
+    });
     this.cd.detectChanges();
   }
 
   ngOnInit(): void {
-    this.buildForm();
     this.getPath();
     this.loadUsersFromSession();
   }
@@ -43,12 +58,6 @@ export class RegistrationComponent implements OnInit, AfterViewChecked, AfterVie
       next: (path) => {
         this.isEdit = path === '/ordens';
       },
-    })
-  }
-
-  buildForm() {
-    this.form = new FormGroup({
-      inputs: new FormArray([]),
     });
   }
 
@@ -79,35 +88,22 @@ export class RegistrationComponent implements OnInit, AfterViewChecked, AfterVie
 
   createNewUserInputFormGroup(user?: User): FormGroup {
     const newInput = new FormGroup({
-      name: new FormControl('', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(25),
-      ]),
+      name: new FormControl('', {
+        validators: [
+          Validators.required,
+          // Validators.minLength(2),
+          Validators.maxLength(25),
+        ],
+        // updateOn: 'blur'
+      }),
       id: new FormControl(uuid.v4()),
     });
+
     if (user) {
       newInput.get('name').setValue(user.name);
       newInput.get('id').setValue(user.id);
     }
     return newInput;
-  }
-
-  getValidity(index: number): boolean {
-    const inputControl = this.inputs.at(index).get('name');
-    const inputValue = inputControl.value;
-
-    if (inputControl.touched && inputControl.invalid) {
-      if (inputValue.length === 0) {
-        this.errorMsg = 'Ops! Esse nome está em branco.';
-      } else if (inputValue.length > 25) {
-        this.errorMsg = 'O nome não pode ter mais de 25 caracteres.';
-      } else {
-        this.errorMsg = 'O nome precisa ter mais de uma letra.';
-      }
-      return true;
-    }
-    return false;
   }
 
   isValidForm(): boolean {

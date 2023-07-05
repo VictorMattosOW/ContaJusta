@@ -8,7 +8,7 @@ import { SessionService } from './shared/services/session.service';
 })
 export class AppComponent implements OnInit {
   title = 'contaJusta';
-  bgColor: string;
+  bgColor: string = '';
 
   constructor(private session: SessionService) {}
   ngOnInit(): void {
