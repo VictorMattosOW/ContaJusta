@@ -87,13 +87,15 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     return newInput;
   }
 
-  getValidity(index: number) {
-    if ((<FormArray>this.form.get('inputs')).controls[index].value['name'].length === 0) {
-      this.errorMsg = 'Ops! Esse nome está em branco.'
-    } else {
-      this.errorMsg = 'O nome precisa ter mais de uma letra.'
+  getValidity(index: number): boolean {
+    const inputControl = this.inputs.at(index).get('name');
+    const inputValue = inputControl.value;
+
+    if (inputControl.touched && inputControl.invalid) {
+      this.errorMsg = (inputValue.length === 0) ? 'Ops! Esse nome está em branco.' : 'O nome precisa ter mais de uma letra.';
+      return true;
     }
-    return (<FormArray>this.form.get('inputs')).controls[index].touched && (<FormArray>this.form.get('inputs')).controls[index].invalid;
+    return false;
   }
 
   isValidForm(): boolean {
