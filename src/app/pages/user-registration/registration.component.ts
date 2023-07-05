@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import * as uuid from 'uuid';
@@ -10,27 +10,25 @@ import * as uuid from 'uuid';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
 })
-export class RegistrationComponent implements AfterViewInit, OnInit {
+export class RegistrationComponent implements OnInit, AfterViewChecked {
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
   form: FormGroup;
   isEdit = false;
+  errorMsg: string;
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private sessionService: SessionService,
     private cd: ChangeDetectorRef
-  ) {
-  }
+  ) {}
+
   ngOnInit(): void {
     this.buildForm();
+    this.sessionService.setBackgroundColor('white');
+    this.getPath();
+    this.loadUsersFromSession();
   }
 
-  ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.sessionService.setBackgroundColor('white');
-      this.getPath();
-      this.loadUsersFromSession();
-    });
+  ngAfterViewChecked() {
     this.cd.detectChanges();
   }
 
@@ -81,12 +79,21 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
         Validators.maxLength(25),
       ]),
       id: new FormControl(uuid.v4()),
-    });
+    }, {updateOn: 'blur'});
     if (user) {
       newInput.get('name').setValue(user.name);
       newInput.get('id').setValue(user.id);
     }
     return newInput;
+  }
+
+  getValidity(index: number) {
+    if ((<FormArray>this.form.get('inputs')).controls[index].value['name'].length === 0) {
+      this.errorMsg = 'Ops! Esse nome está em branco.'
+    } else {
+      this.errorMsg = 'O nome precisa ter mais de uma letra.'
+    }
+    return (<FormArray>this.form.get('inputs')).controls[index].touched && (<FormArray>this.form.get('inputs')).controls[index].invalid;
   }
 
   isValidForm(): boolean {
