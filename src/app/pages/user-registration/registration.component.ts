@@ -10,7 +10,7 @@ import * as uuid from 'uuid';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
 })
-export class RegistrationComponent implements OnInit, AfterViewChecked {
+export class RegistrationComponent implements OnInit, AfterViewChecked, AfterViewInit {
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
   form: FormGroup;
   isEdit = false;
@@ -21,9 +21,15 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
     private cd: ChangeDetectorRef
   ) {}
 
+  ngAfterViewInit(): void {
+    setInterval(() => {
+      this.sessionService.setBackgroundColor('white');
+    })
+    this.cd.detectChanges();
+  }
+
   ngOnInit(): void {
     this.buildForm();
-    this.sessionService.setBackgroundColor('white');
     this.getPath();
     this.loadUsersFromSession();
   }
