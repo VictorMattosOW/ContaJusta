@@ -11,7 +11,7 @@
       <div formArrayName="inputs">
         <div *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">
           <div class="input-content" [ngClass]="{'error-input': getValidity(i)}">
-            <input type="text" formControlName="name" appAutofocus [class.error-input]="getValidity(i)">
+            <input type="text" formControlName="name" appAutofocus [class.error-input]="getValidity(i)" maxlength="25">
             <app-button-link (buttonAction)="deleteUser(i);" title="excluir"></app-button-link>
           </div>
           <p class="error-msg" *ngIf="getValidity(i)">{{errorMsg}}</p>

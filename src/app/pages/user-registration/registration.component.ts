@@ -79,7 +79,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked {
         Validators.maxLength(25),
       ]),
       id: new FormControl(uuid.v4()),
-    }, {updateOn: 'blur'});
+    });
     if (user) {
       newInput.get('name').setValue(user.name);
       newInput.get('id').setValue(user.id);
