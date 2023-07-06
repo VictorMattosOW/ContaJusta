@@ -30,7 +30,7 @@ export class RegistrationComponent
 
   isEdit = false;
   errorMsg = '';
-  erro = false;
+  hasError = false;
   constructor(
     private router: Router,
     private sessionService: SessionService,
@@ -105,6 +105,12 @@ export class RegistrationComponent
   }
 
   isValidForm(): boolean {
+    for(const input of this.inputs.controls) {
+      if(input.invalid && input.touched && !input.dirty) {
+        input.markAsDirty();
+      }
+    }
+
     this.form.markAllAsTouched();
     return this.form.valid;
   }

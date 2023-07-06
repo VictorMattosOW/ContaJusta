@@ -61,7 +61,7 @@ input[type="text"] {
   margin-top: 1rem;
 }
 
-.error-msg {
+.error-msg > p{
   color: var(--error, #d2252f);
   font-size: 12px;
   font-weight: 400;

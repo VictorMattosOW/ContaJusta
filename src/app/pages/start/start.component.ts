@@ -7,7 +7,7 @@ import { SessionService } from 'src/app/shared/services/session.service';
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.css'],
 })
-export class StartComponent implements AfterViewChecked {
+export class StartComponent implements AfterViewInit{
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
   isSafariOnIphone =
     navigator.userAgent.includes('iPhone') &&
@@ -15,7 +15,7 @@ export class StartComponent implements AfterViewChecked {
 
   constructor(private sessionService: SessionService, private router: Router) {}
 
-  ngAfterViewChecked() {
+  ngAfterViewInit() {
     setTimeout(() => {
       this.sessionService.setBackgroundColor('blue');
     }, 0);
