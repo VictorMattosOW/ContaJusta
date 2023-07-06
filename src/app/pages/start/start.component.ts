@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from 'src/app/shared/services/session.service';
 
@@ -7,17 +7,18 @@ import { SessionService } from 'src/app/shared/services/session.service';
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.css'],
 })
-export class StartComponent implements AfterViewInit {
+export class StartComponent implements AfterViewInit{
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
   isSafariOnIphone =
     navigator.userAgent.includes('iPhone') &&
     navigator.userAgent.includes('Safari');
 
   constructor(private sessionService: SessionService, private router: Router) {}
-  ngAfterViewInit(): void {
+
+  ngAfterViewInit() {
     setTimeout(() => {
       this.sessionService.setBackgroundColor('blue');
-    });
+    }, 0);
   }
 
   goToRegister() {

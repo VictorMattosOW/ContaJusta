@@ -9,7 +9,7 @@ import { User } from 'src/app/shared/models/user.model';
 export class SessionService {
   private users = new BehaviorSubject<User[]>([]);
   private orders = new BehaviorSubject<Order[]>([]);
-  private changeBgColor = new BehaviorSubject<string>('white');
+  private changeBgColor = new BehaviorSubject<string>('');
   private path = new BehaviorSubject<string>('');
   constructor() { }
 

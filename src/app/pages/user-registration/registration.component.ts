@@ -1,6 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import * as uuid from 'uuid';
@@ -10,27 +19,37 @@ import * as uuid from 'uuid';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
 })
-export class RegistrationComponent implements AfterViewInit, OnInit {
+export class RegistrationComponent
+  implements OnInit, AfterViewChecked, AfterViewInit
+{
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
-  form: FormGroup;
+
+  form: FormGroup = new FormGroup({
+    inputs: new FormArray([]),
+  },);
+
   isEdit = false;
+  errorMsg = '';
+  hasError = false;
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private sessionService: SessionService,
     private cd: ChangeDetectorRef
-  ) {
-  }
-  ngOnInit(): void {
-    this.buildForm();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
+    setInterval(() => {
       this.sessionService.setBackgroundColor('white');
-      this.getPath();
-      this.loadUsersFromSession();
     });
+    this.cd.detectChanges();
+  }
+
+  ngOnInit(): void {
+    this.getPath();
+    this.loadUsersFromSession();
+  }
+
+  ngAfterViewChecked() {
     this.cd.detectChanges();
   }
 
@@ -39,12 +58,6 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
       next: (path) => {
         this.isEdit = path === '/ordens';
       },
-    })
-  }
-
-  buildForm() {
-    this.form = new FormGroup({
-      inputs: new FormArray([]),
     });
   }
 
@@ -75,13 +88,15 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
 
   createNewUserInputFormGroup(user?: User): FormGroup {
     const newInput = new FormGroup({
-      name: new FormControl('', [
-        Validators.required,
-        Validators.minLength(2),
-        Validators.maxLength(25),
-      ]),
+      name: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.maxLength(25),
+        ],
+      }),
       id: new FormControl(uuid.v4()),
     });
+
     if (user) {
       newInput.get('name').setValue(user.name);
       newInput.get('id').setValue(user.id);
@@ -90,6 +105,12 @@ export class RegistrationComponent implements AfterViewInit, OnInit {
   }
 
   isValidForm(): boolean {
+    for(const input of this.inputs.controls) {
+      if(input.invalid && input.touched && !input.dirty) {
+        input.markAsDirty();
+      }
+    }
+
     this.form.markAllAsTouched();
     return this.form.valid;
   }

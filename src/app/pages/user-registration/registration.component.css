@@ -54,10 +54,22 @@ input[type="text"] {
   align-self: flex-end;
 }
 
-.form-group {
+.input-content {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
   margin-top: 1rem;
+}
+
+.error-msg > p{
+  color: var(--error, #d2252f);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  padding-top: 6px;
+}
+
+.input-content.error-input input[type="text"] {
+  border: #D2252F;
+  outline: 1px solid #D2252F;
 }

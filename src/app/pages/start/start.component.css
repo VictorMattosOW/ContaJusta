@@ -1,9 +1,3 @@
-.content {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: space-between; */
-}
-
 header {
   position: relative;
   z-index: 10;

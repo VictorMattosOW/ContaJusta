@@ -7,18 +7,27 @@
       Deseja excluir ou adicionar alguém?
     </h1>
 
-    <form class="form-content"  [formGroup]="form" (ngSubmit)="submit();" #conteudo [scrollTop]="conteudo.scrollHeight">
+    <form class="form-content"  [formGroup]="form" [scrollTop]="conteudo.scrollHeight" #conteudo>
       <div formArrayName="inputs">
-        <div class="form-group" *ngFor="let input of inputs.controls; let i = index" [formGroupName]="i">
-            <input type="text" formControlName="name" appAutofocus>
+        <div *ngFor="let input of inputs.controls; let i = index;" [formGroupName]="i" >
+          <div class="input-content" [ngClass]="{'error-input': this.inputs.at(i).dirty && this.inputs.at(i).invalid }">
+            <input type="text" name="name" formControlName="name" appAutofocus maxlength="25">
             <app-button-link (buttonAction)="deleteUser(i);" title="excluir"></app-button-link>
+          </div>
+          <div class="error-msg">
+            <p *ngIf="(this.inputs.at(i).dirty && this.inputs.at(i).invalid) && this.inputs.at(i).get('name').value.length > 25">
+              O nome não pode ter mais de 25 caracteres.
+            </p>
+            <p *ngIf="(this.inputs.at(i).dirty && this.inputs.at(i).invalid) && this.inputs.at(i).get('name').value.length === 0">
+              Ops! Esse nome está em branco.
+            </p>
+          </div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="input-content">
         <button class="btn-add" (click)="addNewUserInput();">
           <p>Nome da pessoa</p>
         </button>
-        <app-button-link (buttonAction)="deleteUser();" title="excluir"></app-button-link>
       </div>
     </form>
   </section>
