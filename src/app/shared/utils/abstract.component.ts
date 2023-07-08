@@ -1,9 +1,4 @@
-import {
-  AbstractControl,
-  FormArray,
-  FormBuilder,
-  FormGroup,
-} from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { Order } from '../models/order.model';
 
 export abstract class AbstractComponent {
@@ -17,17 +12,21 @@ export abstract class AbstractComponent {
     return quantity * price;
   }
 
-  isValidForm(form: FormGroup, arrayName?: string): boolean {
-    const inputs = form.get(`${arrayName}`) as FormArray;
-    if (inputs) {
-      for (const input of inputs.controls) {
+  isValidForm(form: FormGroup): FormGroup {
+    const formArray = form.controls ? Object.values(form.controls)[0] as FormArray : null;
+
+    if (formArray instanceof FormArray && formArray.controls) {
+      formArray.controls.forEach(input => {
         if (input.invalid && input.touched && !input.dirty) {
+          // TODO: entender melhor essa func e ver se vale a pena manter ela aqui
+          console.log('chegou aqui');
+
           input.markAsDirty();
         }
-      }
+      });
     }
 
     form.markAllAsTouched();
-    return form.valid;
+    return form;
   }
 }

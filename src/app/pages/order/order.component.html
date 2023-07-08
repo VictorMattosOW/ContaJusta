@@ -43,12 +43,25 @@
 
     <section>
       <form class="input-content" [formGroup]="orderForm">
-        <input
-          class="food_name_input input-text"
-          type="text"
-          formControlName="foodName"
-          placeholder="Ex: Polenta frita"
-        />
+        <div class="food_name_input">
+          <input
+            class=" input-text"
+            type="text"
+            name="foodName"
+            formControlName="foodName"
+            placeholder="Ex: Polenta frita"
+            [ngClass]="{'error-input': this.orderForm.dirty && this.orderForm.invalid }"
+          />
+          <div class="error-msg">
+            <p *ngIf="(this.orderForm.dirty && this.orderForm.invalid) && this.orderForm.get('foodName').value.length > 25">
+              O nome não pode ter mais de 25 caracteres.
+            </p>
+            <p *ngIf="(this.orderForm.dirty && this.orderForm.invalid) && this.orderForm.get('foodName').value.length === 0">
+              Ops! Esse nome está em branco.
+            </p>
+          </div>
+        </div>
+
 
         <div class="food_price">
           <span class="field field-price">R$</span>
@@ -56,9 +69,8 @@
             class="input-text input-text-price"
             type="tel"
             formControlName="price"
-            placeholder="0,00"
+            name="price"
             currencyMask
-            [options]="{ prefix: '', thousands: '.', decimal: ',' }"
           />
         </div>
 
@@ -122,11 +134,11 @@
       styleButton="primary"
       size="large"
       [isDisabled]="!this.canEnableSubmitButton()"
-      (buttonAction)="selectOrder()"
+      (buttonAction)="createOrder();"
     ></app-button>
     <app-button-link
       title="Finalizar pedidos >"
-      (buttonAction)="goToSummary()"
+      (buttonAction)="goToSummary();"
     ></app-button-link>
   </footer>
 

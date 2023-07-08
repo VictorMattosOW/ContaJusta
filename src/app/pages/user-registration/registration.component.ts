@@ -84,10 +84,22 @@ export class RegistrationComponent
   addNewUserInput(user?: User): void {
     const newUserInput = this.createNewUserInputFormGroup(user);
 
-    if (this.isValidForm(this.form)) {
+    if (this.isValidForm(this.form).valid) {
       this.inputs.push(newUserInput);
     }
   }
+
+  // isValidForm(): boolean {
+  //   const inputs = this.form.get('inputs') as FormArray;
+  //   for (const input of inputs.controls) {
+  //     if (input.invalid && input.touched && !input.dirty) {
+  //       input.markAsDirty();
+  //     }
+  //   }
+
+  //   this.form.markAllAsTouched();
+  //   return this.form.valid;
+  // }
 
   createNewUserInputFormGroup(user?: User): FormGroup {
     const newInput = new FormGroup({

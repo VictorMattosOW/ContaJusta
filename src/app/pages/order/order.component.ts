@@ -76,10 +76,9 @@ export class OrderComponent
     this.orderForm = new FormGroup({
       foodName: new FormControl('', [
         Validators.required,
-        Validators.minLength(2),
         Validators.maxLength(25),
       ]),
-      price: new FormControl(0, [Validators.required]),
+      price: new FormControl(0, [Validators.required, Validators.min(0.01)]),
     });
   }
 
@@ -130,7 +129,7 @@ export class OrderComponent
     }
   }
 
-  selectOrder() {
+  createOrder() {
     if (this.canEnableSubmitButton()) {
       const order: Order = {
         id: uuid.v4(),
@@ -140,11 +139,15 @@ export class OrderComponent
         sharedUsers: this.sharedFood,
       };
       this.orders.push(order);
-      this.orderForm.reset();
-      this.quantity = 1;
-      this.sharedFood = [];
-      this.selectedUsers = [];
+      this.resetForm();
     }
+  }
+
+  resetForm() {
+    this.orderForm.reset();
+    this.quantity = 1;
+    this.sharedFood = [];
+    this.selectedUsers = [];
   }
 
   deleteItem(orderToDelete: Order) {
@@ -152,14 +155,15 @@ export class OrderComponent
   }
 
   canEnableSubmitButton(): boolean {
-    return this.orderForm.valid && this.sharedFood.length !== 0;
+    return this.isValidForm(this.orderForm).valid && this.sharedFood.length !== 0;
   }
 
   goToSummary() {
-    console.log(this.usersList);
-
-    this.sessionService.setOrders(this.orders);
-    this.sessionService.setUsers(this.usersList);
-    this.router.navigate(['resumo']);
+    if(this.canEnableSubmitButton()) {
+      this.createOrder();
+      this.sessionService.setOrders(this.orders);
+      this.sessionService.setUsers(this.usersList);
+      this.router.navigate(['resumo']);
+    }
   }
 }
