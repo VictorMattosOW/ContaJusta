@@ -12,10 +12,7 @@
       <header class="card_title">
         <h5>Já ta na conta</h5>
       </header>
-      <div
-        class="info"
-        *ngFor="let order of orders; let i = index"
-      >
+      <div class="info" *ngFor="let order of orders; let i = index">
         <div>
           <p class="foodName">{{ order.name }}</p>
           <p class="orderAndPerson_name">
@@ -45,33 +42,59 @@
       <form class="input-content" [formGroup]="orderForm">
         <div class="food_name_input">
           <input
-            class=" input-text"
+            class="input-text"
             type="text"
             name="foodName"
             formControlName="foodName"
             placeholder="Ex: Polenta frita"
-            [ngClass]="{'error-input': this.orderForm.dirty && this.orderForm.invalid }"
+            maxlength="30"
+            [ngClass]="{
+              'error-input': this.orderForm.get('foodName').dirty && this.orderForm.get('foodName').invalid
+            }"
           />
           <div class="error-msg">
-            <p *ngIf="(this.orderForm.dirty && this.orderForm.invalid) && this.orderForm.get('foodName').value.length > 25">
-              O nome não pode ter mais de 25 caracteres.
+            <p
+              *ngIf="
+                this.orderForm.get('foodName').dirty &&
+                this.orderForm.get('foodName').invalid &&
+                this.orderForm.get('foodName').value.length >
+                  maxLengthCaracteres
+              "
+            >
+              O nome não pode ter mais de {{ maxLengthCaracteres }} caracteres.
             </p>
-            <p *ngIf="(this.orderForm.dirty && this.orderForm.invalid) && this.orderForm.get('foodName').value.length === 0">
+            <p
+              *ngIf="
+                this.orderForm.get('foodName').dirty &&
+                this.orderForm.get('foodName').invalid &&
+                this.orderForm.get('foodName').value.length === 0
+              "
+            >
               Ops! Esse nome está em branco.
             </p>
           </div>
         </div>
 
-
         <div class="food_price">
-          <span class="field field-price">R$</span>
-          <input
-            class="input-text input-text-price"
-            type="tel"
-            formControlName="price"
-            name="price"
-            currencyMask
-          />
+          <div class="price-content">
+            <span class="field field-price">R$</span>
+            <input
+              class="input-text input-text-price"
+              formControlName="price"
+              name="price"
+              placeholder="0,00"
+              currencyMask
+              [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+              [ngClass]="{
+                'error-input': this.orderForm.get('price').dirty && this.orderForm.get('price').invalid
+              }"
+            />
+          </div>
+          <div class="error-msg" *ngIf="this.orderForm.get('price').invalid && this.orderForm.get('price').dirty">
+            <p>
+              Digite o valor do item.
+            </p>
+          </div>
         </div>
 
         <div class="quantity">
@@ -107,6 +130,15 @@
         ></app-button-link>
       </div>
       <div class="form-content">
+        <div class="mark-all-users">
+            <input
+            [(ngModel)]="markAllUsers"
+            type="checkbox"
+            name="name"
+            (change)="selectAllUser($event)"
+          />
+          <label for="name">Selecionar todos</label>
+        </div>
         <form
           class="form-checkbox"
           *ngFor="let user of usersList; let i = index"
@@ -115,12 +147,12 @@
             type="checkbox"
             name="name"
             [(ngModel)]="selectedUsers[i]"
-            (click)="selectedUser($event.target.checked, i)"
+            (change)="selectedUser(i, $event)"
           />
           <label for="name">{{ user.name }}</label>
         </form>
         <div class="btn-trash" *ngIf="isEdit">
-          <a (click)="buttonAction.emit();">
+          <a (click)="buttonAction.emit()">
             <img src="../../../assets/trash_.svg" alt="" />
             <app-button-link title="Excluir item"></app-button-link>
           </a>
@@ -133,12 +165,12 @@
       buttonTitle="incluir item"
       styleButton="primary"
       size="large"
-      [isDisabled]="!this.canEnableSubmitButton()"
-      (buttonAction)="createOrder();"
+      [isDisabled]="!this.canEnableSubmitItemButton()"
+      (buttonAction)="createOrder()"
     ></app-button>
     <app-button-link
       title="Finalizar pedidos >"
-      (buttonAction)="goToSummary();"
+      (buttonAction)="goToSummary()"
     ></app-button-link>
   </footer>
 

@@ -35,15 +35,15 @@ export class RegistrationComponent
   constructor(
     private router: Router,
     private sessionService: SessionService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     super();
   }
 
   ngAfterViewInit(): void {
-    setInterval(() => {
+    setTimeout(() => {
       this.sessionService.setBackgroundColor('white');
-    });
+    }, 0);
     this.cd.detectChanges();
   }
 
@@ -84,22 +84,22 @@ export class RegistrationComponent
   addNewUserInput(user?: User): void {
     const newUserInput = this.createNewUserInputFormGroup(user);
 
-    if (this.isValidForm(this.form).valid) {
+    if (this.isValidForm()) {
       this.inputs.push(newUserInput);
     }
   }
 
-  // isValidForm(): boolean {
-  //   const inputs = this.form.get('inputs') as FormArray;
-  //   for (const input of inputs.controls) {
-  //     if (input.invalid && input.touched && !input.dirty) {
-  //       input.markAsDirty();
-  //     }
-  //   }
+  isValidForm(): boolean {
+    const inputs = this.form.get('inputs') as FormArray;
+    for (const input of inputs.controls) {
+      if (input.invalid && input.touched && !input.dirty) {
+        input.markAsDirty();
+      }
+    }
 
-  //   this.form.markAllAsTouched();
-  //   return this.form.valid;
-  // }
+    this.form.markAllAsTouched();
+    return this.form.valid;
+  }
 
   createNewUserInputFormGroup(user?: User): FormGroup {
     const newInput = new FormGroup({

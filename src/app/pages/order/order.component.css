@@ -21,10 +21,14 @@
   width: 100%;
 }
 
+.price-content {
+  display: flex;
+}
+
 .food_price {
   grid-area: food_price;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .quantity {
@@ -47,7 +51,7 @@
 }
 
 .input-text-price {
-  width: 100%;
+  text-align: right;
   border-radius: 0 8px 8px 0;
 }
 
@@ -101,6 +105,24 @@
   gap: 0.8rem;
 }
 
+.form-checkbox > label {
+  color: var(--gray2);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.mark-all-users {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+}
+
+.mark-all-users > label {
+  color: var(--gray);
+  font-size: 16px;
+  font-weight: 600;
+}
+
 .editar {
   display: flex;
   flex-direction: row;
@@ -143,7 +165,7 @@ input[type="checkbox"]:checked {
 .btn-content {
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: flex-end;
   gap: 1rem;
   margin-top: 2rem;
 }
@@ -239,7 +261,8 @@ input[type="checkbox"]:checked {
   line-height: normal;
   padding-top: 6px;
 }
-.input-content.error-input input[type="text"] {
-  border: #D2252F;
-  outline: 1px solid #D2252F;
+
+.input-content.error-input input[type="text"] input[type="number"] {
+  border: #d2252f;
+  outline: 1px solid #d2252f;
 }

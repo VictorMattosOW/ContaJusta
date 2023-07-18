@@ -40,11 +40,13 @@ export class OrderComponent
 
   orderForm: FormGroup;
   selectedUsers: boolean[] = [];
+  markAllUsers = false;
+  maxLengthCaracteres = 30;
+
   constructor(private sessionService: SessionService, private router: Router) {
     super();
     this.buildForm();
   }
-
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
@@ -65,9 +67,9 @@ export class OrderComponent
         (userList: User) => userList.id === user.id
       );
       if (foundIndex !== -1) {
-        this.selectedUser(true, foundIndex);
+        this.selectedUser(foundIndex, true);
       } else {
-        this.selectedUser(false, index);
+        this.selectedUser(index, false);
       }
     });
   }
@@ -76,9 +78,9 @@ export class OrderComponent
     this.orderForm = new FormGroup({
       foodName: new FormControl('', [
         Validators.required,
-        Validators.maxLength(25),
+        Validators.maxLength(this.maxLengthCaracteres),
       ]),
-      price: new FormControl(0, [Validators.required, Validators.min(0.01)]),
+      price: new FormControl(null, [Validators.required, Validators.min(0.01)]),
     });
   }
 
@@ -117,20 +119,37 @@ export class OrderComponent
     }
   }
 
-  selectedUser(checked: boolean, index: number) {
+  selectAllUser(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    if (checked) {
+      this.sharedFood = [...this.usersList];
+      this.selectedUsers.length = this.sharedFood.length;
+      this.selectedUsers.fill(checked);
+    } else {
+      this.sharedFood = [];
+      this.selectedUsers.fill(checked);
+    }
+    this.markAllUsers = checked;
+  }
+
+  selectedUser(index: number, event?: Event | boolean) {
+    const checked =
+      event instanceof Event
+        ? (event.target as HTMLInputElement).checked
+        : event;
+
     if (checked) {
       this.sharedFood.push(this.usersList[index]);
-      this.selectedUsers[index] = checked;
-    } else if (!checked) {
-      this.selectedUsers[index] = checked;
+    } else {
       this.sharedFood = this.sharedFood.filter(
         (element) => element !== this.usersList[index]
       );
     }
+    this.selectedUsers[index] = checked;
   }
 
   createOrder() {
-    if (this.canEnableSubmitButton()) {
+    if (this.canEnableSubmitItemButton()) {
       const order: Order = {
         id: uuid.v4(),
         name: this.orderForm.get('foodName').value,
@@ -144,22 +163,32 @@ export class OrderComponent
   }
 
   resetForm() {
-    this.orderForm.reset();
     this.quantity = 1;
     this.sharedFood = [];
     this.selectedUsers = [];
+    this.markAllUsers = false;
+    this.orderForm.reset();
   }
 
   deleteItem(orderToDelete: Order) {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
   }
 
-  canEnableSubmitButton(): boolean {
-    return this.isValidForm(this.orderForm).valid && this.sharedFood.length !== 0;
+  isValidForm(): boolean {
+    this.orderForm.markAllAsTouched();
+    return this.orderForm.valid;
+  }
+
+  canEnableSubmitItemButton(): boolean {
+    return this.isValidForm() && this.sharedFood.length !== 0;
+  }
+
+  canEnableButtonGoToSummary(): boolean {
+    return this.orders.length > 0;
   }
 
   goToSummary() {
-    if(this.canEnableSubmitButton()) {
+    if (this.canEnableButtonGoToSummary()) {
       this.createOrder();
       this.sessionService.setOrders(this.orders);
       this.sessionService.setUsers(this.usersList);

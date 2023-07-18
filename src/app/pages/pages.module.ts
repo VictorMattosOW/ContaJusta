@@ -46,7 +46,6 @@ export const customCurrencyMaskConfig = {
     PagesRoutingModule,
     RouterModule,
     ReactiveFormsModule,
-    NgxCurrencyModule,
     FormsModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
   ],
