@@ -4,7 +4,6 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -12,6 +11,7 @@ import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/shared/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import * as uuid from 'uuid';
 
 @Component({
@@ -20,13 +20,14 @@ import * as uuid from 'uuid';
   styleUrls: ['./registration.component.css'],
 })
 export class RegistrationComponent
+  extends AbstractComponent
   implements OnInit, AfterViewChecked, AfterViewInit
 {
   @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
 
   form: FormGroup = new FormGroup({
     inputs: new FormArray([]),
-  },);
+  });
 
   isEdit = false;
   errorMsg = '';
@@ -34,13 +35,15 @@ export class RegistrationComponent
   constructor(
     private router: Router,
     private sessionService: SessionService,
-    private cd: ChangeDetectorRef
-  ) {}
+    private cd: ChangeDetectorRef,
+  ) {
+    super();
+  }
 
   ngAfterViewInit(): void {
-    setInterval(() => {
+    setTimeout(() => {
       this.sessionService.setBackgroundColor('white');
-    });
+    }, 0);
     this.cd.detectChanges();
   }
 
@@ -86,13 +89,22 @@ export class RegistrationComponent
     }
   }
 
+  isValidForm(): boolean {
+    const inputs = this.form.get('inputs') as FormArray;
+    for (const input of inputs.controls) {
+      if (input.invalid && input.touched && !input.dirty) {
+        input.markAsDirty();
+      }
+    }
+
+    this.form.markAllAsTouched();
+    return this.form.valid;
+  }
+
   createNewUserInputFormGroup(user?: User): FormGroup {
     const newInput = new FormGroup({
       name: new FormControl('', {
-        validators: [
-          Validators.required,
-          Validators.maxLength(25),
-        ],
+        validators: [Validators.required, Validators.maxLength(25)],
       }),
       id: new FormControl(uuid.v4()),
     });
@@ -102,17 +114,6 @@ export class RegistrationComponent
       newInput.get('id').setValue(user.id);
     }
     return newInput;
-  }
-
-  isValidForm(): boolean {
-    for(const input of this.inputs.controls) {
-      if(input.invalid && input.touched && !input.dirty) {
-        input.markAsDirty();
-      }
-    }
-
-    this.form.markAllAsTouched();
-    return this.form.valid;
   }
 
   canEnableSubmitButton(): boolean {
