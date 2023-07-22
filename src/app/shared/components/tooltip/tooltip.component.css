@@ -4,12 +4,13 @@
 }
 
 .tooltiptext {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  position: absolute;
-  min-width: 235px;
+  color: var(--white);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  position: fixed;
   padding: 8px;
   border-radius: 8px;
   background: var(--gray, #1f2633);

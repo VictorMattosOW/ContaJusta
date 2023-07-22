@@ -22,11 +22,15 @@
           <a
             class="other-users"
             *ngIf="order.sharedUsers.length > 3"
-            (mouseover)="onHover()"
-            (mouseout)="onMouseout()"
-            >
+            (mouseover)="onHover(i)"
+            (mouseout)="onMouseout(i)"
+          >
             +{{ order.sharedUsers.length - 3 }}
-            <app-tooltip [content]="getSharedUserNames(order.sharedUsers)" [showTooltip]="showsTooltip"></app-tooltip>
+            <app-tooltip
+              [showTooltip]="tooltipStates[i]"
+              [content]="getSharedUserNames(order.sharedUsers)"
+            >
+            </app-tooltip>
           </a>
         </div>
         <div class="deleteItem">
@@ -59,7 +63,9 @@
             placeholder="Ex: Polenta frita"
             maxlength="30"
             [ngClass]="{
-              'error-input': this.orderForm.get('foodName').dirty && this.orderForm.get('foodName').invalid
+              'error-input':
+                this.orderForm.get('foodName').dirty &&
+                this.orderForm.get('foodName').invalid
             }"
           />
           <div class="error-msg">
@@ -96,14 +102,20 @@
               currencyMask
               [options]="{ prefix: '', thousands: '.', decimal: ',' }"
               [ngClass]="{
-                'error-input': this.orderForm.get('price').dirty && this.orderForm.get('price').invalid
+                'error-input':
+                  this.orderForm.get('price').dirty &&
+                  this.orderForm.get('price').invalid
               }"
             />
           </div>
-          <div class="error-msg" *ngIf="this.orderForm.get('price').invalid && this.orderForm.get('price').dirty">
-            <p>
-              Digite o valor do item.
-            </p>
+          <div
+            class="error-msg"
+            *ngIf="
+              this.orderForm.get('price').invalid &&
+              this.orderForm.get('price').dirty
+            "
+          >
+            <p>Digite o valor do item.</p>
           </div>
         </div>
 
@@ -141,7 +153,7 @@
       </div>
       <div class="form-content">
         <div class="mark-all-users">
-            <input
+          <input
             id="all-users"
             [(ngModel)]="markAllUsers"
             type="checkbox"

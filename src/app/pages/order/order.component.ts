@@ -43,7 +43,7 @@ export class OrderComponent
   markAllUsers = false;
   maxLengthCaracteres = 30;
 
-  showsTooltip = false;
+  tooltipStates: boolean[] = [];
   constructor(private sessionService: SessionService, private router: Router) {
     super();
     this.buildForm();
@@ -197,10 +197,11 @@ export class OrderComponent
     }
   }
 
-  onHover() {
-    this.showsTooltip = true;
+  onHover(index: number) {
+    this.tooltipStates[index] = true; // Define o estado de exibição do tooltip para o item de índice 'index' como true
   }
-  onMouseout() {
-    this.showsTooltip = false;
+
+  onMouseout(index: number) {
+    this.tooltipStates[index] = false; // Define o estado de exibição do tooltip para o item de índice 'index' como false
   }
 }
