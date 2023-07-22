@@ -44,6 +44,7 @@ export class OrderComponent
   maxLengthCaracteres = 30;
 
   tooltipStates: boolean[] = [];
+  maxNumberOfUsersInDisplay = 2;
   constructor(private sessionService: SessionService, private router: Router) {
     super();
     this.buildForm();

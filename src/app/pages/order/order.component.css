@@ -244,7 +244,7 @@ input[type="checkbox"]:checked {
 }
 
 .orderContent {
-  max-width: 180px;
+  /* max-width: 160px; */
 }
 
 .orderAndPerson_name {

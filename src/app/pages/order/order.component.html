@@ -16,16 +16,16 @@
         <div class="orderContent">
           <p class="foodName">{{ order.name }}</p>
           <p class="orderAndPerson_name">
-            {{ getSharedUserNames(order.sharedUsers.slice(0, 2)) }}
-            <span *ngIf="order.sharedUsers.length > 2">, </span>
+            {{ getSharedUserNames(order.sharedUsers.slice(0, maxNumberOfUsersInDisplay)) }}
+            <span *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay">, </span>
           </p>
           <a
             class="other-users"
-            *ngIf="order.sharedUsers.length > 2"
+            *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay"
             (mouseover)="onHover(i)"
             (mouseout)="onMouseout(i)"
           >
-            +{{ order.sharedUsers.length - 3 }}
+            +{{ order.sharedUsers.length - 2 }}
             <app-tooltip
               [showTooltip]="tooltipStates[i]"
               [content]="getSharedUserNames(order.sharedUsers)"
