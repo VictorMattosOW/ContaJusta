@@ -243,6 +243,10 @@ input[type="checkbox"]:checked {
   color: var(--gray);
 }
 
+.orderContent {
+  max-width: 180px;
+}
+
 .orderAndPerson_name {
   display: inline;
   font-size: 0.75rem;
@@ -268,6 +272,7 @@ input[type="checkbox"]:checked {
 }
 
 .quantity {
+  text-align: end;
   font-size: 0.75rem;
   color: var(--gray);
 }

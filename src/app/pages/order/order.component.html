@@ -13,15 +13,15 @@
         <h5>Já ta na conta</h5>
       </header>
       <div class="info" *ngFor="let order of orders; let i = index">
-        <div>
+        <div class="orderContent">
           <p class="foodName">{{ order.name }}</p>
           <p class="orderAndPerson_name">
-            {{ getSharedUserNames(order.sharedUsers.slice(0, 3)) }}
-            <span *ngIf="order.sharedUsers.length > 3">, </span>
+            {{ getSharedUserNames(order.sharedUsers.slice(0, 2)) }}
+            <span *ngIf="order.sharedUsers.length > 2">, </span>
           </p>
           <a
             class="other-users"
-            *ngIf="order.sharedUsers.length > 3"
+            *ngIf="order.sharedUsers.length > 2"
             (mouseover)="onHover(i)"
             (mouseout)="onMouseout(i)"
           >

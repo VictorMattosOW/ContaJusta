@@ -10,7 +10,8 @@
   font-weight: 400;
   line-height: normal;
 
-  position: fixed;
+  position: absolute;
+  min-width: 180px;
   padding: 8px;
   border-radius: 8px;
   background: var(--gray, #1f2633);
