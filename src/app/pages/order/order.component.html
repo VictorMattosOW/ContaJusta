@@ -16,16 +16,26 @@
         <div>
           <p class="foodName">{{ order.name }}</p>
           <p class="orderAndPerson_name">
-            {{ getSharedUserNames(order) }}
+            {{ getSharedUserNames(order.sharedUsers.slice(0, 3)) }}
+            <span *ngIf="order.sharedUsers.length > 3">, </span>
           </p>
+          <a
+            class="other-users"
+            *ngIf="order.sharedUsers.length > 3"
+            (mouseover)="onHover()"
+            (mouseout)="onMouseout()"
+            >
+            +{{ order.sharedUsers.length - 3 }}
+            <app-tooltip [content]="getSharedUserNames(order.sharedUsers)" [showTooltip]="showsTooltip"></app-tooltip>
+          </a>
         </div>
         <div class="deleteItem">
           <div>
             <p class="price">
-              R${{ multiplyValues(order.quantity, order.price) | currency }}
+              {{ multiplyValues(order.quantity, order.price) | currency }}
             </p>
             <p class="quantity">
-              ({{ order.quantity }}x R${{ order.price | currency }})
+              ({{ order.quantity }}x {{ order.price | currency }})
             </p>
           </div>
           <a (click)="deleteItem(order)"
@@ -163,7 +173,7 @@
   </article>
   <footer class="btn-content" *ngIf="!isEdit">
     <app-button
-      buttonTitle="incluir item"
+      [buttonTitle]="orders.length >= 1 ? 'próximo item' : 'incluir item'"
       styleButton="primary"
       size="large"
       [isDisabled]="!this.canEnableSubmitItemButton()"

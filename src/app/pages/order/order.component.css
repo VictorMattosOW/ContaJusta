@@ -244,8 +244,21 @@ input[type="checkbox"]:checked {
 }
 
 .orderAndPerson_name {
+  display: inline;
   font-size: 0.75rem;
   color: var(--gray3);
+}
+
+.other-users {
+  display: inline;
+  position: relative;
+  font-size: 0.75rem;
+  color: var(--gray3);
+  text-decoration: underline;
+}
+
+.other-users:hover {
+  visibility: visible;
 }
 
 .price {

@@ -1,0 +1,19 @@
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltiptext {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  min-width: 235px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--gray, #1f2633);
+  z-index: 1;
+  right: 50%;
+  transform: translate(50%, 20%);
+}

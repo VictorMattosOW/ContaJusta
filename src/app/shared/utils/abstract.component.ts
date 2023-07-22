@@ -1,11 +1,10 @@
-import { FormArray, FormGroup } from '@angular/forms';
-import { Order } from '../models/order.model';
+import { User } from '../models/user.model';
 
 export abstract class AbstractComponent {
   constructor() {}
 
-  getSharedUserNames(order: Order): string {
-    return order.sharedUsers.map((user) => user.name).join(', ');
+  getSharedUserNames(sharedUsers: User[]): string {
+    return sharedUsers.map((user) => user.name).join(', ');
   }
 
   multiplyValues(quantity: number, price: number): number {

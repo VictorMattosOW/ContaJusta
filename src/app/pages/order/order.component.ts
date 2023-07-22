@@ -43,6 +43,7 @@ export class OrderComponent
   markAllUsers = false;
   maxLengthCaracteres = 30;
 
+  showsTooltip = false;
   constructor(private sessionService: SessionService, private router: Router) {
     super();
     this.buildForm();
@@ -194,5 +195,12 @@ export class OrderComponent
       this.sessionService.setUsers(this.usersList);
       this.router.navigate(['resumo']);
     }
+  }
+
+  onHover() {
+    this.showsTooltip = true;
+  }
+  onMouseout() {
+    this.showsTooltip = false;
   }
 }
