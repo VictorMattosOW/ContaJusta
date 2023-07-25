@@ -5,6 +5,8 @@ import { SessionService } from 'src/app/shared/services/session.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderComponent } from '../order/order.component';
+import { UserServiceService } from 'src/app/shared/services/user-service.service';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-summary',
@@ -15,12 +17,16 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
   @ViewChild('dialogEdit') dialogElementEdit!: ElementRef<HTMLDialogElement>;
   @ViewChild(OrderComponent, { static: false }) appOrder!: OrderComponent;
+
   orderToEdit = {} as Order;
   orders: Order[] = [];
   totalOrders: number;
   orderForm: FormGroup;
+  maxNumberOfUsersInDisplay: number;
+
   constructor(
     private sessionService: SessionService,
+    private userServices: UserServiceService,
     private router: Router,
   ) {
     super();
@@ -29,6 +35,15 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   ngOnInit(): void {
     this.getOrders();
     this.buildForm();
+    this.maxNumberOfUsersInDisplay = this.userServices.maxNumberOfUsersInDisplayValue;
+  }
+
+  getFormattedUserNamesForDisplay(users: User[]): string {
+    return this.userServices.getConcatenatedUserNames(users);
+  }
+
+  getMaxNumberOfUsersInDisplay(users: User[]): User[] {
+    return this.userServices.getMaxNumberOfUsersInDisplay(users);
   }
 
   buildForm() {

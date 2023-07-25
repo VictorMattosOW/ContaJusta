@@ -35,22 +35,55 @@ p {
 }
 
 h1 {
-  color: var(--blue-primary-500);
   font-size: 2rem;
+  font-weight: 600;
 }
 
 h2 {
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
 h3 {
   font-size: 1.125rem;
+  font-weight: normal;
+}
+
+h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
 }
 
 h5 {
-  font-size: 0, 075rem;
+  font-size: 0.875rem;
 }
 
 p {
   font-size: 1rem;
+  font-weight: 500;
 }
+
+p .p_light {
+  font-weight: lighter;
+}
+
+.p_light_sub p {
+  font-weight: lighter;
+  text-decoration: underline;
+}
+
+legend {
+  color: var(--gray, #565d6c);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.lengend_2 legend {
+  font-size: 10px;
+}
+
+.legend_bold legend {
+  font-weight: 500;
+}
+

@@ -5,6 +5,11 @@
   justify-content: space-between;
 }
 
+.primary {
+  color: var(--blue-primary-500);
+  margin-bottom: 2.5rem;
+}
+
 input[type="text"] {
   padding: 1rem 0.8rem;
   border-radius: 8px;
@@ -13,10 +18,6 @@ input[type="text"] {
   width: 80%;
   height: 50px;
   font-size: 1rem;
-}
-
-.title {
-  margin-bottom: 2.5rem;
 }
 
 .btn-add {
@@ -61,11 +62,8 @@ input[type="text"] {
   margin-top: 1rem;
 }
 
-.error-msg > p{
+.error-msg > p {
   color: var(--error, #d2252f);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: normal;
   padding-top: 6px;
 }
 

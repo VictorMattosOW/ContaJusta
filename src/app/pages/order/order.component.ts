@@ -11,6 +11,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Order } from 'src/app/shared/models/order.model';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { UserServiceService } from 'src/app/shared/services/user-service.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import * as uuid from 'uuid';
 
@@ -42,10 +43,13 @@ export class OrderComponent
   selectedUsers: boolean[] = [];
   markAllUsers = false;
   maxLengthCaracteres = 30;
+  maxNumberOfUsersInDisplay: number;
 
-  tooltipStates: boolean[] = [];
-  maxNumberOfUsersInDisplay = 2;
-  constructor(private sessionService: SessionService, private router: Router) {
+  constructor(
+    private sessionService: SessionService,
+    private router: Router,
+    private userServices: UserServiceService,
+    ) {
     super();
     this.buildForm();
   }
@@ -55,6 +59,7 @@ export class OrderComponent
     this.buildForm();
     this.getUsers();
     this.getOrders();
+    this.maxNumberOfUsersInDisplay = this.userServices.maxNumberOfUsersInDisplayValue;
   }
 
   setOrderForEdit({ name, price, sharedUsers = [], quantity }: Order) {
@@ -74,6 +79,14 @@ export class OrderComponent
         this.selectedUser(index, false);
       }
     });
+  }
+
+  getFormattedUserNamesForDisplay(users: User[]): string {
+    return this.userServices.getConcatenatedUserNames(users);
+  }
+
+  getMaxNumberOfUsersInDisplay(users: User[]): User[] {
+    return this.userServices.getMaxNumberOfUsersInDisplay(users);
   }
 
   buildForm() {
@@ -196,13 +209,5 @@ export class OrderComponent
       this.sessionService.setUsers(this.usersList);
       this.router.navigate(['resumo']);
     }
-  }
-
-  onHover(index: number) {
-    this.tooltipStates[index] = true; // Define o estado de exibição do tooltip para o item de índice 'index' como true
-  }
-
-  onMouseout(index: number) {
-    this.tooltipStates[index] = false; // Define o estado de exibição do tooltip para o item de índice 'index' como false
   }
 }

@@ -1,9 +1,9 @@
 <main class="content">
   <article>
     <header class="title">
-      <h1 *ngIf="isEdit">Modificar item</h1>
+      <h1 class="primary" *ngIf="isEdit">Modificar item</h1>
       <div *ngIf="!isEdit">
-        <h1>O que pediram ?</h1>
+        <h1 class="primary">O que pediram ?</h1>
         <p>Adicione item por item</p>
       </div>
     </header>
@@ -14,33 +14,29 @@
       </header>
       <div class="info" *ngFor="let order of orders; let i = index">
         <div class="orderContent">
-          <p class="foodName">{{ order.name }}</p>
-          <p class="orderAndPerson_name">
-            {{ getSharedUserNames(order.sharedUsers.slice(0, maxNumberOfUsersInDisplay)) }}
-            <span *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay">, </span>
-          </p>
-          <a
-            class="other-users"
-            *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay"
-            (mouseover)="onHover(i)"
-            (mouseout)="onMouseout(i)"
-          >
-            +{{ order.sharedUsers.length - 2 }}
-            <app-tooltip
-              [showTooltip]="tooltipStates[i]"
-              [content]="getSharedUserNames(order.sharedUsers)"
-            >
-            </app-tooltip>
-          </a>
+          <legend>{{ order.name }}</legend>
+          <div class="legend-name-content">
+            <legend class="legend-light">
+              {{ getFormattedUserNamesForDisplay(getMaxNumberOfUsersInDisplay(order.sharedUsers)) }}
+              <ng-template [ngIf]="order.sharedUsers.length > maxNumberOfUsersInDisplay">,&nbsp;</ng-template>
+              <div style="display: inline-block;" (mouseover)="onHover(i)" (mouseout)="onMouseout(i)" *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay">
+                <app-tooltip
+                  [showTooltip]="tooltipDisplayStates[i]"
+                  [content]="getFormattedUserNamesForDisplay(order.sharedUsers)"
+                  [numberOfUsers]="order.sharedUsers.length - maxNumberOfUsersInDisplay"
+                ></app-tooltip>
+              </div>
+            </legend>
+          </div>
         </div>
         <div class="deleteItem">
           <div>
-            <p class="price">
+            <legend class="align-end">
               {{ multiplyValues(order.quantity, order.price) | currency }}
-            </p>
-            <p class="quantity">
+            </legend>
+            <legend class="legend-light align-end">
               ({{ order.quantity }}x {{ order.price | currency }})
-            </p>
+            </legend>
           </div>
           <a (click)="deleteItem(order)"
             ><img
@@ -146,7 +142,7 @@
     </section>
     <div class="checkbox-content">
       <div class="editar">
-        <p>Dividir valor entre</p>
+        <h3>Dividir valor entre</h3>
         <app-button-link
           title="editar pessoas"
           (buttonAction)="editarPessoas()"

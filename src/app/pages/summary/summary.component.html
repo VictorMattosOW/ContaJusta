@@ -40,7 +40,12 @@
         <img width="30" height="30" src="../../../assets/close.svg" />
       </button>
     </div>
-      <app-order [isEdit]="true" [orderEdit]="this.orderToEdit" (buttonAction)="deleteOrder(this.orderToEdit)" #appOrder></app-order>
+    <app-order
+      [isEdit]="true"
+      [orderEdit]="this.orderToEdit"
+      (buttonAction)="deleteOrder(this.orderToEdit)"
+      #appOrder
+    ></app-order>
   </dialog>
 
   <div>
@@ -52,19 +57,28 @@
         <a (click)="openDialog(order)">{{ order.quantity }}</a>
       </div>
       <a class="btn-description" (click)="openDialogEdit(order)">
-        <div class="description-food">
-
-          <div>
-            <h4>{{ order.name }}</h4>
-            <legend>{{ getSharedUserNames(order.sharedUsers) }}</legend>
+        <div class="description-card">
+          <h4>{{ order.name }}</h4>
+          <div style="display: flex;">
+            <legend class="description-names">
+              {{ getFormattedUserNamesForDisplay(getMaxNumberOfUsersInDisplay(order.sharedUsers)) }}
+            </legend>
+            <a href="" (mouseout)="onMouseout(i);" (mouseover)="onHover(i);">
+                <app-tooltip
+                *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay"
+                [showTooltip]="tooltipDisplayStates[i]"
+                [content]="getFormattedUserNamesForDisplay(order.sharedUsers)"
+              >
+              </app-tooltip>
+            </a>
           </div>
         </div>
         <div class="description-price">
           <div class="price">
             <h3>
-              R${{ multiplyValues(order.quantity, order.price) | currency }}
+              {{ multiplyValues(order.quantity, order.price) | currency }}
             </h3>
-            <legend>R${{ order.price | currency }}</legend>
+            <legend>{{ order.price | currency }}</legend>
           </div>
           <button>
             <img width="8" src="../../../assets/icon _nav.svg" alt="" />
@@ -102,7 +116,7 @@
       buttonTitle="incluir item"
       size="small"
       styleButton="secondary"
-      (buttonAction)="goToOrder();"
+      (buttonAction)="goToOrder()"
     ></app-button>
     <app-button
       [isDisabled]="false"
