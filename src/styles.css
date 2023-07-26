@@ -1,5 +1,5 @@
 :root {
-  --white: #F9F9F9;
+  --white: #f9f9f9;
   --blue-primary-500: #4e77ff;
   --blue-primary-600: #305ae5;
   --yellow-500: #f2fa5b;
@@ -7,8 +7,8 @@
   --gray: #1f2633;
   --gray2: #565d6c;
   --gray3: #a3a9b7;
-  --gray4: #D8DADD;
-  --gray5: #E8E9EC;
+  --gray4: #d8dadd;
+  --gray5: #e8e9ec;
 }
 
 * {
@@ -24,6 +24,14 @@ body {
 
 input[type="text"]:focus-visible {
   outline: 1px solid black;
+}
+
+::backdrop {
+  --color-backdrop: rgba(31, 38, 51, 0.80);
+}
+
+dialog::backdrop {
+  background: var(--color-backdrop);
 }
 
 html,
@@ -57,6 +65,13 @@ h4 {
 h5 {
   font-size: 0.875rem;
 }
+h6 {
+  color: var(--gray);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
 
 p {
   font-size: 1rem;
@@ -86,4 +101,3 @@ legend {
 .legend_bold legend {
   font-weight: 500;
 }
-

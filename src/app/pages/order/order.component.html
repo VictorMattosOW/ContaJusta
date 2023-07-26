@@ -172,7 +172,7 @@
           <label for="name">{{ user.name }}</label>
         </form>
         <div class="btn-trash" *ngIf="isEdit">
-          <a (click)="buttonAction.emit()">
+          <a (click)="deleteItem(orderToEdit)">
             <img src="../../../assets/trash_.svg" alt="" />
             <app-button-link title="Excluir item"></app-button-link>
           </a>
@@ -200,12 +200,14 @@
       styleButton="secondary"
       size="small"
       [isDisabled]=""
+      (buttonAction)="navigateTo();"
     ></app-button>
     <app-button
       buttonTitle="salvar"
       styleButton="primary"
       size="small"
-      [isDisabled]=""
+      [isDisabled]="!this.canEnableSubmitItemButton()"
+      (buttonAction)="editOrder();"
     ></app-button>
   </footer>
 </main>

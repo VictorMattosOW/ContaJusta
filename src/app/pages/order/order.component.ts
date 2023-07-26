@@ -2,13 +2,10 @@ import { User } from './../../shared/models/user.model';
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
-  Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from 'src/app/shared/models/order.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { UserServiceService } from 'src/app/shared/services/user-service.service';
@@ -24,13 +21,8 @@ export class OrderComponent
   extends AbstractComponent
   implements OnInit, AfterViewInit
 {
-  @Input() isEdit: boolean = false;
-  @Output() buttonAction: EventEmitter<void> = new EventEmitter();
-  @Input() set orderEdit(order: Order) {
-    this.selectedUsers = [];
-    this.sharedFood = [];
-    this.setOrderForEdit(order);
-  }
+
+  orderToEditId: string;
 
   usersList: User[] = [];
   quantity = 1;
@@ -45,11 +37,14 @@ export class OrderComponent
   maxLengthCaracteres = 30;
   maxNumberOfUsersInDisplay: number;
 
+  isEdit = false;
+  orderToEdit: Order;
   constructor(
     private sessionService: SessionService,
     private router: Router,
-    private userServices: UserServiceService,
-    ) {
+    private route: ActivatedRoute,
+    private userServices: UserServiceService
+  ) {
     super();
     this.buildForm();
   }
@@ -59,7 +54,21 @@ export class OrderComponent
     this.buildForm();
     this.getUsers();
     this.getOrders();
-    this.maxNumberOfUsersInDisplay = this.userServices.maxNumberOfUsersInDisplayValue;
+    this.getPath();
+    this.maxNumberOfUsersInDisplay =
+      this.userServices.maxNumberOfUsersInDisplayValue;
+  }
+
+  getPath() {
+    const orderId = this.route.snapshot.params['id'];
+    if (orderId !== undefined) {
+      this.isEdit = true;
+      this.orderToEdit = this.findOrderById(orderId);
+    }
+
+    if (this.orderToEdit) {
+      this.setOrderForEdit(this.orderToEdit);
+    }
   }
 
   setOrderForEdit({ name, price, sharedUsers = [], quantity }: Order) {
@@ -118,10 +127,23 @@ export class OrderComponent
 
   getOrders() {
     this.sessionService.getOrdersObservable().subscribe({
-      next: (orders) => {
+      next: (orders: Order[]) => {
+        orders.forEach(order => {
+          order.sharedUsers = order.sharedUsers
+            .map(user => this.findUserById(user.id))
+            .filter(user => user !== undefined);
+        });
         this.orders = orders;
       },
     });
+  }
+
+  private findUserById(userId: string): User | undefined {
+    return this.usersList.find(userList => userList.id === userId);
+  }
+
+  private findOrderById(orderId: string): Order | undefined {
+    return this.orders.find(order => order.id === orderId);
   }
 
   updateQuantity(event: Event, operation: 'add' | 'subtract') {
@@ -177,6 +199,24 @@ export class OrderComponent
     }
   }
 
+  editOrder() {
+    if (this.orderToEdit) {
+      this.orders.forEach((order, index) => {
+        if (order.id === this.orderToEdit.id) {
+          this.orders[index] = {
+            id: this.orderToEdit.id,
+            name: this.orderForm.get('foodName').value,
+            price: Number(this.orderForm.get('price').value),
+            quantity: Number(this.quantity),
+            sharedUsers: this.sharedFood,
+          }
+        }
+      });
+      this.saveOrders();
+      this.navigateTo();
+    }
+  }
+
   resetForm() {
     this.quantity = 1;
     this.sharedFood = [];
@@ -187,6 +227,8 @@ export class OrderComponent
 
   deleteItem(orderToDelete: Order) {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
+    this.saveOrders();
+    this.navigateTo();
   }
 
   isValidForm(): boolean {
@@ -202,12 +244,19 @@ export class OrderComponent
     return this.orders.length > 0;
   }
 
+  saveOrders() {
+    this.sessionService.setOrders(this.orders);
+    this.sessionService.setUsers(this.usersList);
+  }
+
+  navigateTo() {
+    this.router.navigate(['resumo']);
+  }
+
   goToSummary() {
     if (this.canEnableButtonGoToSummary()) {
-      this.createOrder();
-      this.sessionService.setOrders(this.orders);
-      this.sessionService.setUsers(this.usersList);
-      this.router.navigate(['resumo']);
+      this.saveOrders();
+      this.navigateTo();
     }
   }
 }

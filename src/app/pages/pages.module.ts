@@ -30,7 +30,6 @@ export const customCurrencyMaskConfig = {
   inputMode: CurrencyMaskInputMode.FINANCIAL
 };
 
-
 @NgModule({
   declarations: [
     StartComponent,

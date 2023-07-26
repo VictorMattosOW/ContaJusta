@@ -10,6 +10,10 @@
   margin-bottom: 2rem;
 }
 
+.legend-name-content {
+  display: flex;
+}
+
 .description {
   display: flex;
   padding: 0.8rem 0;
@@ -21,36 +25,7 @@
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
-}
-
-.btn-description > h4 {
-  color: var(--cinza, #1f2633);
-  font-size: 18px;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
-
-.btn-description > div > h3 {
-  color: var(--cinza, #1f2633);
-  text-align: right;
-  /* h3 */
-  font-size: 18px;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
-
-.btn-description > div > legend {
-  color: var(--cinza-2, #565d6c);
-  /* legend */
-  font-size: 12px;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  text-decoration: none;
 }
 
 .description:is(:focus, :active) {
@@ -60,9 +35,15 @@
   padding: 0.8rem 2rem;
 }
 
-.description-card {
+.names-content {
   display: flex;
   flex-direction: column;
+}
+
+.price-content {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
 }
 
 .description-price {
@@ -111,18 +92,9 @@
   margin-top: 2.5rem;
 }
 
-.service-payment > h4 {
-  color: var(--gray, #1f2633);
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-}
-
 .percent-content {
   display: flex;
   align-items: center;
-  padding-right: 1rem;
   gap: 0.5rem;
 }
 
@@ -136,44 +108,10 @@
   border: 1px solid var(--cinza-2, #565d6c);
 }
 
-.percent-content > h3 {
-  color: var(--cinza, #1f2633);
-  font-size: 18px;
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
-
 .resume {
   display: flex;
   justify-content: space-between;
   margin-top: 4.5rem;
-}
-
-.resume > div > h1 {
-  color: var(--gray, #1f2633);
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
-.resume > h2 {
-  color: var(--gray, #1f2633);
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
-
-.resume > div > legend {
-  color: var(--gray, #1f2633);
-  text-align: right;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 }
 
 .button-content {
@@ -245,10 +183,6 @@
 
 .quantity-content > h2 {
   color: var(--blue-primary-500, #4e77ff);
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
 }
 
 .btn {

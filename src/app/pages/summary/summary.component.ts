@@ -15,8 +15,6 @@ import { User } from 'src/app/shared/models/user.model';
 })
 export class SummaryComponent extends AbstractComponent implements OnInit{
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
-  @ViewChild('dialogEdit') dialogElementEdit!: ElementRef<HTMLDialogElement>;
-  @ViewChild(OrderComponent, { static: false }) appOrder!: OrderComponent;
 
   orderToEdit = {} as Order;
   orders: Order[] = [];
@@ -83,24 +81,11 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
     return this.totalOrders;
   }
 
-  openDialogEdit(order: Order): void {
-    if(!!this.appOrder) {
-      this.orderToEdit = order;
-      this.dialogElementEdit.nativeElement.show();
-    }
-  }
-
-  closeDialogEdit(): void {
-    this.dialogElementEdit.nativeElement.close();
-  }
-
   deleteOrder(orderToDelete?: Order) {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
     this.sessionService.setOrders(this.orders);
-    this.closeDialogEdit();
     this.isOrderEmpty();
   }
-
 
   openDialog(order: Order): void {
     this.orderToEdit = order;

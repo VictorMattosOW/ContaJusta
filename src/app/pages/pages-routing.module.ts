@@ -19,6 +19,10 @@ const routes: Routes = [
     component: OrderComponent
   },
   {
+    path: 'ordens/:id',
+    component: OrderComponent
+  },
+  {
     path: 'resumo',
     component: SummaryComponent
   }

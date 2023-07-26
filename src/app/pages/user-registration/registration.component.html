@@ -1,4 +1,28 @@
 <main class="content">
+
+  <dialog class="modal" #dialog>
+    <div class="modal-content" *ngIf="this.nameToDelete">
+      <div >
+        <h5>Tem certeza que deseja excluir o(a) {{this.nameToDelete.name}}?</h5>
+        <legend>Se excluir {{this.nameToDelete.name}}, ele(a) será excluído(a) da divisão de valor de todos os itens.</legend>
+      </div>
+      <div class="btn-edit">
+        <app-button
+        buttonTitle="Voltar"
+        styleButton="primary"
+        size="small"
+        (buttonAction)="navigateTo();"
+      ></app-button>
+      <app-button
+        buttonTitle="Salvar"
+        styleButton="primary"
+        size="small"
+        (buttonAction)="submit();"
+      ></app-button>
+      </div>
+    </div>
+  </dialog>
+
   <section>
     <h1 class="primary" *ngIf="!isEdit">Pra começar,
       quem está no rolê?
@@ -7,20 +31,20 @@
       Deseja excluir ou adicionar alguém?
     </h1>
 
-    <form class="form-content"  [formGroup]="form" [scrollTop]="conteudo.scrollHeight" #conteudo>
+    <form class="form-content"  [formGroup]="form" [scrollTop]="autofocus.scrollHeight" #autofocus>
       <div formArrayName="inputs">
         <div *ngFor="let input of inputs.controls; let i = index;" [formGroupName]="i" >
           <div class="input-content" [ngClass]="{'error-input': this.inputs.at(i).dirty && this.inputs.at(i).invalid }">
             <input type="text" name="name" formControlName="name" appAutofocus maxlength="25">
-            <app-button-link (buttonAction)="deleteUser(i);" title="excluir"></app-button-link>
+            <app-button-link (buttonAction)="openDialog(i);" title="excluir"></app-button-link>
           </div>
           <div class="error-msg">
-            <p *ngIf="(this.inputs.at(i).dirty && this.inputs.at(i).invalid) && this.inputs.at(i).get('name').value.length > 25">
+            <legend *ngIf="(this.inputs.at(i).dirty && this.inputs.at(i).invalid) && this.inputs.at(i).get('name').value.length > 25">
               O nome não pode ter mais de 25 caracteres.
-            </p>
-            <p *ngIf="(this.inputs.at(i).dirty && this.inputs.at(i).invalid) && this.inputs.at(i).get('name').value.length === 0">
+            </legend>
+            <legend *ngIf="(this.inputs.at(i).dirty && this.inputs.at(i).invalid) && this.inputs.at(i).get('name').value.length === 0">
               Ops! Esse nome está em branco.
-            </p>
+            </legend>
           </div>
         </div>
       </div>
@@ -32,7 +56,7 @@
     </form>
   </section>
 
-  <section class="btn-next">
+  <footer class="btn-next" *ngIf="!isEdit">
     <app-button
       buttonTitle="começar"
       [isDisabled]="!canEnableSubmitButton()"
@@ -40,5 +64,19 @@
       size="large"
       (buttonAction)="submit();"
     ></app-button>
-  </section>
+  </footer>
+  <footer class="btn-edit" *ngIf="isEdit">
+    <app-button
+      buttonTitle="Voltar"
+      styleButton="primary"
+      size="small"
+      (buttonAction)="navigateTo();"
+    ></app-button>
+    <app-button
+      buttonTitle="Salvar"
+      styleButton="primary"
+      size="small"
+      (buttonAction)="submit();"
+    ></app-button>
+  </footer>
 </main>
