@@ -86,6 +86,8 @@ input[type="text"] {
   width: 350px;
   border-radius: 8px;
   padding: 24px 32px;
+  z-index:99999;
+  backdrop-filter: blur(100%);
 }
 
 .modal-content {
