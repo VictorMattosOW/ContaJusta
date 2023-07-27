@@ -1,0 +1,45 @@
+<div class="content" *ngIf="orderPerUser">
+  <section>
+    <header>
+      <h1 class="title">Conta justa feita com sucesso!</h1>
+    </header>
+    <ng-container *ngFor="let user of orderPerUser; let i = index">
+      <div class="card" (click)="openCard(i);">
+        <div class="card-description">
+          <h4>{{user.name}}</h4>
+          <h3>{{user.totalValue | currency}}</h3>
+        </div>
+        <ng-container *ngFor="let sharedFood of user.orders;">
+          <div class="card-description details" *ngIf="cardState[i]" >
+            <legend>{{sharedFood.food}}</legend>
+            <legend>{{sharedFood.sharedValue | currency}}</legend>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+  </section>
+  <footer>
+    <div class="total">
+      <h2>Total</h2>
+      <div>
+        <h1>{{finalValue | currency}}</h1>
+        <legend>com taxa de {{finalOrder.tax}}%</legend>
+      </div>
+    </div>
+
+    <div class="button-content">
+        <app-button
+        [isDisabled]="false"
+        buttonTitle="Voltar"
+        size="small"
+        styleButton="yellow-secondary"
+      ></app-button>
+      <app-button
+        [isDisabled]="false"
+        buttonTitle="Finalizar"
+        size="small"
+        styleButton="yellow-primary"
+      ></app-button>
+    </div>
+  </footer>
+</div>

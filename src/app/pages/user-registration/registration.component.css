@@ -85,6 +85,7 @@ input[type="text"] {
   transform: translate(-50%, -50%);
   width: 350px;
   border-radius: 8px;
+  border: 1px solid var(--gray);
   padding: 24px 32px;
   z-index:99999;
   backdrop-filter: blur(100%);

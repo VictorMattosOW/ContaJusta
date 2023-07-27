@@ -11,15 +11,15 @@
         <button
           class="btn"
           [ngClass]="{ 'btn-disabled': orderToEdit.quantity <= 1 }"
-          [disabled]="orderToEdit.quantity === 1"
-          (click)="orderToEdit.quantity = orderToEdit.quantity - 1"
+          [disabled]="canEnableButton()"
+          (click)="subtractQuantity()"
         >
           -
         </button>
         <span>{{ orderToEdit.quantity }}</span>
         <button
           class="btn"
-          (click)="orderToEdit.quantity = orderToEdit.quantity + 1"
+          (click)="addQuantity();"
         >
           +
         </button>
@@ -72,7 +72,9 @@
             formControlName="percent"
             type="number"
             name="percent"
+            max="100"
             placeholder="10"
+            (change)="sumTotalOrders();"
           />
           <h3>%</h3>
         </div>
@@ -101,6 +103,7 @@
       buttonTitle="dividir"
       size="small"
       styleButton="primary"
+      (buttonAction)="navigateTo();"
     ></app-button>
   </footer>
 </main>

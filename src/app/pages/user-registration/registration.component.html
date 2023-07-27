@@ -1,23 +1,23 @@
 <main class="content">
 
   <dialog class="modal" #dialog>
-    <div class="modal-content" *ngIf="this.nameToDelete">
+    <div class="modal-content" *ngIf="this.userToDelete">
       <div >
-        <h5>Tem certeza que deseja excluir o(a) {{this.nameToDelete.name}}?</h5>
-        <legend>Se excluir {{this.nameToDelete.name}}, ele(a) será excluído(a) da divisão de valor de todos os itens.</legend>
+        <h5>Tem certeza que deseja excluir o(a) {{this.userToDelete.name}}?</h5>
+        <legend>Se excluir {{this.userToDelete.name}}, ele(a) será excluído(a) da divisão de valor de todos os itens.</legend>
       </div>
       <div class="btn-edit">
         <app-button
         buttonTitle="Voltar"
-        styleButton="primary"
-        size="small"
-        (buttonAction)="navigateTo();"
+        styleButton="secondary"
+        size="modal"
+        (buttonAction)="closeDialog();"
       ></app-button>
       <app-button
         buttonTitle="Salvar"
         styleButton="primary"
-        size="small"
-        (buttonAction)="submit();"
+        size="modal"
+        (buttonAction)="deleteUser(indexUserToDelete)"
       ></app-button>
       </div>
     </div>

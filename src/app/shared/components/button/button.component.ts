@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-type sizeButton = 'large' | 'small' | 'full';
+type sizeButton = 'large' | 'small' | 'full' | 'modal';
 type StyleButton = 'primary' | 'secondary' | 'yellow-primary' | 'yellow-secondary';
 @Component({
   selector: 'app-button',

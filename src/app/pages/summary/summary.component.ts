@@ -1,10 +1,9 @@
 import { Router } from '@angular/router';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Order } from 'src/app/shared/models/order.model';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FinalOrder, Order } from 'src/app/shared/models/order.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OrderComponent } from '../order/order.component';
 import { UserServiceService } from 'src/app/shared/services/user-service.service';
 import { User } from 'src/app/shared/models/user.model';
 
@@ -48,7 +47,6 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
     this.orderForm = new FormGroup({
       percent: new FormControl(10, [
         Validators.maxLength(3),
-        Validators.min(1),
       ]),
     });
   }
@@ -69,14 +67,14 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   }
 
   calcularValorFinal(valorInicial: number, porcentagem: number): number {
-    const valorFinal = valorInicial + (valorInicial * porcentagem / 100);
-    return valorFinal;
+    return valorInicial + (valorInicial * porcentagem / 100);
   }
 
   sumTotalOrders(): number {
-    const percent = (this.orderForm.value.percent < 1) ? 1 : this.orderForm.value.percent;
+    const percentValue = this.orderForm.value.percent;
+    // const percent = percentValue === 0 ? 1 : percentValue;
     this.totalOrders = this.orders.reduce((sum, order) => {
-      return sum + this.calcularValorFinal(this.multiplyValues(order.quantity, order.price), percent) ;
+      return sum + this.calcularValorFinal(this.multiplyValues(order.quantity, order.price), percentValue) ;
     }, 0)
     return this.totalOrders;
   }
@@ -104,5 +102,30 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   goToOrder() {
     this.sessionService.setOrders(this.orders);
     this.router.navigate(['ordens']);
+  }
+
+  saveFinalOrder() {
+    const finalOrder: FinalOrder = {
+      orders: this.orders,
+      tax: this.orderForm.value.percent
+    }
+    this.sessionService.setFinalOrder(finalOrder);
+  }
+
+  navigateTo() {
+    this.saveFinalOrder();
+    this.router.navigate(['divisao-pedido']);
+  }
+
+  canEnableButton(): boolean {
+    return this.orderToEdit.quantity === 1;
+  }
+
+  addQuantity() {
+    this.orderToEdit.quantity += 1;
+  }
+
+  subtractQuantity() {
+    this.orderToEdit.quantity -= 1;
   }
 }

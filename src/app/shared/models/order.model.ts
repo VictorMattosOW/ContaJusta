@@ -7,3 +7,8 @@ export interface Order {
   price: number;
   sharedUsers: User[];
 }
+
+export interface FinalOrder {
+  tax: number;
+  orders: Order[];
+}

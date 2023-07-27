@@ -33,7 +33,8 @@ export class RegistrationComponent
   isEdit = false;
   errorMsg = '';
   hasError = false;
-  nameToDelete: User;
+  userToDelete: User;
+  indexUserToDelete;
   constructor(
     private router: Router,
     private sessionService: SessionService,
@@ -59,9 +60,10 @@ export class RegistrationComponent
   }
 
   openDialog(index: number): void {
+    this.indexUserToDelete = index;
     const deletedUser = this.inputs.at(index).value;
     if (deletedUser) {
-      this.nameToDelete = deletedUser;
+      this.userToDelete = deletedUser;
     }
     this.dialogElement.nativeElement.show();
   }
@@ -137,6 +139,7 @@ export class RegistrationComponent
   deleteUser(index?: number) {
     this.inputs.removeAt(index);
     this.cd.detectChanges();
+    this.closeDialog();
   }
 
   navigateTo() {

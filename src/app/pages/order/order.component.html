@@ -1,4 +1,28 @@
 <main class="content">
+
+  <dialog class="modal" #dialog>
+    <div class="modal-content" *ngIf="orderToEditOrDelete">
+      <div >
+        <h5>Tem certeza que deseja excluir o item {{ orderToEditOrDelete.name }}?</h5>
+        <legend>Se excluir, esse item não entrará na conta, ok?</legend>
+      </div>
+      <div class="btn-edit">
+        <app-button
+        buttonTitle="Voltar"
+        styleButton="secondary"
+        size="modal"
+        (buttonAction)="closeDialog();"
+      ></app-button>
+      <app-button
+        buttonTitle="Excluir"
+        styleButton="primary"
+        size="modal"
+        (buttonAction)="deleteItem(orderToEditOrDelete)"
+      ></app-button>
+      </div>
+    </div>
+  </dialog>
+
   <article>
     <header class="title">
       <h1 class="primary" *ngIf="isEdit">Modificar item</h1>
@@ -172,7 +196,7 @@
           <label for="name">{{ user.name }}</label>
         </form>
         <div class="btn-trash" *ngIf="isEdit">
-          <a (click)="deleteItem(orderToEdit)">
+          <a (click)="openDialog(orderToEditOrDelete)">
             <img src="../../../assets/trash_.svg" alt="" />
             <app-button-link title="Excluir item"></app-button-link>
           </a>

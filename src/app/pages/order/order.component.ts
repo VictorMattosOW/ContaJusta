@@ -2,7 +2,9 @@ import { User } from './../../shared/models/user.model';
 import {
   AfterViewInit,
   Component,
+  ElementRef,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,11 +19,8 @@ import * as uuid from 'uuid';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
 })
-export class OrderComponent
-  extends AbstractComponent
-  implements OnInit, AfterViewInit
-{
-
+export class OrderComponent extends AbstractComponent implements OnInit, AfterViewInit {
+  @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
   orderToEditId: string;
 
   usersList: User[] = [];
@@ -38,7 +37,7 @@ export class OrderComponent
   maxNumberOfUsersInDisplay: number;
 
   isEdit = false;
-  orderToEdit: Order;
+  orderToEditOrDelete: Order;
   constructor(
     private sessionService: SessionService,
     private router: Router,
@@ -48,6 +47,7 @@ export class OrderComponent
     super();
     this.buildForm();
   }
+
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
@@ -59,15 +59,24 @@ export class OrderComponent
       this.userServices.maxNumberOfUsersInDisplayValue;
   }
 
+  openDialog(order: Order): void {
+    this.orderToEditOrDelete = order;
+    this.dialogElement.nativeElement.show();
+  }
+
+  closeDialog(): void {
+    this.dialogElement.nativeElement.close();
+  }
+
   getPath() {
     const orderId = this.route.snapshot.params['id'];
     if (orderId !== undefined) {
       this.isEdit = true;
-      this.orderToEdit = this.findOrderById(orderId);
+      this.orderToEditOrDelete = this.findOrderById(orderId);
     }
 
-    if (this.orderToEdit) {
-      this.setOrderForEdit(this.orderToEdit);
+    if (this.orderToEditOrDelete) {
+      this.setOrderForEdit(this.orderToEditOrDelete);
     }
   }
 
@@ -200,11 +209,11 @@ export class OrderComponent
   }
 
   editOrder() {
-    if (this.orderToEdit) {
+    if (this.orderToEditOrDelete) {
       this.orders.forEach((order, index) => {
-        if (order.id === this.orderToEdit.id) {
+        if (order.id === this.orderToEditOrDelete.id) {
           this.orders[index] = {
-            id: this.orderToEdit.id,
+            id: this.orderToEditOrDelete.id,
             name: this.orderForm.get('foodName').value,
             price: Number(this.orderForm.get('price').value),
             quantity: Number(this.quantity),
@@ -227,8 +236,7 @@ export class OrderComponent
 
   deleteItem(orderToDelete: Order) {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
-    this.saveOrders();
-    this.navigateTo();
+    // this.saveOrders();
   }
 
   isValidForm(): boolean {
