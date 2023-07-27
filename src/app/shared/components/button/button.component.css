@@ -8,6 +8,10 @@
   border-radius: 8px;
 }
 
+.modal {
+  width: 124px;
+}
+
 .small {
   width: 140px;
 }
@@ -46,4 +50,10 @@ button:disabled {
 .yellow-primary {
   background-color: var(--yellow-500);
   color: var(--blue-primary-600);
+}
+
+.yellow-secondary {
+  background-color: transparent;
+  color: var(--yellow-500);
+  border: 2px solid var(--yellow-500);
 }

@@ -1,5 +1,5 @@
 :root {
-  --white: #F9F9F9;
+  --white: #f9f9f9;
   --blue-primary-500: #4e77ff;
   --blue-primary-600: #305ae5;
   --yellow-500: #f2fa5b;
@@ -7,8 +7,8 @@
   --gray: #1f2633;
   --gray2: #565d6c;
   --gray3: #a3a9b7;
-  --gray4: #D8DADD;
-  --gray5: #E8E9EC;
+  --gray4: #d8dadd;
+  --gray5: #e8e9ec;
 }
 
 * {
@@ -26,6 +26,14 @@ input[type="text"]:focus-visible {
   outline: 1px solid black;
 }
 
+::backdrop {
+  --color-backdrop: rgba(31, 38, 51, 0.80);
+}
+
+dialog::backdrop {
+  background: var(--color-backdrop);
+}
+
 html,
 body,
 input,
@@ -35,22 +43,61 @@ p {
 }
 
 h1 {
-  color: var(--blue-primary-500);
   font-size: 2rem;
+  font-weight: 600;
 }
 
 h2 {
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
 h3 {
   font-size: 1.125rem;
+  font-weight: normal;
+}
+
+h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
 }
 
 h5 {
-  font-size: 0, 075rem;
+  font-size: 0.875rem;
+}
+h6 {
+  color: var(--gray);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 p {
   font-size: 1rem;
+  font-weight: 500;
+}
+
+p .p_light {
+  font-weight: lighter;
+}
+
+.p_light_sub p {
+  font-weight: lighter;
+  text-decoration: underline;
+}
+
+legend {
+  color: var(--gray, #565d6c);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.lengend_2 legend {
+  font-size: 10px;
+}
+
+.legend_bold legend {
+  font-weight: 500;
 }

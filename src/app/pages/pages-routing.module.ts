@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { OrderComponent } from './order/order.component';
 import { RegistrationComponent } from './user-registration/registration.component';
 import { SummaryComponent } from './summary/summary.component';
+import { OrderDivisionComponent } from './order-division/order-division.component';
 
 const routes: Routes = [
   {
@@ -19,8 +20,16 @@ const routes: Routes = [
     component: OrderComponent
   },
   {
+    path: 'ordens/:id',
+    component: OrderComponent
+  },
+  {
     path: 'resumo',
     component: SummaryComponent
+  },
+  {
+    path: 'divisao-pedido',
+    component: OrderDivisionComponent,
   }
 ];
 

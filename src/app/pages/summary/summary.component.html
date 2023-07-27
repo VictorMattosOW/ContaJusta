@@ -11,15 +11,15 @@
         <button
           class="btn"
           [ngClass]="{ 'btn-disabled': orderToEdit.quantity <= 1 }"
-          [disabled]="orderToEdit.quantity === 1"
-          (click)="orderToEdit.quantity = orderToEdit.quantity - 1"
+          [disabled]="canEnableButton()"
+          (click)="subtractQuantity()"
         >
           -
         </button>
         <span>{{ orderToEdit.quantity }}</span>
         <button
           class="btn"
-          (click)="orderToEdit.quantity = orderToEdit.quantity + 1"
+          (click)="addQuantity();"
         >
           +
         </button>
@@ -34,15 +34,6 @@
     </div>
   </dialog>
 
-  <dialog class="modal-edit" #dialogEdit>
-    <div class="btn-close-content">
-      <button class="btn-close-modal" (click)="closeDialogEdit()">
-        <img width="30" height="30" src="../../../assets/close.svg" />
-      </button>
-    </div>
-      <app-order [isEdit]="true" [orderEdit]="this.orderToEdit" (buttonAction)="deleteOrder(this.orderToEdit)" #appOrder></app-order>
-  </dialog>
-
   <div>
     <header>
       <h1 class="title">Resumo da conta</h1>
@@ -51,25 +42,26 @@
       <div class="icon">
         <a (click)="openDialog(order)">{{ order.quantity }}</a>
       </div>
-      <a class="btn-description" (click)="openDialogEdit(order)">
-        <div class="description-food">
-
-          <div>
-            <h4>{{ order.name }}</h4>
-            <legend>{{ getSharedUserNames(order) }}</legend>
-          </div>
+      <a class="btn-description" [routerLink]="'/ordens/' + order.id">
+        <div class="names-content">
+          <h6>{{ order.name }}</h6>
+            <legend>
+              {{ getFormattedUserNamesForDisplay(order.sharedUsers) }}
+            </legend>
         </div>
+
         <div class="description-price">
-          <div class="price">
-            <h3>
-              R${{ multiplyValues(order.quantity, order.price) | currency }}
-            </h3>
-            <legend>R${{ order.price | currency }}</legend>
+          <div class="price-content">
+            <h6>
+              {{ multiplyValues(order.quantity, order.price) | currency }}
+            </h6>
+            <legend>({{ order.price | currency }})</legend>
           </div>
           <button>
             <img width="8" src="../../../assets/icon _nav.svg" alt="" />
           </button>
         </div>
+
       </a>
     </section>
     <section class="service-payment">
@@ -80,7 +72,9 @@
             formControlName="percent"
             type="number"
             name="percent"
+            max="100"
             placeholder="10"
+            (change)="sumTotalOrders();"
           />
           <h3>%</h3>
         </div>
@@ -102,13 +96,14 @@
       buttonTitle="incluir item"
       size="small"
       styleButton="secondary"
-      (buttonAction)="goToOrder();"
+      (buttonAction)="goToOrder()"
     ></app-button>
     <app-button
       [isDisabled]="false"
       buttonTitle="dividir"
       size="small"
       styleButton="primary"
+      (buttonAction)="navigateTo();"
     ></app-button>
   </footer>
 </main>

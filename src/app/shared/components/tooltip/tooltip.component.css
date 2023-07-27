@@ -1,0 +1,24 @@
+.tooltip {
+  position: relative;
+  /* display: inline-block; */
+}
+
+.tooltiptext {
+  color: var(--white);
+  position: absolute;
+  min-width: 180px;
+  padding: 8px;
+  border-radius: 8px;
+  background: var(--gray, #1f2633);
+  z-index: 1;
+  right: 50%;
+  transform: translate(50%, 20%);
+}
+
+.legend {
+  display: inline-block;
+  color: var(--gray-3, #a3a9b7);
+  font-size: 10px;
+  font-weight: 500;
+  text-decoration: underline;
+}

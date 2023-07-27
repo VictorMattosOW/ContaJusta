@@ -23,7 +23,8 @@ export class RegistrationComponent
   extends AbstractComponent
   implements OnInit, AfterViewChecked, AfterViewInit
 {
-  @ViewChild('conteudo', { static: false }) conteudoRef: ElementRef;
+  @ViewChild('autofocus', { static: false }) autofocusRef: ElementRef;
+  @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
 
   form: FormGroup = new FormGroup({
     inputs: new FormArray([]),
@@ -32,6 +33,8 @@ export class RegistrationComponent
   isEdit = false;
   errorMsg = '';
   hasError = false;
+  userToDelete: User;
+  indexUserToDelete;
   constructor(
     private router: Router,
     private sessionService: SessionService,
@@ -54,6 +57,19 @@ export class RegistrationComponent
 
   ngAfterViewChecked() {
     this.cd.detectChanges();
+  }
+
+  openDialog(index: number): void {
+    this.indexUserToDelete = index;
+    const deletedUser = this.inputs.at(index).value;
+    if (deletedUser) {
+      this.userToDelete = deletedUser;
+    }
+    this.dialogElement.nativeElement.show();
+  }
+
+  closeDialog(): void {
+    this.dialogElement.nativeElement.close();
   }
 
   getPath() {
@@ -123,12 +139,17 @@ export class RegistrationComponent
   deleteUser(index?: number) {
     this.inputs.removeAt(index);
     this.cd.detectChanges();
+    this.closeDialog();
+  }
+
+  navigateTo() {
+    this.router.navigate(['ordens']);
   }
 
   submit() {
     if (this.canEnableSubmitButton()) {
       this.sessionService.setUsers(this.inputs.value);
-      this.router.navigate(['ordens']);
+      this.navigateTo();
     }
   }
 }

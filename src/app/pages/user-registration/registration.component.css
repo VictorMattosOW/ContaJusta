@@ -1,8 +1,14 @@
 .content {
   min-height: 100%;
+  /* position: relative; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+.primary {
+  color: var(--blue-primary-500);
+  margin-bottom: 2.5rem;
 }
 
 input[type="text"] {
@@ -13,10 +19,6 @@ input[type="text"] {
   width: 80%;
   height: 50px;
   font-size: 1rem;
-}
-
-.title {
-  margin-bottom: 2.5rem;
 }
 
 .btn-add {
@@ -61,15 +63,35 @@ input[type="text"] {
   margin-top: 1rem;
 }
 
-.error-msg > p{
+.error-msg > legend {
   color: var(--error, #d2252f);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: normal;
   padding-top: 6px;
 }
 
 .input-content.error-input input[type="text"] {
-  border: #D2252F;
-  outline: 1px solid #D2252F;
+  border: #d2252f;
+  outline: 1px solid #d2252f;
+}
+
+.btn-edit {
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  border-radius: 8px;
+  border: 1px solid var(--gray);
+  padding: 24px 32px;
+  z-index:99999;
+  backdrop-filter: blur(100%);
+}
+
+.modal-content {
+  display: grid;
+  gap: 32px;
 }

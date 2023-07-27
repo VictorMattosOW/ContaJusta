@@ -2,15 +2,15 @@ import { User } from './../../shared/models/user.model';
 import {
   AfterViewInit,
   Component,
-  EventEmitter,
-  Input,
+  ElementRef,
   OnInit,
-  Output,
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from 'src/app/shared/models/order.model';
 import { SessionService } from 'src/app/shared/services/session.service';
+import { UserServiceService } from 'src/app/shared/services/user-service.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import * as uuid from 'uuid';
 
@@ -19,17 +19,9 @@ import * as uuid from 'uuid';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
 })
-export class OrderComponent
-  extends AbstractComponent
-  implements OnInit, AfterViewInit
-{
-  @Input() isEdit: boolean = false;
-  @Output() buttonAction: EventEmitter<void> = new EventEmitter();
-  @Input() set orderEdit(order: Order) {
-    this.selectedUsers = [];
-    this.sharedFood = [];
-    this.setOrderForEdit(order);
-  }
+export class OrderComponent extends AbstractComponent implements OnInit, AfterViewInit {
+  @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
+  orderToEditId: string;
 
   usersList: User[] = [];
   quantity = 1;
@@ -42,17 +34,50 @@ export class OrderComponent
   selectedUsers: boolean[] = [];
   markAllUsers = false;
   maxLengthCaracteres = 30;
+  maxNumberOfUsersInDisplay: number;
 
-  constructor(private sessionService: SessionService, private router: Router) {
+  isEdit = false;
+  orderToEditOrDelete: Order;
+  constructor(
+    private sessionService: SessionService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private userServices: UserServiceService
+  ) {
     super();
     this.buildForm();
   }
+
   ngAfterViewInit(): void {}
 
   ngOnInit(): void {
     this.buildForm();
     this.getUsers();
     this.getOrders();
+    this.getPath();
+    this.maxNumberOfUsersInDisplay =
+      this.userServices.maxNumberOfUsersInDisplayValue;
+  }
+
+  openDialog(order: Order): void {
+    this.orderToEditOrDelete = order;
+    this.dialogElement.nativeElement.show();
+  }
+
+  closeDialog(): void {
+    this.dialogElement.nativeElement.close();
+  }
+
+  getPath() {
+    const orderId = this.route.snapshot.params['id'];
+    if (orderId !== undefined) {
+      this.isEdit = true;
+      this.orderToEditOrDelete = this.findOrderById(orderId);
+    }
+
+    if (this.orderToEditOrDelete) {
+      this.setOrderForEdit(this.orderToEditOrDelete);
+    }
   }
 
   setOrderForEdit({ name, price, sharedUsers = [], quantity }: Order) {
@@ -72,6 +97,14 @@ export class OrderComponent
         this.selectedUser(index, false);
       }
     });
+  }
+
+  getFormattedUserNamesForDisplay(users: User[]): string {
+    return this.userServices.getConcatenatedUserNames(users);
+  }
+
+  getMaxNumberOfUsersInDisplay(users: User[]): User[] {
+    return this.userServices.getMaxNumberOfUsersInDisplay(users);
   }
 
   buildForm() {
@@ -103,10 +136,23 @@ export class OrderComponent
 
   getOrders() {
     this.sessionService.getOrdersObservable().subscribe({
-      next: (orders) => {
+      next: (orders: Order[]) => {
+        orders.forEach(order => {
+          order.sharedUsers = order.sharedUsers
+            .map(user => this.findUserById(user.id))
+            .filter(user => user !== undefined);
+        });
         this.orders = orders;
       },
     });
+  }
+
+  private findUserById(userId: string): User | undefined {
+    return this.usersList.find(userList => userList.id === userId);
+  }
+
+  private findOrderById(orderId: string): Order | undefined {
+    return this.orders.find(order => order.id === orderId);
   }
 
   updateQuantity(event: Event, operation: 'add' | 'subtract') {
@@ -162,6 +208,24 @@ export class OrderComponent
     }
   }
 
+  editOrder() {
+    if (this.orderToEditOrDelete) {
+      this.orders.forEach((order, index) => {
+        if (order.id === this.orderToEditOrDelete.id) {
+          this.orders[index] = {
+            id: this.orderToEditOrDelete.id,
+            name: this.orderForm.get('foodName').value,
+            price: Number(this.orderForm.get('price').value),
+            quantity: Number(this.quantity),
+            sharedUsers: this.sharedFood,
+          }
+        }
+      });
+      this.saveOrders();
+      this.navigateTo();
+    }
+  }
+
   resetForm() {
     this.quantity = 1;
     this.sharedFood = [];
@@ -172,6 +236,7 @@ export class OrderComponent
 
   deleteItem(orderToDelete: Order) {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
+    // this.saveOrders();
   }
 
   isValidForm(): boolean {
@@ -187,12 +252,19 @@ export class OrderComponent
     return this.orders.length > 0;
   }
 
+  saveOrders() {
+    this.sessionService.setOrders(this.orders);
+    this.sessionService.setUsers(this.usersList);
+  }
+
+  navigateTo() {
+    this.router.navigate(['resumo']);
+  }
+
   goToSummary() {
     if (this.canEnableButtonGoToSummary()) {
-      this.createOrder();
-      this.sessionService.setOrders(this.orders);
-      this.sessionService.setUsers(this.usersList);
-      this.router.navigate(['resumo']);
+      this.saveOrders();
+      this.navigateTo();
     }
   }
 }

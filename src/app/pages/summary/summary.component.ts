@@ -1,10 +1,11 @@
 import { Router } from '@angular/router';
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Order } from 'src/app/shared/models/order.model';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FinalOrder, Order } from 'src/app/shared/models/order.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OrderComponent } from '../order/order.component';
+import { UserServiceService } from 'src/app/shared/services/user-service.service';
+import { User } from 'src/app/shared/models/user.model';
 
 @Component({
   selector: 'app-summary',
@@ -13,14 +14,16 @@ import { OrderComponent } from '../order/order.component';
 })
 export class SummaryComponent extends AbstractComponent implements OnInit{
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
-  @ViewChild('dialogEdit') dialogElementEdit!: ElementRef<HTMLDialogElement>;
-  @ViewChild(OrderComponent, { static: false }) appOrder!: OrderComponent;
+
   orderToEdit = {} as Order;
   orders: Order[] = [];
   totalOrders: number;
   orderForm: FormGroup;
+  maxNumberOfUsersInDisplay: number;
+
   constructor(
     private sessionService: SessionService,
+    private userServices: UserServiceService,
     private router: Router,
   ) {
     super();
@@ -29,13 +32,21 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   ngOnInit(): void {
     this.getOrders();
     this.buildForm();
+    this.maxNumberOfUsersInDisplay = this.userServices.maxNumberOfUsersInDisplayValue;
+  }
+
+  getFormattedUserNamesForDisplay(users: User[]): string {
+    return this.userServices.getConcatenatedUserNames(users);
+  }
+
+  getMaxNumberOfUsersInDisplay(users: User[]): User[] {
+    return this.userServices.getMaxNumberOfUsersInDisplay(users);
   }
 
   buildForm() {
     this.orderForm = new FormGroup({
       percent: new FormControl(10, [
         Validators.maxLength(3),
-        Validators.min(1),
       ]),
     });
   }
@@ -56,36 +67,23 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   }
 
   calcularValorFinal(valorInicial: number, porcentagem: number): number {
-    const valorFinal = valorInicial + (valorInicial * porcentagem / 100);
-    return valorFinal;
+    return valorInicial + (valorInicial * porcentagem / 100);
   }
 
   sumTotalOrders(): number {
-    const percent = (this.orderForm.value.percent < 1) ? 1 : this.orderForm.value.percent;
+    const percentValue = this.orderForm.value.percent;
+    // const percent = percentValue === 0 ? 1 : percentValue;
     this.totalOrders = this.orders.reduce((sum, order) => {
-      return sum + this.calcularValorFinal(this.multiplyValues(order.quantity, order.price), percent) ;
+      return sum + this.calcularValorFinal(this.multiplyValues(order.quantity, order.price), percentValue) ;
     }, 0)
     return this.totalOrders;
-  }
-
-  openDialogEdit(order: Order): void {
-    if(!!this.appOrder) {
-      this.orderToEdit = order;
-      this.dialogElementEdit.nativeElement.show();
-    }
-  }
-
-  closeDialogEdit(): void {
-    this.dialogElementEdit.nativeElement.close();
   }
 
   deleteOrder(orderToDelete?: Order) {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
     this.sessionService.setOrders(this.orders);
-    this.closeDialogEdit();
     this.isOrderEmpty();
   }
-
 
   openDialog(order: Order): void {
     this.orderToEdit = order;
@@ -104,5 +102,30 @@ export class SummaryComponent extends AbstractComponent implements OnInit{
   goToOrder() {
     this.sessionService.setOrders(this.orders);
     this.router.navigate(['ordens']);
+  }
+
+  saveFinalOrder() {
+    const finalOrder: FinalOrder = {
+      orders: this.orders,
+      tax: this.orderForm.value.percent
+    }
+    this.sessionService.setFinalOrder(finalOrder);
+  }
+
+  navigateTo() {
+    this.saveFinalOrder();
+    this.router.navigate(['divisao-pedido']);
+  }
+
+  canEnableButton(): boolean {
+    return this.orderToEdit.quantity === 1;
+  }
+
+  addQuantity() {
+    this.orderToEdit.quantity += 1;
+  }
+
+  subtractQuantity() {
+    this.orderToEdit.quantity -= 1;
   }
 }
