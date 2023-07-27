@@ -74,4 +74,8 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit {
   goToSummary() {
     this.router.navigate(['resumo']);
   }
+
+  goToStart() {
+    this.router.navigate(['inicio']);
+  }
 }
