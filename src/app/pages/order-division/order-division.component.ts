@@ -1,20 +1,9 @@
 import { Component, AfterViewInit, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FinalOrder} from 'src/app/shared/models/order.model';
+import { FinalOrder, OrderPerUser} from 'src/app/shared/models/order.model';
 import { User } from 'src/app/shared/models/user.model';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { SessionService } from 'src/app/shared/services/session.service';
-
-export interface sharedFood {
-  food: string;
-  sharedValue: number;
-}
-
-export interface OrderPerUser {
-  name: string;
-  orders: sharedFood[];
-  totalValue: number;
-}
 
 @Component({
   selector: 'app-order-division',
@@ -80,7 +69,9 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit {
     const { orders, tax } = this.finalOrder;
     this.orderPerUser = this.orderService.calculateConsumption( this.usersList, orders, tax);
     this.finalValue = this.orderService.sumTotalOrders(this.finalOrder.orders, this.finalOrder.tax);
-    console.log(this.orderPerUser);
+  }
 
+  goToSummary() {
+    this.router.navigate(['resumo']);
   }
 }
