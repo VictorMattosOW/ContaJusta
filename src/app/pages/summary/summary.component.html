@@ -85,7 +85,7 @@
       <h2>Total</h2>
       <div>
         <h1>{{ sumTotalOrders() | currency }}</h1>
-        <legend>com taxa de 10%</legend>
+        <legend>com taxa de {{orderForm.get('percent').value}}%</legend>
       </div>
     </section>
   </div>
