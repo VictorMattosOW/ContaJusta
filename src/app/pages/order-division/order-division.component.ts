@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit } from '@angular/core';
+import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FinalOrder, OrderPerUser} from 'src/app/shared/models/order.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -10,7 +10,7 @@ import { SessionService } from 'src/app/shared/services/session.service';
   templateUrl: './order-division.component.html',
   styleUrls: ['./order-division.component.css']
 })
-export class OrderDivisionComponent implements AfterViewInit, OnInit {
+export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy {
 
   usersList: User[];
   finalOrder: FinalOrder;
@@ -29,8 +29,12 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {
+    this.changeBackground('blue');
+  }
+
+  changeBackground(color = 'white') {
     setTimeout(() => {
-      this.sessionService.setBackgroundColor('blue');
+      this.sessionService.setBackgroundColor(color);
     }, 0);
   }
 
@@ -77,5 +81,9 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit {
 
   goToStart() {
     this.router.navigate(['inicio']);
+  }
+
+  ngOnDestroy(): void {
+    this.changeBackground();
   }
 }

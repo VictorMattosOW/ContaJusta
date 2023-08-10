@@ -35,6 +35,7 @@ export class RegistrationComponent
   hasError = false;
   userToDelete: User;
   indexUserToDelete;
+
   constructor(
     private router: Router,
     private sessionService: SessionService,
@@ -44,9 +45,6 @@ export class RegistrationComponent
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.sessionService.setBackgroundColor('white');
-    }, 0);
     this.cd.detectChanges();
   }
 
