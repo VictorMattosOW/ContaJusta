@@ -6,29 +6,29 @@ import { StartComponent } from './start/start.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderComponent } from './order/order.component';
-import { CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
+import {
+  CurrencyMaskConfig,
+  CurrencyMaskInputMode,
+  NgxCurrencyModule,
+} from 'ngx-currency';
 import { RegistrationComponent } from './user-registration/registration.component';
 import { SummaryComponent } from './summary/summary.component';
-import { CurrencyPipe } from '../shared/pipes/currency.pipe';
-import { ButtonComponent } from '../shared/components/button/button.component';
-import { ButtonLinkComponent } from '../shared/components/button-link/button-link.component';
-import { AutofocusDirective } from '../shared/diretivas/autofocus.directive';
-import { TooltipComponent } from '../shared/components/tooltip/tooltip.component';
 import { OrderDivisionComponent } from './order-division/order-division.component';
+import { SharedModule } from '../shared/shared.module';
 
-export const customCurrencyMaskConfig = {
-  align: "right",
+export const customCurrencyMaskConfig: CurrencyMaskConfig = {
+  align: 'right',
   allowNegative: false,
   allowZero: true,
-  decimal: ",",
+  decimal: ',',
   precision: 2,
-  prefix: "",
-  suffix: "",
-  thousands: ".",
+  prefix: '',
+  suffix: '',
+  thousands: '.',
   nullable: true,
-  min: null,
-  max: null,
-  inputMode: CurrencyMaskInputMode.FINANCIAL
+  min: 0,
+  max: undefined,
+  inputMode: CurrencyMaskInputMode.FINANCIAL,
 };
 
 @NgModule({
@@ -36,13 +36,7 @@ export const customCurrencyMaskConfig = {
     StartComponent,
     RegistrationComponent,
     OrderComponent,
-    ButtonComponent,
-    ButtonLinkComponent,
     SummaryComponent,
-    AutofocusDirective,
-    CurrencyPipe,
-    TooltipComponent,
-    OrderDivisionComponent,
     OrderDivisionComponent,
   ],
   imports: [
@@ -51,8 +45,15 @@ export const customCurrencyMaskConfig = {
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    SharedModule,
   ],
-  exports: [StartComponent, RegistrationComponent, OrderComponent, SummaryComponent, ButtonLinkComponent, ButtonComponent, TooltipComponent, OrderDivisionComponent]
+  exports: [
+    StartComponent,
+    RegistrationComponent,
+    OrderComponent,
+    SummaryComponent,
+    OrderDivisionComponent,
+  ],
 })
-export class PagesModule { }
+export class PagesModule {}
