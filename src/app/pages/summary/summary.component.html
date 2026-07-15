@@ -17,12 +17,7 @@
           -
         </button>
         <span>{{ orderToEdit.quantity }}</span>
-        <button
-          class="btn"
-          (click)="addQuantity();"
-        >
-          +
-        </button>
+        <button class="btn" (click)="addQuantity()">+</button>
       </div>
       <app-button
         [isDisabled]="false"
@@ -45,9 +40,9 @@
       <a class="btn-description" [routerLink]="'/ordens/' + order.id">
         <div class="names-content">
           <h6>{{ order.name }}</h6>
-            <legend>
-              {{ getFormattedUserNamesForDisplay(order.sharedUsers) }}
-            </legend>
+          <legend>
+            {{ getFormattedUserNamesForDisplay(order.sharedUsers) }}
+          </legend>
         </div>
 
         <div class="description-price">
@@ -61,7 +56,6 @@
             <img width="8" src="../../../assets/icon _nav.svg" alt="" />
           </button>
         </div>
-
       </a>
     </section>
     <section class="service-payment">
@@ -74,7 +68,7 @@
             name="percent"
             max="100"
             placeholder="10"
-            (change)="sumTotalOrders();"
+            (change)="sumTotalOrders()"
           />
           <h3>%</h3>
         </div>
@@ -85,7 +79,7 @@
       <h2>Total</h2>
       <div>
         <h1>{{ sumTotalOrders() | currency }}</h1>
-        <legend>com taxa de {{orderForm.get('percent').value}}%</legend>
+        <legend>com taxa de {{ orderForm.get("percent")?.value }}%</legend>
       </div>
     </section>
   </div>
@@ -103,7 +97,7 @@
       buttonTitle="dividir"
       size="small"
       styleButton="primary"
-      (buttonAction)="navigateTo();"
+      (buttonAction)="navigateTo()"
     ></app-button>
   </footer>
 </main>

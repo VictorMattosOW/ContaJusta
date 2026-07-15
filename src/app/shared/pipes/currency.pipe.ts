@@ -1,8 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Order } from '../models/order.model';
 
 @Pipe({
-  name: 'currency'
+  name: 'currency',
 })
 export class CurrencyPipe implements PipeTransform {
   transform(value: number): string {
@@ -15,5 +14,4 @@ export class CurrencyPipe implements PipeTransform {
     const formattedValue = value.toFixed(2).replace('.', ',');
     return `R$ ${formattedValue}`;
   }
-
 }

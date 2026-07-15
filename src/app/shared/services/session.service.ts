@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FinalOrder, Order } from 'src/app/shared/models/order.model';
-import { User } from 'src/app/shared/models/user.model';
+import { FinalOrder, Order } from 'src/app/core/models/order.model';
+import { User } from 'src/app/core/models/user.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SessionService {
   private users = new BehaviorSubject<User[]>([]);
@@ -12,7 +12,7 @@ export class SessionService {
   private finalOrder = new BehaviorSubject<FinalOrder>({} as FinalOrder);
   private changeBgColor = new BehaviorSubject<string>('');
   private path = new BehaviorSubject<string>('');
-  constructor() { }
+  constructor() {}
 
   setUsers(users: User[]): void {
     this.users.next(users);

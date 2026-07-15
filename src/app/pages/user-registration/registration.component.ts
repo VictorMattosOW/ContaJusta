@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/shared/models/user.model';
+import { User } from 'src/app/core/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import * as uuid from 'uuid';
@@ -23,7 +23,7 @@ export class RegistrationComponent
   extends AbstractComponent
   implements OnInit, AfterViewChecked, AfterViewInit
 {
-  @ViewChild('autofocus', { static: false }) autofocusRef: ElementRef;
+  @ViewChild('autofocus', { static: false }) autofocusRef?: ElementRef;
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
 
   form: FormGroup = new FormGroup({
@@ -33,8 +33,8 @@ export class RegistrationComponent
   isEdit = false;
   errorMsg = '';
   hasError = false;
-  userToDelete: User;
-  indexUserToDelete;
+  userToDelete: User = {} as User;
+  indexUserToDelete = -1;
 
   constructor(
     private router: Router,
@@ -116,25 +116,21 @@ export class RegistrationComponent
   }
 
   createNewUserInputFormGroup(user?: User): FormGroup {
-    const newInput = new FormGroup({
-      name: new FormControl('', {
+    return new FormGroup({
+      // Se o user.name existir, usa ele. Se não, começa com string vazia.
+      name: new FormControl(user?.name ?? '', {
         validators: [Validators.required, Validators.maxLength(25)],
       }),
-      id: new FormControl(uuid.v4()),
+      // Se o user.id existir, usa ele. Se não, gera um novo UUID.
+      id: new FormControl(user?.id ?? uuid.v4()),
     });
-
-    if (user) {
-      newInput.get('name').setValue(user.name);
-      newInput.get('id').setValue(user.id);
-    }
-    return newInput;
   }
 
   canEnableSubmitButton(): boolean {
     return this.inputs.length >= 2 && this.form.valid;
   }
 
-  deleteUser(index?: number) {
+  deleteUser(index: number) {
     this.inputs.removeAt(index);
     this.cd.detectChanges();
     this.closeDialog();

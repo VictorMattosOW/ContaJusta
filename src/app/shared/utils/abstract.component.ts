@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { User } from '../models/user.model';
 
 @Component({ template: '' })
 export abstract class AbstractComponent {
-
   // TODO: vai vazar daqui
   tooltipDisplayStates: boolean[] = [];
 

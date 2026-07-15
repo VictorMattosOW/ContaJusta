@@ -1,22 +1,23 @@
 import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { FinalOrder, OrderPerUser} from 'src/app/shared/models/order.model';
-import { User } from 'src/app/shared/models/user.model';
+import { FinalOrder, OrderPerUser } from 'src/app/core/models/order.model';
+import { User } from 'src/app/core/models/user.model';
 import { OrderService } from 'src/app/shared/services/order.service';
 import { SessionService } from 'src/app/shared/services/session.service';
 
 @Component({
   selector: 'app-order-division',
   templateUrl: './order-division.component.html',
-  styleUrls: ['./order-division.component.css']
+  styleUrls: ['./order-division.component.css'],
 })
-export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy {
-
-  usersList: User[];
-  finalOrder: FinalOrder;
-  orderPerUser: OrderPerUser[];
+export class OrderDivisionComponent
+  implements AfterViewInit, OnInit, OnDestroy
+{
+  usersList: User[] = [];
+  finalOrder: FinalOrder = {} as FinalOrder;
+  orderPerUser: OrderPerUser[] = [];
   cardState: boolean[] = [];
-  finalValue: number;
+  finalValue: number = 0;
   constructor(
     private sessionService: SessionService,
     private router: Router,
@@ -71,8 +72,12 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
 
   calculateOrders() {
     const { orders, tax } = this.finalOrder;
-    this.orderPerUser = this.orderService.calculateConsumption( this.usersList, orders, tax);
-    this.finalValue = this.orderService.sumTotalOrders(this.finalOrder.orders, this.finalOrder.tax);
+    this.orderPerUser =
+      this.orderService.calculateConsumption(this.usersList, orders, tax) ?? [];
+    this.finalValue = this.orderService.sumTotalOrders(
+      this.finalOrder.orders,
+      this.finalOrder.tax,
+    );
   }
 
   goToSummary() {

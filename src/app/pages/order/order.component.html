@@ -1,24 +1,25 @@
 <main class="content">
-
   <dialog class="modal" #dialog>
     <div class="modal-content" *ngIf="orderToEditOrDelete">
-      <div >
-        <h5>Tem certeza que deseja excluir o item {{ orderToEditOrDelete.name }}?</h5>
+      <div>
+        <h5>
+          Tem certeza que deseja excluir o item {{ orderToEditOrDelete.name }}?
+        </h5>
         <legend>Se excluir, esse item não entrará na conta, ok?</legend>
       </div>
       <div class="btn-edit">
         <app-button
-        buttonTitle="Voltar"
-        styleButton="secondary"
-        size="modal"
-        (buttonAction)="closeDialog();"
-      ></app-button>
-      <app-button
-        buttonTitle="Excluir"
-        styleButton="primary"
-        size="modal"
-        (buttonAction)="deleteItem(orderToEditOrDelete)"
-      ></app-button>
+          buttonTitle="Voltar"
+          styleButton="secondary"
+          size="modal"
+          (buttonAction)="closeDialog()"
+        ></app-button>
+        <app-button
+          buttonTitle="Excluir"
+          styleButton="primary"
+          size="modal"
+          (buttonAction)="deleteItem(orderToEditOrDelete)"
+        ></app-button>
       </div>
     </div>
   </dialog>
@@ -41,13 +42,27 @@
           <legend>{{ order.name }}</legend>
           <div class="legend-name-content">
             <legend class="legend-light">
-              {{ getFormattedUserNamesForDisplay(getMaxNumberOfUsersInDisplay(order.sharedUsers)) }}
-              <ng-template [ngIf]="order.sharedUsers.length > maxNumberOfUsersInDisplay">,&nbsp;</ng-template>
-              <div style="display: inline-block;" (mouseover)="onHover(i)" (mouseout)="onMouseout(i)" *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay">
+              {{
+                getFormattedUserNamesForDisplay(
+                  getMaxNumberOfUsersInDisplay(order.sharedUsers)
+                )
+              }}
+              <ng-template
+                [ngIf]="order.sharedUsers.length > maxNumberOfUsersInDisplay"
+                >,&nbsp;</ng-template
+              >
+              <div
+                style="display: inline-block"
+                (mouseover)="onHover(i)"
+                (mouseout)="onMouseout(i)"
+                *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay"
+              >
                 <app-tooltip
                   [showTooltip]="tooltipDisplayStates[i]"
                   [content]="getFormattedUserNamesForDisplay(order.sharedUsers)"
-                  [numberOfUsers]="order.sharedUsers.length - maxNumberOfUsersInDisplay"
+                  [numberOfUsers]="
+                    order.sharedUsers.length - maxNumberOfUsersInDisplay
+                  "
                 ></app-tooltip>
               </div>
             </legend>
@@ -84,16 +99,16 @@
             maxlength="30"
             [ngClass]="{
               'error-input':
-                this.orderForm.get('foodName').dirty &&
-                this.orderForm.get('foodName').invalid
+                this.orderForm.get('foodName')?.dirty &&
+                this.orderForm.get('foodName')?.invalid
             }"
           />
           <div class="error-msg">
             <p
               *ngIf="
-                this.orderForm.get('foodName').dirty &&
-                this.orderForm.get('foodName').invalid &&
-                this.orderForm.get('foodName').value.length >
+                this.orderForm.get('foodName')?.dirty &&
+                this.orderForm.get('foodName')?.invalid &&
+                this.orderForm.get('foodName')?.value.length >
                   maxLengthCaracteres
               "
             >
@@ -101,9 +116,9 @@
             </p>
             <p
               *ngIf="
-                this.orderForm.get('foodName').dirty &&
-                this.orderForm.get('foodName').invalid &&
-                this.orderForm.get('foodName').value.length === 0
+                this.orderForm.get('foodName')?.dirty &&
+                this.orderForm.get('foodName')?.invalid &&
+                this.orderForm.get('foodName')?.value.length === 0
               "
             >
               Ops! Esse nome está em branco.
@@ -124,16 +139,16 @@
               [options]="{ prefix: '', thousands: '.', decimal: ',' }"
               [ngClass]="{
                 'error-input':
-                  this.orderForm.get('price').dirty &&
-                  this.orderForm.get('price').invalid
-              }"
+                this.orderForm.get('price')?.dirty &&
+                this.orderForm.get('price')?.invalid
+            }"
             />
           </div>
           <div
             class="error-msg"
             *ngIf="
-              this.orderForm.get('price').invalid &&
-              this.orderForm.get('price').dirty
+              this.orderForm.get('price')?.invalid &&
+              this.orderForm.get('price')?.dirty
             "
           >
             <p>Digite o valor do item.</p>
@@ -224,14 +239,14 @@
       styleButton="secondary"
       size="small"
       [isDisabled]=""
-      (buttonAction)="navigateTo();"
+      (buttonAction)="navigateTo()"
     ></app-button>
     <app-button
       buttonTitle="salvar"
       styleButton="primary"
       size="small"
-      [isDisabled]="!this.canEnableSubmitItemButton()"
-      (buttonAction)="editOrder();"
+      [isDisabled]="this.canEnableSubmitItemButton()"
+      (buttonAction)="editOrder()"
     ></app-button>
   </footer>
 </main>

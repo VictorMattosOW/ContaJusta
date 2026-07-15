@@ -1,4 +1,3 @@
-import { User } from './../../shared/models/user.model';
 import {
   AfterViewInit,
   Component,
@@ -8,7 +7,8 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Order } from 'src/app/shared/models/order.model';
+import { Order } from 'src/app/core/models/order.model';
+import { User } from 'src/app/core/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { UserServiceService } from 'src/app/shared/services/user-service.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
@@ -19,9 +19,12 @@ import * as uuid from 'uuid';
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
 })
-export class OrderComponent extends AbstractComponent implements OnInit, AfterViewInit {
+export class OrderComponent
+  extends AbstractComponent
+  implements OnInit, AfterViewInit
+{
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
-  orderToEditId: string;
+  orderToEditId: string = '';
 
   usersList: User[] = [];
   quantity = 1;
@@ -29,20 +32,27 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
 
   orders: Order[] = [];
   sharedFood: User[] = [];
+  maxLengthCaracteres = 30;
 
-  orderForm: FormGroup;
+  orderForm: FormGroup = new FormGroup({
+    foodName: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(30),
+    ]),
+    price: new FormControl(null, [Validators.required, Validators.min(0.01)]),
+  });
+
   selectedUsers: boolean[] = [];
   markAllUsers = false;
-  maxLengthCaracteres = 30;
-  maxNumberOfUsersInDisplay: number;
+  maxNumberOfUsersInDisplay: number = 0;
 
   isEdit = false;
-  orderToEditOrDelete: Order;
+  orderToEditOrDelete: Order | undefined = {} as Order;
   constructor(
     private sessionService: SessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private userServices: UserServiceService
+    private userServices: UserServiceService,
   ) {
     super();
     this.buildForm();
@@ -59,7 +69,7 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
       this.userServices.maxNumberOfUsersInDisplayValue;
   }
 
-  openDialog(order: Order): void {
+  openDialog(order?: Order): void {
     this.orderToEditOrDelete = order;
     this.dialogElement.nativeElement.show();
   }
@@ -89,7 +99,7 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
 
     sharedUsers.forEach((user: User, index: number) => {
       const foundIndex = this.usersList.findIndex(
-        (userList: User) => userList.id === user.id
+        (userList: User) => userList.id === user.id,
       );
       if (foundIndex !== -1) {
         this.selectedUser(foundIndex, true);
@@ -111,7 +121,7 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
     this.orderForm = new FormGroup({
       foodName: new FormControl('', [
         Validators.required,
-        Validators.maxLength(this.maxLengthCaracteres),
+        Validators.maxLength(30),
       ]),
       price: new FormControl(null, [Validators.required, Validators.min(0.01)]),
     });
@@ -137,10 +147,10 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
   getOrders() {
     this.sessionService.getOrdersObservable().subscribe({
       next: (orders: Order[]) => {
-        orders.forEach(order => {
+        orders.forEach((order) => {
           order.sharedUsers = order.sharedUsers
-            .map(user => this.findUserById(user.id))
-            .filter(user => user !== undefined);
+            .map((user) => this.findUserById(user.id))
+            .filter((user): user is User => user !== undefined);
         });
         this.orders = orders;
       },
@@ -148,11 +158,11 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
   }
 
   private findUserById(userId: string): User | undefined {
-    return this.usersList.find(userList => userList.id === userId);
+    return this.usersList.find((userList) => userList.id === userId);
   }
 
   private findOrderById(orderId: string): Order | undefined {
-    return this.orders.find(order => order.id === orderId);
+    return this.orders.find((order) => order.id === orderId);
   }
 
   updateQuantity(event: Event, operation: 'add' | 'subtract') {
@@ -178,7 +188,7 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
     this.markAllUsers = checked;
   }
 
-  selectedUser(index: number, event?: Event | boolean) {
+  selectedUser(index: number, event: Event | boolean) {
     const checked =
       event instanceof Event
         ? (event.target as HTMLInputElement).checked
@@ -188,7 +198,7 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
       this.sharedFood.push(this.usersList[index]);
     } else {
       this.sharedFood = this.sharedFood.filter(
-        (element) => element !== this.usersList[index]
+        (element) => element !== this.usersList[index],
       );
     }
     this.selectedUsers[index] = checked;
@@ -196,10 +206,11 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
 
   createOrder() {
     if (this.canEnableSubmitItemButton()) {
+      const formValues = this.orderForm.value;
       const order: Order = {
         id: uuid.v4(),
-        name: this.orderForm.get('foodName').value,
-        price: Number(this.orderForm.get('price').value),
+        name: formValues.foodName,
+        price: Number(formValues.price),
         quantity: Number(this.quantity),
         sharedUsers: this.sharedFood,
       };
@@ -208,17 +219,19 @@ export class OrderComponent extends AbstractComponent implements OnInit, AfterVi
     }
   }
 
+  // TODO: tirar esses "!"
   editOrder() {
     if (this.orderToEditOrDelete) {
+      const formValues = this.orderForm.value;
       this.orders.forEach((order, index) => {
-        if (order.id === this.orderToEditOrDelete.id) {
+        if (order.id === this.orderToEditOrDelete!.id) {
           this.orders[index] = {
-            id: this.orderToEditOrDelete.id,
-            name: this.orderForm.get('foodName').value,
-            price: Number(this.orderForm.get('price').value),
+            id: this.orderToEditOrDelete!.id,
+            name: formValues.foodName,
+            price: Number(formValues.price),
             quantity: Number(this.quantity),
             sharedUsers: this.sharedFood,
-          }
+          };
         }
       });
       this.saveOrders();

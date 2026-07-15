@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../models/user.model';
-import { Order, OrderPerUser } from '../models/order.model';
+import { Order, OrderPerUser } from 'src/app/core/models/order.model';
+import { User } from 'src/app/core/models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +11,11 @@ export class OrderService {
   calculateConsumption(
     users: User[],
     orders: Order[],
-    tax: number
-  ): OrderPerUser[] {
+    tax: number,
+  ): OrderPerUser[] | null {
     if (users && orders) {
       // Cria um objeto para armazenar os valores consumidos por cada pessoa
-      const consumptionMap = {};
+      const consumptionMap: Record<string, OrderPerUser> = {};
       users.forEach((user) => {
         consumptionMap[user.id] = {
           name: user.name,
@@ -82,7 +82,7 @@ export class OrderService {
         sum +
         this.calcularValorFinal(
           this.multiplyValues(order.quantity, order.price),
-          percent
+          percent,
         )
       );
     }, 0);
