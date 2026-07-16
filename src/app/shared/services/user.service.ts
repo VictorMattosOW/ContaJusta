@@ -4,7 +4,7 @@ import { User } from 'src/app/core/models/user.model';
 @Injectable({
   providedIn: 'root',
 })
-export class UserServiceService {
+export class UserService {
   private maxNumberOfUsersInDisplay = 2;
 
   constructor() {}

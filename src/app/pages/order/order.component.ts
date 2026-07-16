@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from 'src/app/core/models/order.model';
 import { User } from 'src/app/core/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
-import { UserServiceService } from 'src/app/shared/services/user-service.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import * as uuid from 'uuid';
 
@@ -52,7 +52,7 @@ export class OrderComponent
     private sessionService: SessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private userServices: UserServiceService,
+    private userServices: UserService,
   ) {
     super();
     this.buildForm();

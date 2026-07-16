@@ -3,9 +3,9 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { UserServiceService } from 'src/app/shared/services/user-service.service';
 import { FinalOrder, Order } from 'src/app/core/models/order.model';
 import { User } from 'src/app/core/models/user.model';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-summary',
@@ -25,7 +25,7 @@ export class SummaryComponent extends AbstractComponent implements OnInit {
 
   constructor(
     private sessionService: SessionService,
-    private userServices: UserServiceService,
+    private userServices: UserService,
     private router: Router,
   ) {
     super();
