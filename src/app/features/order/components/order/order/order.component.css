@@ -10,18 +10,6 @@
   margin-bottom: 0.5rem;
 }
 
-.input-content {
-  display: grid;
-  grid-template-areas:
-    "food_name_input food_name_input food_name_input food_name_input"
-    "food_price food_price food_price quantity";
-}
-
-.food_name_input {
-  grid-area: food_name_input;
-  width: 100%;
-}
-
 .price-content {
   display: flex;
 }

@@ -1,4 +1,5 @@
 <main class="content">
+  <!-- TODO: modal vai sair e virar um component reutilizavel -->
   <dialog class="modal" #dialog>
     <div class="modal-content" *ngIf="orderToEditOrDelete">
       <div>
@@ -32,6 +33,8 @@
         <p>Adicione item por item</p>
       </div>
     </header>
+
+    <!-- TODO: esse card tem que sair daqui tambem, ele te sua logica e vai ficar separado -->
 
     <section class="card" *ngIf="orders.length !== 0 && !isEdit">
       <header class="card_title">
@@ -87,98 +90,10 @@
       </div>
     </section>
 
-    <section>
-      <form class="input-content" [formGroup]="orderForm">
-        <div class="food_name_input">
-          <input
-            class="input-text"
-            type="text"
-            name="foodName"
-            formControlName="foodName"
-            placeholder="Ex: Polenta frita"
-            maxlength="30"
-            [ngClass]="{
-              'error-input':
-                this.orderForm.get('foodName')?.dirty &&
-                this.orderForm.get('foodName')?.invalid
-            }"
-          />
-          <div class="error-msg">
-            <p
-              *ngIf="
-                this.orderForm.get('foodName')?.dirty &&
-                this.orderForm.get('foodName')?.invalid &&
-                this.orderForm.get('foodName')?.value.length >
-                  maxLengthCaracteres
-              "
-            >
-              O nome não pode ter mais de {{ maxLengthCaracteres }} caracteres.
-            </p>
-            <p
-              *ngIf="
-                this.orderForm.get('foodName')?.dirty &&
-                this.orderForm.get('foodName')?.invalid &&
-                this.orderForm.get('foodName')?.value.length === 0
-              "
-            >
-              Ops! Esse nome está em branco.
-            </p>
-          </div>
-        </div>
+    <!-- TODO: Form aqui -->
+     <app-order-form></app-order-form>
 
-        <div class="food_price">
-          <div class="price-content">
-            <span class="field field-price">R$</span>
-            <input
-              class="input-text input-text-price"
-              formControlName="price"
-              name="price"
-              placeholder="0,00"
-              type="tel"
-              currencyMask
-              [options]="{ prefix: '', thousands: '.', decimal: ',' }"
-              [ngClass]="{
-                'error-input':
-                this.orderForm.get('price')?.dirty &&
-                this.orderForm.get('price')?.invalid
-            }"
-            />
-          </div>
-          <div
-            class="error-msg"
-            *ngIf="
-              this.orderForm.get('price')?.invalid &&
-              this.orderForm.get('price')?.dirty
-            "
-          >
-            <p>Digite o valor do item.</p>
-          </div>
-        </div>
-
-        <div class="quantity">
-          <button
-            class="field field-less"
-            (click)="updateQuantity($event, 'subtract')"
-            (touchstart)="updateQuantity($event, 'subtract')"
-          >
-            -
-          </button>
-          <input
-            class="input-text input-text-quantity"
-            type="number"
-            name="quantity"
-            [placeholder]="quantity"
-          />
-          <button
-            class="field field-add"
-            (click)="updateQuantity($event, 'add')"
-            (touchstart)="updateQuantity($event, 'add')"
-          >
-            +
-          </button>
-        </div>
-      </form>
-    </section>
+    <!-- TODO: Esse checkbox tambem vira outra parte, a ideia de conseguir criar components menores -->
     <div class="checkbox-content">
       <div class="editar">
         <h3>Dividir valor entre</h3>

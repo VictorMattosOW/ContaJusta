@@ -1,0 +1,88 @@
+  <section>
+    <form class="order-form" [formGroup]="orderForm">
+      <div class="order-form__food-name">
+        <input
+          class="order-form__input"
+          type="text"
+          formControlName="foodName"
+          placeholder="Ex: Polenta frita"
+          [maxlength]="maxLengthCaracteres"
+          [ngClass]="{
+            'order-form__input--error':
+              foodName.dirty &&
+              foodName.invalid
+          }"
+        />
+        <ng-container class="order-form__error">
+          <p
+            *ngIf="
+              foodName.dirty &&
+              foodName.invalid &&
+              foodName.value.length >
+                maxLengthCaracteres
+            "
+          >
+            O nome não pode ter mais de {{ maxLengthCaracteres }} caracteres.
+          </p>
+          <p
+            *ngIf="
+              foodName.dirty &&
+              foodName.invalid &&
+              foodName.value.length === 0
+            "
+          >
+            Ops! Esse nome está em branco.
+          </p>
+        </ng-container>
+      </div>
+
+      <div class="order-form__price">
+        <div class="order-form__price-wrapper">
+          <span class="order-form__button order-form__button--prefix">R$</span>
+          <input
+            class="order-form__input order-form__input--price"
+            formControlName="price"
+            placeholder="0,00"
+            type="tel"
+            currencyMask
+            [options]="{ prefix: '', thousands: '.', decimal: ',' }"
+            [ngClass]="{
+              'order-form__input--error':
+              price.dirty &&
+              price.invalid
+          }"
+          />
+        </div>
+        <ng-container
+          class="order-form__error"
+          *ngIf="
+            price.invalid &&
+            price.dirty
+          "
+        >
+          <p>Digite o valor do item.</p>
+        </ng-container>
+      </div>
+
+      <div class="order-form__quantity">
+        <button
+          class="order-form__button order-form__button--decrement"
+          (click)="updateQuantity($event, 'subtract')"
+        >
+          -
+        </button>
+        <input
+          class="order-form__input order-form__input--quantity"
+          type="number"
+          name="quantity"
+          [placeholder]="quantity"
+        />
+        <button
+          class="order-form__button order-form__button--increment"
+          (click)="updateQuantity($event, 'add')"
+        >
+          +
+        </button>
+      </div>
+    </form>
+  </section>

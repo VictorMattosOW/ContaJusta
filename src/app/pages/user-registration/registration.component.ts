@@ -137,10 +137,11 @@ export class RegistrationComponent
   }
 
   navigateTo() {
-    this.router.navigate(['ordens']);
+    this.router.navigate(['/orders']);
   }
 
   submit() {
+    console.log("to aqui")
     if (this.canEnableSubmitButton()) {
       this.sessionService.setUsers(this.inputs.value);
       this.navigateTo();

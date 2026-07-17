@@ -137,7 +137,7 @@ export class OrderComponent
     this.sessionService.getUsersObservable().subscribe({
       next: (users) => {
         if (users.length === 0) {
-          this.router.navigate(['registrar']);
+          // this.router.navigate(['registrar']);
         }
         this.usersList = users;
       },

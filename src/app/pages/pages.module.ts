@@ -5,7 +5,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { StartComponent } from './start/start.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { OrderComponent } from './order/order.component';
+// import { OrderComponent } from '../features/order/components/order/order.component';
 import {
   CurrencyMaskConfig,
   CurrencyMaskInputMode,
@@ -13,7 +13,7 @@ import {
 } from 'ngx-currency';
 import { RegistrationComponent } from './user-registration/registration.component';
 import { SummaryComponent } from './summary/summary.component';
-import { OrderDivisionComponent } from './order-division/order-division.component';
+// import { OrderDivisionComponent } from '../features/order/components/order-division/order-division.component';
 import { SharedModule } from '../shared/shared.module';
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -35,9 +35,9 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   declarations: [
     StartComponent,
     RegistrationComponent,
-    OrderComponent,
+    // OrderComponent,
     SummaryComponent,
-    OrderDivisionComponent,
+    // OrderDivisionComponent,
   ],
   imports: [
     CommonModule,
@@ -51,9 +51,9 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   exports: [
     StartComponent,
     RegistrationComponent,
-    OrderComponent,
+    // OrderComponent,
     SummaryComponent,
-    OrderDivisionComponent,
+    // OrderDivisionComponent,
   ],
 })
 export class PagesModule {}

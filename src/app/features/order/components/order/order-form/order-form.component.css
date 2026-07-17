@@ -1,0 +1,93 @@
+.order-form {
+  display: grid;
+  grid-template-areas:
+    "food-name food-name food-name food-name"
+    "price price price quantity";
+}
+
+.order-form__food-name {
+  grid-area: food-name;
+  width: 100%;
+}
+
+.order-form__price {
+  grid-area: price;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-form__price-wrapper {
+  display: flex;
+}
+
+.order-form__quantity {
+  grid-area: quantity;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.order-form__input {
+  padding: 1rem 0.8rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  display: block;
+  border: 1px solid var(--gray2);
+  height: 50px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.order-form__input::placeholder {
+  opacity: 60%;
+}
+
+.order-form__input--price {
+  text-align: right;
+  border-radius: 0 8px 8px 0;
+}
+
+.order-form__input--quantity {
+  width: 40%;
+  border-radius: 0;
+  text-align: center;
+}
+
+.order-form__input--error {
+  border-color: var(--error, #d2252f);
+}
+
+.order-form__button {
+  padding: 0.8rem;
+  margin-top: 1rem;
+  display: block;
+  border: 1px solid var(--gray2);
+  background: var(--gray2);
+  color: #f9f9f9;
+  height: 50px;
+}
+
+.order-form__button--prefix {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  width: 50px;
+}
+
+.order-form__button--decrement {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.order-form__button--increment {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  width: 2rem;
+}
+
+.order-form__error p {
+  color: var(--error, #d2252f);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  padding-top: 6px;
+}
