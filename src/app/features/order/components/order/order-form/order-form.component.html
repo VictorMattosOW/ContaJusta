@@ -6,11 +6,11 @@
         type="text"
         formControlName="foodName"
         placeholder="Ex: Polenta frita"
-        [maxlength]="maxLengthCaracters"
+        [maxlength]="constants.MAX_LENGTH_FOOD_NAME"
         [ngClass]="{ 'order-form__input--error': isFormValid() }" />
       <div class="order-form__error">
         <p *ngIf="isFormValid() && foodName.hasError('maxlength')">
-          O nome não pode ter mais de {{ maxLengthCaracters }} caracteres.
+          O nome não pode ter mais de {{ constants.MAX_LENGTH_FOOD_NAME }} caracteres.
         </p>
         <p *ngIf="isFormValid() && foodName.hasError('required')">Ops! Esse nome está em branco.</p>
       </div>
@@ -18,7 +18,7 @@
 
     <div class="order-form__price">
       <div class="order-form__price-wrapper">
-        <span class="order-form__button order-form__button--prefix">R$</span>
+        <span class="order-form__prefix">R$</span>
         <input
           class="order-form__input order-form__input--price"
           formControlName="price"
@@ -39,6 +39,8 @@
       <button
         type="button"
         class="order-form__button order-form__button--decrement"
+        [attr.aria-label]="'Diminuir quantidade'"
+        [disabled]="quantity.value <= constants.MIN_QUANTITY"
         (click)="updateQuantity('subtract')">
         -
       </button>
@@ -46,18 +48,17 @@
         class="order-form__input order-form__input--quantity"
         type="number"
         formControlName="quantity"
-        placeholder="0" />
-      <button type="button" class="order-form__button order-form__button--increment" (click)="updateQuantity('add')">
+        [attr.aria-label]="'Quantidade do item'"
+        [min]="constants.MIN_QUANTITY" />
+      <button
+        type="button"
+        class="order-form__button order-form__button--increment"
+        [attr.aria-label]="'Aumentar quantidade'"
+        (click)="updateQuantity('add')">
         +
       </button>
     </div>
 
-    <app-button
-      [buttonTitle]="orders.length >= 1 ? 'próximo item' : 'incluir item'"
-      styleButton="primary"
-      size="large"
-      [isDisabled]="!this.canEnableSubmitItemButton()"
-      (buttonAction)="createOrder()">
-    </app-button>
+    <ng-content></ng-content>
   </form>
 </section>

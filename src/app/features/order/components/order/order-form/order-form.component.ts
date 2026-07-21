@@ -1,6 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { OrderFormControls, OrderFormData } from '../../../models/order-form.interface';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { OrderFormData } from '../../../models/order-form.interface';
+import { Subject, takeUntil } from 'rxjs';
+import { createOrderFormGroup } from './order-form.factory';
+import { ORDER_FORM_CONSTANTS } from '../../../models/order-form.constants';
 
 @Component({
   selector: 'app-order-form',
@@ -8,52 +11,37 @@ import { OrderFormControls, OrderFormData } from '../../../models/order-form.int
   styleUrls: ['./order-form.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderFormComponent {
-  @Output() formDataEmitter = new EventEmitter<OrderFormData>();
-  readonly maxLengthCaracters = 30;
-  orders = [1];
+export class OrderFormComponent implements OnInit, OnDestroy {
+  @Output() formData = new EventEmitter<OrderFormData>();
+  @Output() formValidityChange = new EventEmitter<boolean>();
+  readonly constants = ORDER_FORM_CONSTANTS;
+  private readonly destroy$ = new Subject<void>();
 
-  orderForm = new FormGroup<OrderFormControls>({
-    foodName: new FormControl('', {
-      nonNullable: true,
-      validators: [Validators.required, Validators.maxLength(this.maxLengthCaracters)]
-    }),
+  orderForm: FormGroup = createOrderFormGroup();
 
-    price: new FormControl(0, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.min(0.01)]
-    }),
+  ngOnInit(): void {
+    this.orderForm.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.formValidityChange.emit(this.orderForm.valid);
+    });
+  }
 
-    quantity: new FormControl(1, {
-      nonNullable: true,
-      validators: [Validators.required, Validators.min(1)]
-    })
-  });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
-  createOrder() {
+  submitOrder() {
     const order: OrderFormData = this.orderForm.value as OrderFormData;
-    this.formDataEmitter.emit(order);
+    this.formData.emit(order);
     this.orderForm.reset();
   }
 
   updateQuantity(operation: 'add' | 'subtract'): void {
-    const currentValue = this.quantity.value;
-    const newValue = operation === 'add' ? currentValue + 1 : currentValue - 1;
-    if (currentValue > 0) {
+    const current = this.quantity.value ?? this.constants.MIN_QUANTITY;
+    const newValue = operation === 'add' ? current + 1 : current - 1;
+
+    if (newValue >= this.constants.MIN_QUANTITY) {
       this.quantity.setValue(newValue, { emitEvent: false });
-    }
-  }
-
-  canEnableSubmitItemButton(): boolean {
-    return this.orderForm.valid;
-  }
-
-  getFormData() {
-    if (this.orderForm.valid) {
-      return this.orderForm.value;
-    } else {
-      this.orderForm.markAllAsTouched();
-      return null;
     }
   }
 
@@ -62,14 +50,14 @@ export class OrderFormComponent {
   }
 
   protected get foodName() {
-    return this.orderForm.get('foodName') as FormControl;
+    return this.orderForm.controls['foodName'];
   }
 
   protected get price() {
-    return this.orderForm.get('price') as FormControl;
+    return this.orderForm.controls['price'];
   }
 
   protected get quantity() {
-    return this.orderForm.get('quantity') as FormControl;
+    return this.orderForm.controls['quantity'];
   }
 }

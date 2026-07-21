@@ -14,162 +14,12 @@
   display: flex;
 }
 
-.food_price {
-  grid-area: food_price;
-  display: flex;
-  flex-direction: column;
-}
-
-.quantity {
-  grid-area: quantity;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-}
-
-.input-text {
-  padding: 1rem 0.8rem;
-  margin-top: 1rem;
-  border-radius: 8px;
-  display: block;
-  border: 1px solid var(--gray2);
-  height: 50px;
-  font-size: 1rem;
-  opacity: 60%;
-  width: 100%;
-}
-
-.input-text-price {
-  text-align: right;
-  border-radius: 0 8px 8px 0;
-}
-
-.input-text-quantity {
-  width: 40%;
-  border-radius: 0;
-  text-align: center;
-}
-
-.field {
-  padding: 0.8rem;
-  margin-top: 1rem;
-  display: block;
-  border: 1px solid var(--gray2);
-  background: var(--gray2);
-  color: #f9f9f9;
-  height: 50px;
-}
-
-.field-price {
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
-  width: 50px;
-}
-
-.field-less {
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
-  width: 2rem;
-}
-
-.field-add {
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
-  width: 2rem;
-}
-
-.checkbox-content {
-  margin-top: 3rem;
-}
-
-.checkbox-content > h3 {
-  margin-bottom: 1.2rem;
-}
-
-.form-checkbox {
-  display: flex;
-  flex-direction: row;
-  gap: 0.8rem;
-}
-
-.form-checkbox > label {
-  color: var(--gray2);
-  font-size: 16px;
-  font-weight: 300;
-}
-
-.mark-all-users {
-  display: flex;
-  flex-direction: row;
-  gap: 0.8rem;
-}
-
-#all-users {
-  border-radius: 8px;
-  border: 2px solid var(--gray2);
-}
-
-.mark-all-users > label {
-  color: var(--gray);
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.editar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.editar > a {
-  text-decoration: underline;
-  color: var(--gray);
-  opacity: 70%;
-}
-
-input[type='checkbox'] {
-  width: 24px;
-  height: 24px;
-  border-radius: 8px;
-  border: 1px solid #1f2633;
-  appearance: none;
-  outline: none;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-bottom: 16px;
-}
-
-input[type='checkbox']:checked {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-image: url('/assets/Vector.svg');
-  background-size: 70%;
-  background-color: #1f2633;
-}
-
-.price-quantity {
-  display: flex;
-  flex-direction: row;
-}
-
 .btn-content {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   gap: 1rem;
   margin-top: 2rem;
-}
-
-.btn-trash {
-  margin-top: 43px;
-}
-
-.btn-trash > a {
-  display: flex;
-  align-items: center;
-  gap: 14px;
 }
 
 .btn-content-edit {
@@ -259,14 +109,6 @@ input[type='checkbox']:checked {
 
 .other-users:hover {
   visibility: visible;
-}
-
-.error-msg > p {
-  color: var(--error, #d2252f);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: normal;
-  padding-top: 6px;
 }
 
 .input-content.error-input input[type='text'] input[type='number'] {

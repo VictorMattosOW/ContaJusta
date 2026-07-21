@@ -71,44 +71,26 @@
     </section>
 
     <!-- TODO: Form aqui -->
-    <app-order-form (formDataEmitter)="getFormData($event)"></app-order-form>
+    <app-order-form (formData)="getFormData($event)" (formValidityChange)="isSubmitButton = $event">
+      <app-user-checkbox [usersList]="usersList" [selectedUsers]="selectedUsers" (selectAll)="selectAllUser($event)">
+      </app-user-checkbox>
+      <!-- <app-user-checkbox
+        [usersList]="usersList"
+        [selectedUsers]="selectedUsers"
+        (userToggle)="selectedUser($event, $event.checked)"
+        (selectAll)="selectAllUser($event)">
+      </app-user-checkbox> -->
+    </app-order-form>
 
     <!-- TODO: Esse checkbox tambem vira outra parte, a ideia de conseguir criar components menores -->
-    <div class="checkbox-content">
-      <div class="editar">
-        <h3>Dividir valor entre</h3>
-        <app-button-link title="editar pessoas" (buttonAction)="editarPessoas()"></app-button-link>
-      </div>
-      <div class="form-content">
-        <div class="mark-all-users">
-          <input
-            id="all-users"
-            [(ngModel)]="markAllUsers"
-            type="checkbox"
-            name="name"
-            (change)="selectAllUser($event)" />
-          <label for="name">Selecionar todos</label>
-        </div>
-        <form class="form-checkbox" *ngFor="let user of usersList; let i = index">
-          <input type="checkbox" name="name" [(ngModel)]="selectedUsers[i]" (change)="selectedUser(i, $event)" />
-          <label for="name">{{ user.name }}</label>
-        </form>
-        <div class="btn-trash" *ngIf="isEdit">
-          <a (click)="openDialog(orderToEditOrDelete)">
-            <img src="../../../assets/trash_.svg" alt="" />
-            <app-button-link title="Excluir item"></app-button-link>
-          </a>
-        </div>
-      </div>
-    </div>
   </article>
   <footer class="btn-content" *ngIf="!isEdit">
-    <!-- <app-button
+    <app-button
       [buttonTitle]="orders.length >= 1 ? 'próximo item' : 'incluir item'"
       styleButton="primary"
       size="large"
-      [isDisabled]="!this.canEnableSubmitItemButton()"
-      (buttonAction)="createOrder()"></app-button> -->
+      [isDisabled]="!isSubmitButton"
+      (buttonAction)="createOrder()"></app-button>
     <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary()"></app-button-link>
   </footer>
 

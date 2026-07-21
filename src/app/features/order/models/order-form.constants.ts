@@ -1,0 +1,5 @@
+export const ORDER_FORM_CONSTANTS = {
+  MAX_LENGTH_FOOD_NAME: 30,
+  MIN_PRICE: 0.01,
+  MIN_QUANTITY: 1
+} as const;

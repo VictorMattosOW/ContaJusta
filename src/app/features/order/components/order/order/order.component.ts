@@ -5,14 +5,13 @@ import { User } from 'src/app/core/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
-// import * as uuid from 'uuid';
 import { OrderFormComponent } from '../order-form/order-form.component';
 import { OrderFormData } from '../../../models/order-form.interface';
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css'],
+  styleUrls: ['./order.component.css']
 })
 export class OrderComponent extends AbstractComponent implements OnInit {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
@@ -24,6 +23,7 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   value = '';
 
   orders: Order[] = [];
+  order: OrderFormData = {} as OrderFormData;
   sharedFood: User[] = [];
   selectedUsers: boolean[] = [];
   markAllUsers = false;
@@ -31,6 +31,8 @@ export class OrderComponent extends AbstractComponent implements OnInit {
 
   isEdit = false;
   orderToEditOrDelete: Order | undefined = {} as Order;
+  isSubmitButton = false;
+
   constructor(
     private sessionService: SessionService,
     private router: Router,
@@ -48,7 +50,7 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   }
 
   getFormData(order: OrderFormData) {
-    console.log(order);
+    this.order = order;
   }
 
   openDialog(order?: Order): void {
@@ -110,7 +112,7 @@ export class OrderComponent extends AbstractComponent implements OnInit {
           // this.router.navigate(['registrar']);
         }
         this.usersList = users;
-      },
+      }
     });
   }
 
@@ -123,7 +125,7 @@ export class OrderComponent extends AbstractComponent implements OnInit {
             .filter((user): user is User => user !== undefined);
         });
         this.orders = orders;
-      },
+      }
     });
   }
 
@@ -160,19 +162,15 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   }
 
   createOrder() {
-    // this.getFormData();
-    // if (this.canEnableSubmitItemButton()) {
-    //   const formValues = this.orderForm.value;
-    //   const order: Order = {
-    //     id: uuid.v4(),
-    //     name: formValues.foodName,
-    //     price: Number(formValues.price),
-    //     quantity: Number(this.quantity),
-    //     sharedUsers: this.sharedFood,
-    //   };
-    //   this.orders.push(order);
-    //   this.resetForm();
-    // }
+    this.orderForm.submitOrder();
+    const order: Order = {
+      id: `${this.order.foodName} + ${Date.now()}`,
+      name: this.order.foodName,
+      price: this.order.price,
+      quantity: this.order.quantity,
+      sharedUsers: this.sharedFood
+    };
+    this.orders.push(order);
   }
 
   // TODO: tirar esses "!"
