@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from 'node_modules/@angular/forms';
 import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'node_modules/ngx-currency';
 import { OrderFormComponent } from './components/order/order-form/order-form.component';
 import { OrderComponent } from './components/order/order/order.component';
+import { UserCheckboxComponent } from './components/order/user-checkbox/user-checkbox.component';
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'right',
@@ -21,18 +22,18 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   nullable: true,
   min: 0,
   max: undefined,
-  inputMode: CurrencyMaskInputMode.FINANCIAL,
+  inputMode: CurrencyMaskInputMode.FINANCIAL
 };
 
 @NgModule({
-  declarations: [OrderComponent, OrderDivisionComponent, OrderFormComponent],
+  declarations: [OrderComponent, OrderDivisionComponent, OrderFormComponent, UserCheckboxComponent],
   imports: [
     CommonModule,
     OrderRoutingModule,
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-  ],
+    NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
+  ]
 })
 export class OrderModule {}

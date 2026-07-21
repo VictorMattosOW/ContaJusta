@@ -1,0 +1,23 @@
+<div class="checkbox-content">
+  <div class="editar">
+    <h3>Dividir valor entre</h3>
+    <!-- <app-button-link title="editar pessoas" (buttonAction)="editarPessoas()"></app-button-link> -->
+  </div>
+  <div class="form-content">
+    <div class="mark-all-users">
+      <input id="all-users" [(ngModel)]="markAllUsers" type="checkbox" name="name" (change)="selectAllUser($event)" />
+      <label for="name">Selecionar todos</label>
+    </div>
+    <form class="form-checkbox" *ngFor="let user of usersList; let i = index">
+      <input type="checkbox" name="name" [(ngModel)]="selectedUsers[i]" (change)="selectedUser(i, $event)" />
+      <label for="name">{{ user.name }}</label>
+    </form>
+    <!-- TODO: ver como resolver isso depois -->
+    <!-- <div class="btn-trash" *ngIf="isEdit">
+      <a (click)="openDialog(orderToEditOrDelete)">
+        <img src="./assets/trash_.svg" alt="" />
+        <app-button-link title="Excluir item"></app-button-link>
+      </a>
+    </div> -->
+  </div>
+</div>
