@@ -33,6 +33,6 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
     ReactiveFormsModule,
     FormsModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-  ]
+  ],
 })
-export class OrderModule { }
+export class OrderModule {}

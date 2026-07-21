@@ -129,7 +129,7 @@
   opacity: 70%;
 }
 
-input[type="checkbox"] {
+input[type='checkbox'] {
   width: 24px;
   height: 24px;
   border-radius: 8px;
@@ -141,10 +141,10 @@ input[type="checkbox"] {
   margin-bottom: 16px;
 }
 
-input[type="checkbox"]:checked {
+input[type='checkbox']:checked {
   background-position: center;
   background-repeat: no-repeat;
-  background-image: url("../../../assets/Vector.svg");
+  background-image: url('/assets/Vector.svg');
   background-size: 70%;
   background-color: #1f2633;
 }
@@ -231,7 +231,7 @@ input[type="checkbox"]:checked {
 }
 
 .legend {
-  color: var(--cinza, #1F2633);
+  color: var(--cinza, #1f2633);
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
@@ -269,7 +269,7 @@ input[type="checkbox"]:checked {
   padding-top: 6px;
 }
 
-.input-content.error-input input[type="text"] input[type="number"] {
+.input-content.error-input input[type='text'] input[type='number'] {
   border: #d2252f;
   outline: 1px solid #d2252f;
 }
@@ -288,7 +288,7 @@ input[type="checkbox"]:checked {
   border-radius: 8px;
   border: 1px solid var(--gray);
   padding: 24px 32px;
-  z-index:99999;
+  z-index: 99999;
   backdrop-filter: blur(100%);
 }
 

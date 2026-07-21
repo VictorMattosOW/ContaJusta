@@ -12,8 +12,7 @@
           class="btn"
           [ngClass]="{ 'btn-disabled': orderToEdit.quantity <= 1 }"
           [disabled]="canEnableButton()"
-          (click)="subtractQuantity()"
-        >
+          (click)="subtractQuantity()">
           -
         </button>
         <span>{{ orderToEdit.quantity }}</span>
@@ -24,8 +23,7 @@
         buttonTitle="confirmar"
         size="large"
         styleButton="primary"
-        (buttonAction)="closeDialog()"
-      ></app-button>
+        (buttonAction)="closeDialog()"></app-button>
     </div>
   </dialog>
 
@@ -68,8 +66,7 @@
             name="percent"
             max="100"
             placeholder="10"
-            (change)="sumTotalOrders()"
-          />
+            (change)="sumTotalOrders()" />
           <h3>%</h3>
         </div>
       </form>
@@ -79,7 +76,7 @@
       <h2>Total</h2>
       <div>
         <h1>{{ sumTotalOrders() | currency }}</h1>
-        <legend>com taxa de {{ orderForm.get("percent")?.value }}%</legend>
+        <legend>com taxa de {{ orderForm.get('percent')?.value }}%</legend>
       </div>
     </section>
   </div>
@@ -90,14 +87,12 @@
       buttonTitle="incluir item"
       size="small"
       styleButton="secondary"
-      (buttonAction)="goToOrder()"
-    ></app-button>
+      (buttonAction)="goToOrder()"></app-button>
     <app-button
       [isDisabled]="false"
       buttonTitle="dividir"
       size="small"
       styleButton="primary"
-      (buttonAction)="navigateTo()"
-    ></app-button>
+      (buttonAction)="navigateTo()"></app-button>
   </footer>
 </main>

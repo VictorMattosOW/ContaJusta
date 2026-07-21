@@ -7,20 +7,20 @@ import { SummaryComponent } from './summary/summary.component';
 const routes: Routes = [
   {
     path: '',
-    component: StartComponent
+    component: StartComponent,
   },
   {
     path: 'registrar',
-    component: RegistrationComponent
+    component: RegistrationComponent,
   },
   {
     path: 'resumo',
-    component: SummaryComponent
+    component: SummaryComponent,
   },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PagesRoutingModule { }
+export class PagesRoutingModule {}

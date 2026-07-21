@@ -8,11 +8,7 @@ import { User } from 'src/app/core/models/user.model';
 export class OrderService {
   constructor() {}
 
-  calculateConsumption(
-    users: User[],
-    orders: Order[],
-    tax: number,
-  ): OrderPerUser[] | null {
+  calculateConsumption(users: User[], orders: Order[], tax: number): OrderPerUser[] | null {
     if (users && orders) {
       // Cria um objeto para armazenar os valores consumidos por cada pessoa
       const consumptionMap: Record<string, OrderPerUser> = {};
@@ -30,8 +26,7 @@ export class OrderService {
         const totalValueWithTax = price * quantity * (1 + tax / 100);
 
         // Divide o valor total com a taxa igualmente entre todas as pessoas
-        const equalValue =
-          Math.floor((totalValueWithTax / sharedUsers.length) * 100) / 100;
+        const equalValue = Math.floor((totalValueWithTax / sharedUsers.length) * 100) / 100;
 
         // Calcula o valor total dos valores iguais
         const totalEqualValue = equalValue * sharedUsers.length;
@@ -42,8 +37,7 @@ export class OrderService {
         sharedUsers.forEach((user, index) => {
           // Verifica se é o último usuário
           if (index === sharedUsers.length - 1) {
-            consumptionMap[user.id].totalValue +=
-              Number(remainder) + equalValue;
+            consumptionMap[user.id].totalValue += Number(remainder) + equalValue;
             consumptionMap[user.id].orders.push({
               food: order.name,
               sharedValue: Number(remainder),
@@ -75,16 +69,10 @@ export class OrderService {
     return quantity * price;
   }
 
-  sumTotalOrders(orders: Order[] = [], percent: number = 1): number {
+  sumTotalOrders(orders: Order[] = [], percent = 1): number {
     // const percent = (this.orderForm.value.percent < 1) ? 1 : this.orderForm.value.percent;
     const totalOrders = orders.reduce((sum, order) => {
-      return (
-        sum +
-        this.calcularValorFinal(
-          this.multiplyValues(order.quantity, order.price),
-          percent,
-        )
-      );
+      return sum + this.calcularValorFinal(this.multiplyValues(order.quantity, order.price), percent);
     }, 0);
     return totalOrders;
   }

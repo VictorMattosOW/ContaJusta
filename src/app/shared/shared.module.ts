@@ -7,20 +7,8 @@ import { AutofocusDirective } from './diretivas/autofocus.directive';
 import { CurrencyPipe } from './pipes/currency.pipe';
 
 @NgModule({
-  declarations: [
-    ButtonComponent,
-    ButtonLinkComponent,
-    TooltipComponent,
-    AutofocusDirective,
-    CurrencyPipe,
-  ],
-  exports: [
-    ButtonComponent,
-    ButtonLinkComponent,
-    TooltipComponent,
-    AutofocusDirective,
-    CurrencyPipe,
-  ],
+  declarations: [ButtonComponent, ButtonLinkComponent, TooltipComponent, AutofocusDirective, CurrencyPipe],
+  exports: [ButtonComponent, ButtonLinkComponent, TooltipComponent, AutofocusDirective, CurrencyPipe],
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

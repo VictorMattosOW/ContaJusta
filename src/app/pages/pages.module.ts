@@ -6,11 +6,7 @@ import { StartComponent } from './start/start.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { OrderComponent } from '../features/order/components/order/order.component';
-import {
-  CurrencyMaskConfig,
-  CurrencyMaskInputMode,
-  NgxCurrencyModule,
-} from 'ngx-currency';
+import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
 import { RegistrationComponent } from './user-registration/registration.component';
 import { SummaryComponent } from './summary/summary.component';
 // import { OrderDivisionComponent } from '../features/order/components/order-division/order-division.component';

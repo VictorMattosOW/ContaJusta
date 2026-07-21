@@ -19,10 +19,7 @@ import * as uuid from 'uuid';
   templateUrl: './registration.component.html',
   styleUrls: ['./registration.component.css'],
 })
-export class RegistrationComponent
-  extends AbstractComponent
-  implements OnInit, AfterViewChecked, AfterViewInit
-{
+export class RegistrationComponent extends AbstractComponent implements OnInit, AfterViewChecked, AfterViewInit {
   @ViewChild('autofocus', { static: false }) autofocusRef?: ElementRef;
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
 
@@ -39,7 +36,7 @@ export class RegistrationComponent
   constructor(
     private router: Router,
     private sessionService: SessionService,
-    private cd: ChangeDetectorRef,
+    private cd: ChangeDetectorRef
   ) {
     super();
   }
@@ -141,7 +138,7 @@ export class RegistrationComponent
   }
 
   submit() {
-    console.log("to aqui")
+    console.log('to aqui');
     if (this.canEnableSubmitButton()) {
       this.sessionService.setUsers(this.inputs.value);
       this.navigateTo();

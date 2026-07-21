@@ -9,13 +9,11 @@ import { SessionService } from '../../shared/services/session.service';
 })
 export class StartComponent implements AfterViewInit, OnDestroy {
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
-  isSafariOnIphone =
-    navigator.userAgent.includes('iPhone') &&
-    navigator.userAgent.includes('Safari');
+  isSafariOnIphone = navigator.userAgent.includes('iPhone') && navigator.userAgent.includes('Safari');
 
   constructor(
     private sessionService: SessionService,
-    private router: Router,
+    private router: Router
   ) {}
 
   ngAfterViewInit() {

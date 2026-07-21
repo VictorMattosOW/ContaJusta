@@ -1,14 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[appAutofocus]'
+  selector: '[appAutofocus]',
 })
-export class AutofocusDirective implements AfterViewInit{
-
+export class AutofocusDirective implements AfterViewInit {
   constructor(
     private el: ElementRef,
     private cd: ChangeDetectorRef
-  ) { }
+  ) {}
 
   ngAfterViewInit() {
     setTimeout(() => {
@@ -16,5 +15,4 @@ export class AutofocusDirective implements AfterViewInit{
     });
     this.cd.detectChanges();
   }
-
 }

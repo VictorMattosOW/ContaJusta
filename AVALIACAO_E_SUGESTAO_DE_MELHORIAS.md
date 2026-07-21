@@ -4,6 +4,12 @@
 
 O **ContaJusta** é uma aplicação web mobile para divisão de contas de restaurante. Permite cadastrar pessoas, adicionar itens do pedido com preço/quantidade, selecionar quem vai dividir cada item e, no final, calcular o valor que cada pessoa deve pagar, incluindo taxa de serviço.
 
+- CRUD de pedidos
+- Gerenciamento de usuários compartilhados
+- Dialog de exclusão
+- Navegação
+- Formulário
+
 ---
 
 ## Pontuação Geral: ⭐⭐⭐ (3/5)
@@ -17,11 +23,13 @@ O projeto mostra um bom esforço acadêmico/prático para alguém que está apre
 ### 1. Estrutura de Arquitetura
 
 **O que foi bem feito:**
+
 - Utiliza **lazy loading** básico com `loadChildren` no `app-routing.module.ts` ✅
 - Aplica o conceito de **Feature Modules** com `PagesModule` ✅
 - Separação por responsabilidade (módulo compartilhado `shared` e de páginas `pages`) ✅
 
 **O que precisa ser melhorado:**
+
 - `TooltipComponent` importado no `AppModule` mas **declarado no PagesModule** (conflito de responsabilidade e duplicidade) ❌
 - `PagesModule` está fazendo o papel de **feature module e shared module ao mesmo tempo** (os componentes `ButtonComponent`, `ButtonLinkComponent`, `TooltipComponent` deveriam estar em um módulo `Shared` separado) ❌
 - `AppModule` importa `CommonModule` desnecessariamente ❌
@@ -31,11 +39,13 @@ O projeto mostra um bom esforço acadêmico/prático para alguém que está apre
 ### 2. Controle de Estado / Serviços
 
 **Ponto Positivo:**
+
 - Uso de **BehaviorSubject** para service que comunica dados entre componentes ✅
 - Serviços `OrderService`, `UserServiceService` e `SessionService` são bem funcionalidades de negócio separadas ✅
 
 **Problemas Graves:**
-- `UserServiceService` é um nome de classe repulsivo para padrões da comunidade (duplica o sufixo *Service*) ❌
+
+- `UserServiceService` é um nome de classe repulsivo para padrões da comunidade (duplica o sufixo _Service_) ❌
 - Abstração inicial de classe `AbstractComponent` que faz coisas completamente descoladas de uma abstração de componente (manipulação manual de arrays de boolean de tooltip!) ❌
 - Nomeamento inconsistente de métodos: `calcularValorFinal` (português) vs `sumTotalOrders` (inglês) ❌
 
@@ -44,10 +54,12 @@ O projeto mostra um bom esforço acadêmico/prático para alguém que está apre
 ### 3. Componentes e Templates
 
 **Qualidades:**
+
 - Inputs/Outputs bem usados nos componentes reutilizáveis (`app-button`, `app-button-link`) ✅
 - Uso correto de diretiva `@Directive` para autofocus ✅
 
 **Problemas:**
+
 - `order.component.ts`: mistura pesada de lógica de form, lógica de negócio, manipulação de DOM (dialogs) e navegação no mesmo componente (200+ linhas de responsabilidade acumulada) ❌
 - `RegistrationComponent`: uso desnecessário de `AfterViewChecked` com `detectChanges` — forte indicação de desconhecimento sobre o ciclo de vida do Angular ❌
 
@@ -85,15 +97,15 @@ O projeto mostra um bom esforço acadêmico/prático para alguém que está apre
 
 Considerando os critérios de análise abaixo:
 
-| Critério | Nota | Comentário |
-|---------------------------|------|-------------|
-| **Arquitetura** | ⭐⭐⭐ | Lazy loading e modularização básicos presentes |
-| **Design Patterns** | ⭐⭐ | Alguns padrões básicos, muitos anti-patterns |
-| **Qualidade de Código** | ⭐⭐ | Muitos sinais de refatoração pendente |
-| **Segurança** | ⭐ | Problemas de memory leak, validação insuficiente |
-| **Domínio Angular** | ⭐⭐⭐ | Componentes básicos, mas crimes ao ciclo de vida |
-| **Testes Automatizados** | ⭐ | Quase nenhum teste de valor |
-| **Boas Práticas Gerais** | ⭐⭐ | Código funcional, mas não "production ready" |
+| Critério                 | Nota   | Comentário                                       |
+| ------------------------ | ------ | ------------------------------------------------ |
+| **Arquitetura**          | ⭐⭐⭐ | Lazy loading e modularização básicos presentes   |
+| **Design Patterns**      | ⭐⭐   | Alguns padrões básicos, muitos anti-patterns     |
+| **Qualidade de Código**  | ⭐⭐   | Muitos sinais de refatoração pendente            |
+| **Segurança**            | ⭐     | Problemas de memory leak, validação insuficiente |
+| **Domínio Angular**      | ⭐⭐⭐ | Componentes básicos, mas crimes ao ciclo de vida |
+| **Testes Automatizados** | ⭐     | Quase nenhum teste de valor                      |
+| **Boas Práticas Gerais** | ⭐⭐   | Código funcional, mas não "production ready"     |
 
 ---
 
@@ -102,6 +114,7 @@ Considerando os critérios de análise abaixo:
 O autor demonstra mais características de um desenvolvedor **JUNIOR a DESEJANDO Junior-Pleno** (2 a 4 anos de experiência).
 
 ### Observações:
+
 - Tem **noções fundamentais** de Angular (módulos, componentes, serviços, lazy loading)
 - **Domínio funcional**: entrega um software que funciona para o usuário final
 - **Mas comete erros típicos de quem ainda está em transição para pensar em engenharia de software**:
@@ -114,6 +127,7 @@ O autor demonstra mais características de um desenvolvedor **JUNIOR a DESEJANDO
 ### Tanáreira Plena?
 
 Não. Uma pessoa pleno teria:
+
 - Menos código no componente e melhor separação de responsabilidades
 - Tratamento apropriado de unsubscribes
 - Validação de tipos ativa (`strict: true`)
@@ -144,6 +158,7 @@ Não. Uma pessoa pleno teria:
 ## 6. Estratégia de Versionamento e Commits
 
 ### Problemas Identificados
+
 - **Branches e Pull Requests solo**: Criar `feature/create-tooltip` e abrir PR para si mesmo em projeto de uma pessoa é burocracia desnecessária. Branches e PRs existem para code review em equipe.
 - **Mensagens de commit pouco descritivas**: `fix maths`, `ajuste border checkbox`, `go to start` não explicam a intenção da mudança.
 - **Commits de "micro-ajustes"**: Múltiplos commits para pequenas correções visualis deixam o histórico poluído (ex: `ajuste msg de erro` → `ajuste border checkbox`).
@@ -157,19 +172,19 @@ Não. Uma pessoa pleno teria:
 2. **Commits devem estar no idioma do projeto (inglês)**
    - Se o código está em inglês, os commits também devem estar, para manter consistência.
 
-3. **Commit pequeno e descritivo — como se estivesse explicando para um colega** 
+3. **Commit pequeno e descritivo — como se estivesse explicando para um colega**
    - Use o padrão `type(escopo): descrição` (Conventional Commits).
 
 ### Exemplos de Commits Ruins vs. Bons
 
-| ❌ Commit Ruim | ✅ Commit Bom |
-|---------------|---------------|
-| `fix maths` | `fix(service): corrige arredondamento na divisão de valores` |
-| `ajuste border checkbox` | `style(checkbox): ajusta espessura da borda` |
-| `go to start` | `fix(router): redireciona para tela inicial após divisão da conta` |
-| `test tooltip` | `test(tooltip): adiciona testes de visibilidade do componente` |
-| `ajuste msg de erro` | `feat(i18n): melhora mensagens de erro do formulário de usuário` |
-| `create a error form` | `feat(forms): implementa validação e exibição de erros no registro` |
+| ❌ Commit Ruim           | ✅ Commit Bom                                                       |
+| ------------------------ | ------------------------------------------------------------------- |
+| `fix maths`              | `fix(service): corrige arredondamento na divisão de valores`        |
+| `ajuste border checkbox` | `style(checkbox): ajusta espessura da borda`                        |
+| `go to start`            | `fix(router): redireciona para tela inicial após divisão da conta`  |
+| `test tooltip`           | `test(tooltip): adiciona testes de visibilidade do componente`      |
+| `ajuste msg de erro`     | `feat(i18n): melhora mensagens de erro do formulário de usuário`    |
+| `create a error form`    | `feat(forms): implementa validação e exibição de erros no registro` |
 
 ### Estrutura de Referência para Commits (Conventional Commits)
 
@@ -237,11 +252,11 @@ Imagine uma alteração em como o cálculo de divisão de pedido funciona:
 
 ### A diferença entre `core`, `shared` e `features`
 
-| Pasta | Descrição | Exemplos |
-|-------|-----------|----------|
-| `core/` | Lógica transversal global. O sistema inteiro depende disso. Apenas coisas que **nenhuma** feature específica deveria "possuir". | `StateService`, `HttpInterceptor`, `AuthGuard`, `ErrorHandler`, `Utils` |
-| `shared/` | Componentes, pipes, diretivas e utilitários puramente reutilizáveis e não relacionados a regra de negócio. | `ButtonComponent`, `TooltipComponent`, `CurrencyPipe`, `AutofocusDirective` |
-| `features/` | Funcionalidades completas e isoladas do produto. Cada pasta é um domínio de negócio. | `user-registration/`, `order/`, `summary/` |
+| Pasta       | Descrição                                                                                                                       | Exemplos                                                                    |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `core/`     | Lógica transversal global. O sistema inteiro depende disso. Apenas coisas que **nenhuma** feature específica deveria "possuir". | `StateService`, `HttpInterceptor`, `AuthGuard`, `ErrorHandler`, `Utils`     |
+| `shared/`   | Componentes, pipes, diretivas e utilitários puramente reutilizáveis e não relacionados a regra de negócio.                      | `ButtonComponent`, `TooltipComponent`, `CurrencyPipe`, `AutofocusDirective` |
+| `features/` | Funcionalidades completas e isoladas do produto. Cada pasta é um domínio de negócio.                                            | `user-registration/`, `order/`, `summary/`                                  |
 
 > **Regra de bolso**: Se 3+ features usam → vai para `core/` ou `shared/`. Se é específico de uma funcionalidade → vive dentro da `feature/`.
 
@@ -317,13 +332,13 @@ src/app/
 
 ### Conclusão da Arquitetura
 
-| O que você fez | O que deveria seguir |
-|---|---|
-| `pages/registration/` → | `features/user-registration/` |
-| `pages/order/` → | `features/order/` |
-| `shared/services/session.service.ts` → | `core/services/state.service.ts` |
-| `shared/services/order.service.ts` → | `features/order/services/order.service.ts` |
-| Botões genéricos em `shared/components/` → | Mantenha em `shared/components/` |
+| O que você fez                             | O que deveria seguir                       |
+| ------------------------------------------ | ------------------------------------------ |
+| `pages/registration/` →                    | `features/user-registration/`              |
+| `pages/order/` →                           | `features/order/`                          |
+| `shared/services/session.service.ts` →     | `core/services/state.service.ts`           |
+| `shared/services/order.service.ts` →       | `features/order/services/order.service.ts` |
+| Botões genéricos em `shared/components/` → | Mantenha em `shared/components/`           |
 
 Separar por features permite que o código cresça sem ficar um **"big ball of mud"**. Quando sua equipe (ou você no futuro) precisar alterar como a divisão de pedido funciona, o trabalho será localizado em um único lugar.
 

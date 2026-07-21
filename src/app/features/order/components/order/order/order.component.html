@@ -3,9 +3,7 @@
   <dialog class="modal" #dialog>
     <div class="modal-content" *ngIf="orderToEditOrDelete">
       <div>
-        <h5>
-          Tem certeza que deseja excluir o item {{ orderToEditOrDelete.name }}?
-        </h5>
+        <h5>Tem certeza que deseja excluir o item {{ orderToEditOrDelete.name }}?</h5>
         <legend>Se excluir, esse item não entrará na conta, ok?</legend>
       </div>
       <div class="btn-edit">
@@ -13,14 +11,12 @@
           buttonTitle="Voltar"
           styleButton="secondary"
           size="modal"
-          (buttonAction)="closeDialog()"
-        ></app-button>
+          (buttonAction)="closeDialog()"></app-button>
         <app-button
           buttonTitle="Excluir"
           styleButton="primary"
           size="modal"
-          (buttonAction)="deleteItem(orderToEditOrDelete)"
-        ></app-button>
+          (buttonAction)="deleteItem(orderToEditOrDelete)"></app-button>
       </div>
     </div>
   </dialog>
@@ -45,28 +41,17 @@
           <legend>{{ order.name }}</legend>
           <div class="legend-name-content">
             <legend class="legend-light">
-              {{
-                getFormattedUserNamesForDisplay(
-                  getMaxNumberOfUsersInDisplay(order.sharedUsers)
-                )
-              }}
-              <ng-template
-                [ngIf]="order.sharedUsers.length > maxNumberOfUsersInDisplay"
-                >,&nbsp;</ng-template
-              >
+              {{ getFormattedUserNamesForDisplay(getMaxNumberOfUsersInDisplay(order.sharedUsers)) }}
+              <ng-template [ngIf]="order.sharedUsers.length > maxNumberOfUsersInDisplay">,&nbsp;</ng-template>
               <div
                 style="display: inline-block"
                 (mouseover)="onHover(i)"
                 (mouseout)="onMouseout(i)"
-                *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay"
-              >
+                *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay">
                 <app-tooltip
                   [showTooltip]="tooltipDisplayStates[i]"
                   [content]="getFormattedUserNamesForDisplay(order.sharedUsers)"
-                  [numberOfUsers]="
-                    order.sharedUsers.length - maxNumberOfUsersInDisplay
-                  "
-                ></app-tooltip>
+                  [numberOfUsers]="order.sharedUsers.length - maxNumberOfUsersInDisplay"></app-tooltip>
               </div>
             </legend>
           </div>
@@ -76,31 +61,23 @@
             <legend class="align-end">
               {{ multiplyValues(order.quantity, order.price) | currency }}
             </legend>
-            <legend class="legend-light align-end">
-              ({{ order.quantity }}x {{ order.price | currency }})
-            </legend>
+            <legend class="legend-light align-end">({{ order.quantity }}x {{ order.price | currency }})</legend>
           </div>
           <a (click)="deleteItem(order)"
-            ><img
-              class="btn-close"
-              src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg"
-              alt="botão fechar"
+            ><img class="btn-close" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botão fechar"
           /></a>
         </div>
       </div>
     </section>
 
     <!-- TODO: Form aqui -->
-     <app-order-form></app-order-form>
+    <app-order-form (formDataEmitter)="getFormData($event)"></app-order-form>
 
     <!-- TODO: Esse checkbox tambem vira outra parte, a ideia de conseguir criar components menores -->
     <div class="checkbox-content">
       <div class="editar">
         <h3>Dividir valor entre</h3>
-        <app-button-link
-          title="editar pessoas"
-          (buttonAction)="editarPessoas()"
-        ></app-button-link>
+        <app-button-link title="editar pessoas" (buttonAction)="editarPessoas()"></app-button-link>
       </div>
       <div class="form-content">
         <div class="mark-all-users">
@@ -109,20 +86,11 @@
             [(ngModel)]="markAllUsers"
             type="checkbox"
             name="name"
-            (change)="selectAllUser($event)"
-          />
+            (change)="selectAllUser($event)" />
           <label for="name">Selecionar todos</label>
         </div>
-        <form
-          class="form-checkbox"
-          *ngFor="let user of usersList; let i = index"
-        >
-          <input
-            type="checkbox"
-            name="name"
-            [(ngModel)]="selectedUsers[i]"
-            (change)="selectedUser(i, $event)"
-          />
+        <form class="form-checkbox" *ngFor="let user of usersList; let i = index">
+          <input type="checkbox" name="name" [(ngModel)]="selectedUsers[i]" (change)="selectedUser(i, $event)" />
           <label for="name">{{ user.name }}</label>
         </form>
         <div class="btn-trash" *ngIf="isEdit">
@@ -135,17 +103,13 @@
     </div>
   </article>
   <footer class="btn-content" *ngIf="!isEdit">
-    <app-button
+    <!-- <app-button
       [buttonTitle]="orders.length >= 1 ? 'próximo item' : 'incluir item'"
       styleButton="primary"
       size="large"
       [isDisabled]="!this.canEnableSubmitItemButton()"
-      (buttonAction)="createOrder()"
-    ></app-button>
-    <app-button-link
-      title="Finalizar pedidos >"
-      (buttonAction)="goToSummary()"
-    ></app-button-link>
+      (buttonAction)="createOrder()"></app-button> -->
+    <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary()"></app-button-link>
   </footer>
 
   <footer class="btn-content-edit" *ngIf="isEdit">
@@ -154,14 +118,12 @@
       styleButton="secondary"
       size="small"
       [isDisabled]=""
-      (buttonAction)="navigateTo()"
-    ></app-button>
+      (buttonAction)="navigateTo()"></app-button>
     <app-button
       buttonTitle="salvar"
       styleButton="primary"
       size="small"
       [isDisabled]="this.canEnableSubmitItemButton()"
-      (buttonAction)="editOrder()"
-    ></app-button>
+      (buttonAction)="editOrder()"></app-button>
   </footer>
 </main>

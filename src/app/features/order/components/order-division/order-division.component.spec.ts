@@ -8,9 +8,8 @@ describe('OrderDivisionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OrderDivisionComponent ]
-    })
-    .compileComponents();
+      declarations: [OrderDivisionComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OrderDivisionComponent);
     component = fixture.componentInstance;

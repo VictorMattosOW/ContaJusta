@@ -1,30 +1,23 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from 'src/app/core/models/order.model';
 import { User } from 'src/app/core/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
-import * as uuid from 'uuid';
+// import * as uuid from 'uuid';
+import { OrderFormComponent } from '../order-form/order-form.component';
+import { OrderFormData } from '../../../models/order-form.interface';
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
 })
-export class OrderComponent
-  extends AbstractComponent
-  implements OnInit, AfterViewInit
-{
+export class OrderComponent extends AbstractComponent implements OnInit {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
-  orderToEditId: string = '';
+  @ViewChild(OrderFormComponent) orderForm: OrderFormComponent = {} as OrderFormComponent;
+  orderToEditId = '';
 
   usersList: User[] = [];
   quantity = 1;
@@ -32,19 +25,9 @@ export class OrderComponent
 
   orders: Order[] = [];
   sharedFood: User[] = [];
-  maxLengthCaracteres = 30;
-
-  orderForm: FormGroup = new FormGroup({
-    foodName: new FormControl('', [
-      Validators.required,
-      Validators.maxLength(30),
-    ]),
-    price: new FormControl(null, [Validators.required, Validators.min(0.01)]),
-  });
-
   selectedUsers: boolean[] = [];
   markAllUsers = false;
-  maxNumberOfUsersInDisplay: number = 0;
+  maxNumberOfUsersInDisplay = 0;
 
   isEdit = false;
   orderToEditOrDelete: Order | undefined = {} as Order;
@@ -52,21 +35,20 @@ export class OrderComponent
     private sessionService: SessionService,
     private router: Router,
     private route: ActivatedRoute,
-    private userServices: UserService,
+    private userServices: UserService
   ) {
     super();
-    this.buildForm();
   }
 
-  ngAfterViewInit(): void {}
-
   ngOnInit(): void {
-    this.buildForm();
     this.getUsers();
     this.getOrders();
     this.getPath();
-    this.maxNumberOfUsersInDisplay =
-      this.userServices.maxNumberOfUsersInDisplayValue;
+    this.maxNumberOfUsersInDisplay = this.userServices.maxNumberOfUsersInDisplayValue;
+  }
+
+  getFormData(order: OrderFormData) {
+    console.log(order);
   }
 
   openDialog(order?: Order): void {
@@ -91,16 +73,14 @@ export class OrderComponent
   }
 
   setOrderForEdit({ name, price, sharedUsers = [], quantity }: Order) {
-    this.orderForm.patchValue({
-      foodName: name,
-      price: price,
-    });
+    // this.orderForm.patchValue({
+    //   foodName: name,
+    //   price: price,
+    // });
     this.quantity = quantity;
 
     sharedUsers.forEach((user: User, index: number) => {
-      const foundIndex = this.usersList.findIndex(
-        (userList: User) => userList.id === user.id,
-      );
+      const foundIndex = this.usersList.findIndex((userList: User) => userList.id === user.id);
       if (foundIndex !== -1) {
         this.selectedUser(foundIndex, true);
       } else {
@@ -115,16 +95,6 @@ export class OrderComponent
 
   getMaxNumberOfUsersInDisplay(users: User[]): User[] {
     return this.userServices.getMaxNumberOfUsersInDisplay(users);
-  }
-
-  buildForm() {
-    this.orderForm = new FormGroup({
-      foodName: new FormControl('', [
-        Validators.required,
-        Validators.maxLength(30),
-      ]),
-      price: new FormControl(null, [Validators.required, Validators.min(0.01)]),
-    });
   }
 
   editarPessoas() {
@@ -165,16 +135,6 @@ export class OrderComponent
     return this.orders.find((order) => order.id === orderId);
   }
 
-  updateQuantity(event: Event, operation: 'add' | 'subtract') {
-    event.preventDefault();
-
-    if (operation === 'add') {
-      this.quantity++;
-    } else if (operation === 'subtract' && this.quantity > 1) {
-      this.quantity--;
-    }
-  }
-
   selectAllUser(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked) {
@@ -189,51 +149,47 @@ export class OrderComponent
   }
 
   selectedUser(index: number, event: Event | boolean) {
-    const checked =
-      event instanceof Event
-        ? (event.target as HTMLInputElement).checked
-        : event;
+    const checked = event instanceof Event ? (event.target as HTMLInputElement).checked : event;
 
     if (checked) {
       this.sharedFood.push(this.usersList[index]);
     } else {
-      this.sharedFood = this.sharedFood.filter(
-        (element) => element !== this.usersList[index],
-      );
+      this.sharedFood = this.sharedFood.filter((element) => element !== this.usersList[index]);
     }
     this.selectedUsers[index] = checked;
   }
 
   createOrder() {
-    if (this.canEnableSubmitItemButton()) {
-      const formValues = this.orderForm.value;
-      const order: Order = {
-        id: uuid.v4(),
-        name: formValues.foodName,
-        price: Number(formValues.price),
-        quantity: Number(this.quantity),
-        sharedUsers: this.sharedFood,
-      };
-      this.orders.push(order);
-      this.resetForm();
-    }
+    // this.getFormData();
+    // if (this.canEnableSubmitItemButton()) {
+    //   const formValues = this.orderForm.value;
+    //   const order: Order = {
+    //     id: uuid.v4(),
+    //     name: formValues.foodName,
+    //     price: Number(formValues.price),
+    //     quantity: Number(this.quantity),
+    //     sharedUsers: this.sharedFood,
+    //   };
+    //   this.orders.push(order);
+    //   this.resetForm();
+    // }
   }
 
   // TODO: tirar esses "!"
   editOrder() {
     if (this.orderToEditOrDelete) {
-      const formValues = this.orderForm.value;
-      this.orders.forEach((order, index) => {
-        if (order.id === this.orderToEditOrDelete!.id) {
-          this.orders[index] = {
-            id: this.orderToEditOrDelete!.id,
-            name: formValues.foodName,
-            price: Number(formValues.price),
-            quantity: Number(this.quantity),
-            sharedUsers: this.sharedFood,
-          };
-        }
-      });
+      // const formValues = this.orderForm.value;
+      // this.orders.forEach((order, index) => {
+      //   if (order.id === this.orderToEditOrDelete!.id) {
+      //     this.orders[index] = {
+      //       id: this.orderToEditOrDelete!.id,
+      //       name: formValues.foodName,
+      //       price: Number(formValues.price),
+      //       quantity: Number(this.quantity),
+      //       sharedUsers: this.sharedFood,
+      //     };
+      //   }
+      // });
       this.saveOrders();
       this.navigateTo();
     }
@@ -244,7 +200,7 @@ export class OrderComponent
     this.sharedFood = [];
     this.selectedUsers = [];
     this.markAllUsers = false;
-    this.orderForm.reset();
+    // this.orderForm.reset();
   }
 
   deleteItem(orderToDelete: Order) {
@@ -252,13 +208,14 @@ export class OrderComponent
     // this.saveOrders();
   }
 
-  isValidForm(): boolean {
-    this.orderForm.markAllAsTouched();
-    return this.orderForm.valid;
-  }
+  // isValidForm(): boolean {
+  //   this.orderForm.markAllAsTouched();
+  //   return this.orderForm.valid;
+  // }
 
   canEnableSubmitItemButton(): boolean {
-    return this.isValidForm() && this.sharedFood.length !== 0;
+    // return this.isValidForm() && this.sharedFood.length !== 0;
+    return true;
   }
 
   canEnableButtonGoToSummary(): boolean {

@@ -17,11 +17,11 @@ export class SummaryComponent extends AbstractComponent implements OnInit {
 
   orderToEdit = {} as Order;
   orders: Order[] = [];
-  totalOrders: number = 0;
+  totalOrders = 0;
   orderForm: FormGroup = new FormGroup({
     percent: new FormControl(10, [Validators.maxLength(3)]),
   });
-  maxNumberOfUsersInDisplay: number = 0;
+  maxNumberOfUsersInDisplay = 0;
 
   constructor(
     private sessionService: SessionService,
@@ -34,8 +34,7 @@ export class SummaryComponent extends AbstractComponent implements OnInit {
   ngOnInit(): void {
     this.getOrders();
     this.buildForm();
-    this.maxNumberOfUsersInDisplay =
-      this.userServices.maxNumberOfUsersInDisplayValue;
+    this.maxNumberOfUsersInDisplay = this.userServices.maxNumberOfUsersInDisplayValue;
   }
 
   getFormattedUserNamesForDisplay(users: User[]): string {
@@ -75,13 +74,7 @@ export class SummaryComponent extends AbstractComponent implements OnInit {
     const percentValue = this.orderForm.value.percent;
     // const percent = percentValue === 0 ? 1 : percentValue;
     this.totalOrders = this.orders.reduce((sum, order) => {
-      return (
-        sum +
-        this.calcularValorFinal(
-          this.multiplyValues(order.quantity, order.price),
-          percentValue,
-        )
-      );
+      return sum + this.calcularValorFinal(this.multiplyValues(order.quantity, order.price), percentValue);
     }, 0);
     return this.totalOrders;
   }

@@ -6,6 +6,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./button-link.component.css'],
 })
 export class ButtonLinkComponent {
-  @Input() title: string = '';
+  @Input() title = '';
   @Output() buttonAction: EventEmitter<void> = new EventEmitter();
 }

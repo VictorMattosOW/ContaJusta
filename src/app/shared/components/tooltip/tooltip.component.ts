@@ -7,6 +7,6 @@ import { Component, Input } from '@angular/core';
 })
 export class TooltipComponent {
   @Input() showTooltip = false;
-  @Input() content: string = '';
-  @Input() numberOfUsers: number = 0;
+  @Input() content = '';
+  @Input() numberOfUsers = 0;
 }

@@ -10,18 +10,16 @@ import { SessionService } from 'src/app/shared/services/session.service';
   templateUrl: './order-division.component.html',
   styleUrls: ['./order-division.component.css'],
 })
-export class OrderDivisionComponent
-  implements AfterViewInit, OnInit, OnDestroy
-{
+export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy {
   usersList: User[] = [];
   finalOrder: FinalOrder = {} as FinalOrder;
   orderPerUser: OrderPerUser[] = [];
   cardState: boolean[] = [];
-  finalValue: number = 0;
+  finalValue = 0;
   constructor(
     private sessionService: SessionService,
     private router: Router,
-    private orderService: OrderService,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -72,12 +70,8 @@ export class OrderDivisionComponent
 
   calculateOrders() {
     const { orders, tax } = this.finalOrder;
-    this.orderPerUser =
-      this.orderService.calculateConsumption(this.usersList, orders, tax) ?? [];
-    this.finalValue = this.orderService.sumTotalOrders(
-      this.finalOrder.orders,
-      this.finalOrder.tax,
-    );
+    this.orderPerUser = this.orderService.calculateConsumption(this.usersList, orders, tax) ?? [];
+    this.finalValue = this.orderService.sumTotalOrders(this.finalOrder.orders, this.finalOrder.tax);
   }
 
   goToSummary() {
