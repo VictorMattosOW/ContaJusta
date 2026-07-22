@@ -30,52 +30,14 @@
       </div>
     </header>
 
-    <!-- TODO: esse card tem que sair daqui tambem, ele te sua logica e vai ficar separado -->
+    <app-card-orders [orders]="orders" (orderToDelete)="deleteItem($event)" />
 
-    <section class="card" *ngIf="orders.length !== 0 && !isEdit">
-      <header class="card_title">
-        <h5>Já ta na conta</h5>
-      </header>
-      <div class="info" *ngFor="let order of orders; let i = index">
-        <div class="orderContent">
-          <legend>{{ order.name }}</legend>
-          <div class="legend-name-content">
-            <legend class="legend-light">
-              {{ getFormattedUserNamesForDisplay(getMaxNumberOfUsersInDisplay(order.sharedUsers)) }}
-              <ng-template [ngIf]="order.sharedUsers.length > maxNumberOfUsersInDisplay">,&nbsp;</ng-template>
-              <div
-                style="display: inline-block"
-                (mouseover)="onHover(i)"
-                (mouseout)="onMouseout(i)"
-                *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay">
-                <app-tooltip
-                  [showTooltip]="tooltipDisplayStates[i]"
-                  [content]="getFormattedUserNamesForDisplay(order.sharedUsers)"
-                  [numberOfUsers]="order.sharedUsers.length - maxNumberOfUsersInDisplay"></app-tooltip>
-              </div>
-            </legend>
-          </div>
-        </div>
-        <div class="deleteItem">
-          <div>
-            <legend class="align-end">
-              {{ multiplyValues(order.quantity, order.price) | currency }}
-            </legend>
-            <legend class="legend-light align-end">({{ order.quantity }}x {{ order.price | currency }})</legend>
-          </div>
-          <a (click)="deleteItem(order)"
-            ><img class="btn-close" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botão fechar"
-          /></a>
-        </div>
-      </div>
-    </section>
-
-    <!-- TODO: Form aqui -->
     <app-order-form (formData)="getFormData($event)" (formValidityChange)="isSubmitButton = $event">
-      <app-user-checkbox [usersList]="usersList" (selectedUserList)="getSharedUserFood($event)"></app-user-checkbox>
+      <app-user-checkbox
+        [usersList]="usersList"
+        (selectedUserList)="getSharedUserFood($event)"
+        [resetTrigger]="resetCheckbox" />
     </app-order-form>
-
-    <!-- TODO: Esse checkbox tambem vira outra parte, a ideia de conseguir criar components menores -->
   </article>
   <footer class="btn-content" *ngIf="!isEdit">
     <app-button
