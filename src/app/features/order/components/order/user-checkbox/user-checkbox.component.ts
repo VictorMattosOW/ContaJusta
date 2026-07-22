@@ -1,18 +1,33 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from 'src/app/core/models/user.model';
 
 @Component({
   selector: 'app-user-checkbox',
   templateUrl: './user-checkbox.component.html',
-  styleUrls: ['./user-checkbox.component.css']
+  styleUrls: ['./user-checkbox.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserCheckboxComponent {
   @Input() usersList: User[] = [];
   @Output() selectedUserList = new EventEmitter<User[]>();
+  @Input() set resetTrigger(value: boolean) {
+    if (value) {
+      this.markAllUsers = false;
+      this.sharedFood = [];
+      this.selectedUsers = [];
+      this.selectedUserList.emit([]);
+    }
+  }
 
   markAllUsers = false;
   sharedFood: User[] = [];
   selectedUsers: boolean[] = [];
+
+  // user-checkbox.component.ts
+  trackByUserId(index: number, user: User): string {
+    return user.id;
+  }
+
   selectAllUser(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked) {

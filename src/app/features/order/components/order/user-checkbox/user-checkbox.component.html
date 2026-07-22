@@ -8,7 +8,7 @@
       <input id="all-users" [(ngModel)]="markAllUsers" type="checkbox" name="name" (change)="selectAllUser($event)" />
       <label for="name">Selecionar todos</label>
     </div>
-    <form class="form-checkbox" *ngFor="let user of usersList; let i = index">
+    <form class="form-checkbox" *ngFor="let user of usersList; trackBy: trackByUserId; let i = index">
       <input type="checkbox" name="name" [(ngModel)]="selectedUsers[i]" (change)="selectedUser(i, $event)" />
       <label for="name">{{ user.name }}</label>
     </form>

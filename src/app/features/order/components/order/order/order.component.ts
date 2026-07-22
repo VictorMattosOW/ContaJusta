@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from 'src/app/core/models/order.model';
 import { User } from 'src/app/core/models/user.model';
 import { SessionService } from 'src/app/shared/services/session.service';
-import { UserService } from 'src/app/shared/services/user.service';
 import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import { OrderFormComponent } from '../order-form/order-form.component';
 import { OrderFormData } from '../../../models/order-form.interface';
@@ -11,7 +10,8 @@ import { OrderFormData } from '../../../models/order-form.interface';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css']
+  styleUrls: ['./order.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrderComponent extends AbstractComponent implements OnInit {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
@@ -25,10 +25,8 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   orders: Order[] = [];
   order: OrderFormData = {} as OrderFormData;
   sharedFood: User[] = [];
-  selectedUsers: boolean[] = [];
-  markAllUsers = false;
-  maxNumberOfUsersInDisplay = 0;
 
+  resetCheckbox = false;
   isEdit = false;
   orderToEditOrDelete: Order | undefined = {} as Order;
   isSubmitButton = false;
@@ -37,17 +35,15 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   constructor(
     private sessionService: SessionService,
     private router: Router,
-    private route: ActivatedRoute,
-    private userServices: UserService
+    private route: ActivatedRoute
   ) {
     super();
   }
-
+  // TODO: Onde tem subscribe eu preciso criar um destroy para resolver problema de memory leak.
   ngOnInit(): void {
     this.getUsers();
     this.getOrders();
     this.getPath();
-    this.maxNumberOfUsersInDisplay = this.userServices.maxNumberOfUsersInDisplayValue;
   }
 
   getFormData(order: OrderFormData) {
@@ -56,7 +52,7 @@ export class OrderComponent extends AbstractComponent implements OnInit {
 
   getSharedUserFood(users: User[]) {
     this.hasUserSelected = users.length > 0;
-    console.log(users);
+    this.sharedFood = users;
   }
 
   openDialog(order?: Order): void {
@@ -87,22 +83,14 @@ export class OrderComponent extends AbstractComponent implements OnInit {
     // });
     this.quantity = quantity;
 
-    sharedUsers.forEach((user: User, index: number) => {
-      const foundIndex = this.usersList.findIndex((userList: User) => userList.id === user.id);
-      if (foundIndex !== -1) {
-        this.selectedUser(foundIndex, true);
-      } else {
-        this.selectedUser(index, false);
-      }
-    });
-  }
-
-  getFormattedUserNamesForDisplay(users: User[]): string {
-    return this.userServices.getConcatenatedUserNames(users);
-  }
-
-  getMaxNumberOfUsersInDisplay(users: User[]): User[] {
-    return this.userServices.getMaxNumberOfUsersInDisplay(users);
+    // sharedUsers.forEach((user: User, index: number) => {
+    //   const foundIndex = this.usersList.findIndex((userList: User) => userList.id === user.id);
+    //   if (foundIndex !== -1) {
+    //     this.selectedUser(foundIndex, true);
+    //   } else {
+    //     this.selectedUser(index, false);
+    //   }
+    // });
   }
 
   editarPessoas() {
@@ -143,30 +131,6 @@ export class OrderComponent extends AbstractComponent implements OnInit {
     return this.orders.find((order) => order.id === orderId);
   }
 
-  // selectAllUser(event: Event) {
-  //   const checked = (event.target as HTMLInputElement).checked;
-  //   if (checked) {
-  //     this.sharedFood = [...this.usersList];
-  //     this.selectedUsers.length = this.sharedFood.length;
-  //     this.selectedUsers.fill(checked);
-  //   } else {
-  //     this.sharedFood = [];
-  //     this.selectedUsers.fill(checked);
-  //   }
-  //   this.markAllUsers = checked;
-  // }
-
-  selectedUser(index: number, event: Event | boolean) {
-    const checked = event instanceof Event ? (event.target as HTMLInputElement).checked : event;
-
-    if (checked) {
-      this.sharedFood.push(this.usersList[index]);
-    } else {
-      this.sharedFood = this.sharedFood.filter((element) => element !== this.usersList[index]);
-    }
-    this.selectedUsers[index] = checked;
-  }
-
   createOrder() {
     this.orderForm.submitOrder();
     const order: Order = {
@@ -176,7 +140,10 @@ export class OrderComponent extends AbstractComponent implements OnInit {
       quantity: this.order.quantity,
       sharedUsers: this.sharedFood
     };
-    this.orders.push(order);
+    this.orders = [...this.orders, order];
+
+    this.resetCheckbox = true;
+    setTimeout(() => (this.resetCheckbox = false));
   }
 
   // TODO: tirar esses "!"
@@ -202,9 +169,6 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   resetForm() {
     this.quantity = 1;
     this.sharedFood = [];
-    this.selectedUsers = [];
-    this.markAllUsers = false;
-    // this.orderForm.reset();
   }
 
   deleteItem(orderToDelete: Order) {

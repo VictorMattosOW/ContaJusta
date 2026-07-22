@@ -8,7 +8,7 @@ import { SessionService } from 'src/app/shared/services/session.service';
 @Component({
   selector: 'app-order-division',
   templateUrl: './order-division.component.html',
-  styleUrls: ['./order-division.component.css'],
+  styleUrls: ['./order-division.component.css']
 })
 export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy {
   usersList: User[] = [];
@@ -31,6 +31,10 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
     this.changeBackground('blue');
   }
 
+  trackByOrderKey(index: number, sharedFood: any): string {
+    return `${sharedFood.food}-${sharedFood.sharedValue}`;
+  }
+
   changeBackground(color = 'white') {
     setTimeout(() => {
       this.sessionService.setBackgroundColor(color);
@@ -43,7 +47,7 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
         this.finalOrder = finalOrder;
         this.isOrderEmpty();
         this.calculateOrders();
-      },
+      }
     });
   }
 
@@ -60,7 +64,7 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
           this.router.navigate(['registrar']);
         }
         this.usersList = users;
-      },
+      }
     });
   }
 
