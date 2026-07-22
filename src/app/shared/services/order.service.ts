@@ -3,11 +3,9 @@ import { Order, OrderPerUser } from 'src/app/core/models/order.model';
 import { User } from 'src/app/core/models/user.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class OrderService {
-  constructor() {}
-
   calculateConsumption(users: User[], orders: Order[], tax: number): OrderPerUser[] | null {
     if (users && orders) {
       // Cria um objeto para armazenar os valores consumidos por cada pessoa
@@ -16,7 +14,7 @@ export class OrderService {
         consumptionMap[user.id] = {
           name: user.name,
           totalValue: 0,
-          orders: [],
+          orders: []
         };
       });
 
@@ -40,13 +38,13 @@ export class OrderService {
             consumptionMap[user.id].totalValue += Number(remainder) + equalValue;
             consumptionMap[user.id].orders.push({
               food: order.name,
-              sharedValue: Number(remainder),
+              sharedValue: Number(remainder)
             });
           } else {
             consumptionMap[user.id].totalValue += equalValue;
             consumptionMap[user.id].orders.push({
               food: order.name,
-              sharedValue: equalValue,
+              sharedValue: equalValue
             });
           }
         });

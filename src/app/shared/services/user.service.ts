@@ -2,12 +2,10 @@ import { Injectable } from '@angular/core';
 import { User } from 'src/app/core/models/user.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserService {
   private maxNumberOfUsersInDisplay = 2;
-
-  constructor() {}
 
   get maxNumberOfUsersInDisplayValue(): number {
     return this.maxNumberOfUsersInDisplay;

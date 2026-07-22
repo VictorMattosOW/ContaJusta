@@ -5,8 +5,6 @@ export abstract class AbstractComponent {
   // TODO: vai vazar daqui
   tooltipDisplayStates: boolean[] = [];
 
-  constructor() {}
-
   multiplyValues(quantity: number, price: number): number {
     return quantity * price;
   }
