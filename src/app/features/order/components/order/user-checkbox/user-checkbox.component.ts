@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { User } from 'src/app/core/models/user.model';
 
 @Component({
@@ -8,11 +8,11 @@ import { User } from 'src/app/core/models/user.model';
 })
 export class UserCheckboxComponent {
   @Input() usersList: User[] = [];
-  @Input() selectedUsers: boolean[] = [];
+  @Output() selectedUserList = new EventEmitter<User[]>();
 
   markAllUsers = false;
   sharedFood: User[] = [];
-
+  selectedUsers: boolean[] = [];
   selectAllUser(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     if (checked) {
@@ -24,6 +24,7 @@ export class UserCheckboxComponent {
       this.selectedUsers.fill(checked);
     }
     this.markAllUsers = checked;
+    this.selectedUserList.emit(this.sharedFood);
   }
 
   selectedUser(index: number, event: Event | boolean) {
@@ -35,5 +36,6 @@ export class UserCheckboxComponent {
       this.sharedFood = this.sharedFood.filter((element) => element !== this.usersList[index]);
     }
     this.selectedUsers[index] = checked;
+    this.selectedUserList.emit(this.sharedFood);
   }
 }

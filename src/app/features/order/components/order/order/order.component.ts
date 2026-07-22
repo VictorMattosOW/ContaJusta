@@ -32,6 +32,7 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   isEdit = false;
   orderToEditOrDelete: Order | undefined = {} as Order;
   isSubmitButton = false;
+  hasUserSelected = false;
 
   constructor(
     private sessionService: SessionService,
@@ -51,6 +52,11 @@ export class OrderComponent extends AbstractComponent implements OnInit {
 
   getFormData(order: OrderFormData) {
     this.order = order;
+  }
+
+  getSharedUserFood(users: User[]) {
+    this.hasUserSelected = users.length > 0;
+    console.log(users);
   }
 
   openDialog(order?: Order): void {
@@ -137,18 +143,18 @@ export class OrderComponent extends AbstractComponent implements OnInit {
     return this.orders.find((order) => order.id === orderId);
   }
 
-  selectAllUser(event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
-    if (checked) {
-      this.sharedFood = [...this.usersList];
-      this.selectedUsers.length = this.sharedFood.length;
-      this.selectedUsers.fill(checked);
-    } else {
-      this.sharedFood = [];
-      this.selectedUsers.fill(checked);
-    }
-    this.markAllUsers = checked;
-  }
+  // selectAllUser(event: Event) {
+  //   const checked = (event.target as HTMLInputElement).checked;
+  //   if (checked) {
+  //     this.sharedFood = [...this.usersList];
+  //     this.selectedUsers.length = this.sharedFood.length;
+  //     this.selectedUsers.fill(checked);
+  //   } else {
+  //     this.sharedFood = [];
+  //     this.selectedUsers.fill(checked);
+  //   }
+  //   this.markAllUsers = checked;
+  // }
 
   selectedUser(index: number, event: Event | boolean) {
     const checked = event instanceof Event ? (event.target as HTMLInputElement).checked : event;

@@ -72,14 +72,7 @@
 
     <!-- TODO: Form aqui -->
     <app-order-form (formData)="getFormData($event)" (formValidityChange)="isSubmitButton = $event">
-      <app-user-checkbox [usersList]="usersList" [selectedUsers]="selectedUsers" (selectAll)="selectAllUser($event)">
-      </app-user-checkbox>
-      <!-- <app-user-checkbox
-        [usersList]="usersList"
-        [selectedUsers]="selectedUsers"
-        (userToggle)="selectedUser($event, $event.checked)"
-        (selectAll)="selectAllUser($event)">
-      </app-user-checkbox> -->
+      <app-user-checkbox [usersList]="usersList" (selectedUserList)="getSharedUserFood($event)"></app-user-checkbox>
     </app-order-form>
 
     <!-- TODO: Esse checkbox tambem vira outra parte, a ideia de conseguir criar components menores -->
@@ -89,7 +82,7 @@
       [buttonTitle]="orders.length >= 1 ? 'próximo item' : 'incluir item'"
       styleButton="primary"
       size="large"
-      [isDisabled]="!isSubmitButton"
+      [isDisabled]="!isSubmitButton || !hasUserSelected"
       (buttonAction)="createOrder()"></app-button>
     <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary()"></app-button-link>
   </footer>
