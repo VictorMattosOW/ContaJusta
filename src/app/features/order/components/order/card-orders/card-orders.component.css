@@ -1,0 +1,58 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem;
+  background: var(--gray5);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.card_title {
+  color: var(--gray);
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+}
+
+.legend-name-content {
+  display: flex;
+}
+
+.legend {
+  color: var(--cinza, #1f2633);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.legend-light {
+  font-size: 10px;
+  color: var(--gray3);
+}
+
+.deleteItem {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.deleteItem > a {
+  cursor: pointer;
+}
+
+.align-end {
+  text-align: end;
+}
+
+.btn-close {
+  width: 16px;
+  height: 16px;
+}

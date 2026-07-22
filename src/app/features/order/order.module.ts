@@ -9,6 +9,7 @@ import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'no
 import { OrderFormComponent } from './components/order/order-form/order-form.component';
 import { OrderComponent } from './components/order/order/order.component';
 import { UserCheckboxComponent } from './components/order/user-checkbox/user-checkbox.component';
+import { CardOrdersComponent } from './components/order/card-orders/card-orders.component';
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'right',
@@ -26,7 +27,7 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
 };
 
 @NgModule({
-  declarations: [OrderComponent, OrderDivisionComponent, OrderFormComponent, UserCheckboxComponent],
+  declarations: [OrderComponent, OrderDivisionComponent, OrderFormComponent, UserCheckboxComponent, CardOrdersComponent],
   imports: [
     CommonModule,
     OrderRoutingModule,
