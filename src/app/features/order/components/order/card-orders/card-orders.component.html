@@ -1,37 +1,26 @@
-<!-- <section class="card" *ngIf="orders.length !== 0 && !isEdit"> -->
-<section class="card" *ngIf="orders.length !== 0">
-  <header class="card_title">
+<!-- <section class="card-orders" *ngIf="orders.length !== 0 && !isEdit"> -->
+<section class="card-orders" *ngIf="orders.length !== 0">
+  <header class="card-orders__header">
     <h5>Já ta na conta</h5>
   </header>
-  <div class="info" *ngFor="let order of orders; trackBy: trackByOrderId; let i = index">
-    <div class="orderContent">
+  <div class="card-orders__item" *ngFor="let order of orders; trackBy: trackByOrderId; let i = index">
+    <div class="card-orders__item-content">
       <legend>{{ order.name }}</legend>
-      <div class="legend-name-content">
-        <legend class="legend-light">
-          {{ getFormattedUserNamesForDisplay(getMaxNumberOfUsersInDisplay(order.sharedUsers)) }}
-          <ng-template [ngIf]="order.sharedUsers.length > maxNumberOfUsersInDisplay">,&nbsp;</ng-template>
-          <div
-            style="display: inline-block"
-            (mouseover)="onHover(i)"
-            (mouseout)="onMouseout(i)"
-            *ngIf="order.sharedUsers.length > maxNumberOfUsersInDisplay">
-            <app-tooltip
-              [showTooltip]="tooltipDisplayStates[i]"
-              [content]="getFormattedUserNamesForDisplay(order.sharedUsers)"
-              [numberOfUsers]="order.sharedUsers.length - maxNumberOfUsersInDisplay"></app-tooltip>
-          </div>
-        </legend>
+      <div class="card-orders__item-users">
+        <app-order-user-display [sharedUsers]="order.sharedUsers"></app-order-user-display>
       </div>
     </div>
-    <div class="deleteItem">
+    <div class="card-orders__item-actions">
       <div>
-        <legend class="align-end">
-          {{ multiplyValues(order.quantity, order.price) | currency }}
+        <legend class="card-orders__item-price">
+          {{ order.quantity * order.price | currency }}
         </legend>
-        <legend class="legend-light align-end">({{ order.quantity }}x {{ order.price | currency }})</legend>
+        <legend class="card-orders__item-quantity card-orders__item-price">
+          ({{ order.quantity }}x {{ order.price | currency }})
+        </legend>
       </div>
       <a (click)="deleteItem(order)"
-        ><img class="btn-close" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botão fechar"
+        ><img class="card-orders__close-btn" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botão fechar"
       /></a>
     </div>
   </div>
