@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Order } from 'src/app/core/models/order.model';
-import { User } from 'src/app/core/models/user.model';
-import { SessionService } from 'src/app/shared/services/session.service';
-import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
 import { OrderFormComponent } from '../order-form/order-form.component';
-import { OrderFormData } from '../../../models/order-form.interface';
+import { Subject, takeUntil } from 'rxjs';
+import { User } from 'app/core/models/user.model';
+import { Order } from 'app/core/models/order.model';
+import { OrderFormData } from 'app/features/order/models/order-form.interface';
+import { SessionService } from 'app/shared/services/session.service';
 
 @Component({
   selector: 'app-order',
@@ -13,9 +13,10 @@ import { OrderFormData } from '../../../models/order-form.interface';
   styleUrls: ['./order.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class OrderComponent extends AbstractComponent implements OnInit {
+export class OrderComponent implements OnInit, OnDestroy {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
   @ViewChild(OrderFormComponent) orderForm: OrderFormComponent = {} as OrderFormComponent;
+  private readonly destroy$ = new Subject<void>();
   orderToEditId = '';
 
   usersList: User[] = [];
@@ -36,14 +37,18 @@ export class OrderComponent extends AbstractComponent implements OnInit {
     private sessionService: SessionService,
     private router: Router,
     private route: ActivatedRoute
-  ) {
-    super();
-  }
+  ) {}
+
   // TODO: Onde tem subscribe eu preciso criar um destroy para resolver problema de memory leak.
   ngOnInit(): void {
     this.getUsers();
     this.getOrders();
     this.getPath();
+  }
+
+  ngOnDestroy(): void {
+    this.getUsers();
+    this.getOrders();
   }
 
   getFormData(order: OrderFormData) {
@@ -100,27 +105,36 @@ export class OrderComponent extends AbstractComponent implements OnInit {
   }
 
   getUsers() {
-    this.sessionService.getUsersObservable().subscribe({
-      next: (users) => {
-        if (users.length === 0) {
-          // this.router.navigate(['registrar']);
+    // this.orderForm.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+    //   this.formValidityChange.emit(this.orderForm.valid);
+    // });
+    this.sessionService
+      .getUsersObservable()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (users) => {
+          if (users.length === 0) {
+            // this.router.navigate(['registrar']);
+          }
+          this.usersList = users;
         }
-        this.usersList = users;
-      }
-    });
+      });
   }
 
   getOrders() {
-    this.sessionService.getOrdersObservable().subscribe({
-      next: (orders: Order[]) => {
-        orders.forEach((order) => {
-          order.sharedUsers = order.sharedUsers
-            .map((user) => this.findUserById(user.id))
-            .filter((user): user is User => user !== undefined);
-        });
-        this.orders = orders;
-      }
-    });
+    this.sessionService
+      .getOrdersObservable()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (orders: Order[]) => {
+          orders.forEach((order) => {
+            order.sharedUsers = order.sharedUsers
+              .map((user) => this.findUserById(user.id))
+              .filter((user): user is User => user !== undefined);
+          });
+          this.orders = orders;
+        }
+      });
   }
 
   private findUserById(userId: string): User | undefined {

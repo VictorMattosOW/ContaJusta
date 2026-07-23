@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { User } from 'src/app/core/models/user.model';
+import { User } from 'app/core/models/user.model';
 
 @Component({
   selector: 'app-user-checkbox',

@@ -1,53 +1,39 @@
 import { Router } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { SessionService } from 'src/app/shared/services/session.service';
-import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
+import { APP_CONSTANTS } from '../../shared/constants/app.constants';
+import { FinalOrder, Order } from 'app/core/models/order.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { FinalOrder, Order } from 'src/app/core/models/order.model';
-import { User } from 'src/app/core/models/user.model';
-import { UserService } from 'src/app/shared/services/user.service';
+import { SessionService } from 'app/shared/services/session.service';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css'],
+  styleUrls: ['./summary.component.css']
 })
-export class SummaryComponent extends AbstractComponent implements OnInit {
+export class SummaryComponent implements OnInit {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
 
   orderToEdit = {} as Order;
   orders: Order[] = [];
   totalOrders = 0;
   orderForm: FormGroup = new FormGroup({
-    percent: new FormControl(10, [Validators.maxLength(3)]),
+    percent: new FormControl(10, [Validators.maxLength(3)])
   });
-  maxNumberOfUsersInDisplay = 0;
+  constants = APP_CONSTANTS;
 
   constructor(
     private sessionService: SessionService,
-    private userServices: UserService,
-    private router: Router,
-  ) {
-    super();
-  }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getOrders();
     this.buildForm();
-    this.maxNumberOfUsersInDisplay = this.userServices.maxNumberOfUsersInDisplayValue;
-  }
-
-  getFormattedUserNamesForDisplay(users: User[]): string {
-    return this.userServices.getConcatenatedUserNames(users);
-  }
-
-  getMaxNumberOfUsersInDisplay(users: User[]): User[] {
-    return this.userServices.getMaxNumberOfUsersInDisplay(users);
   }
 
   buildForm() {
     this.orderForm = new FormGroup({
-      percent: new FormControl(10, [Validators.maxLength(3)]),
+      percent: new FormControl(10, [Validators.maxLength(3)])
     });
   }
 
@@ -56,7 +42,7 @@ export class SummaryComponent extends AbstractComponent implements OnInit {
       next: (orders: Order[]) => {
         this.orders = orders;
         this.isOrderEmpty();
-      },
+      }
     });
   }
 
@@ -74,7 +60,7 @@ export class SummaryComponent extends AbstractComponent implements OnInit {
     const percentValue = this.orderForm.value.percent;
     // const percent = percentValue === 0 ? 1 : percentValue;
     this.totalOrders = this.orders.reduce((sum, order) => {
-      return sum + this.calcularValorFinal(this.multiplyValues(order.quantity, order.price), percentValue);
+      return sum + this.calcularValorFinal(order.quantity * order.price, percentValue);
     }, 0);
     return this.totalOrders;
   }
@@ -107,7 +93,7 @@ export class SummaryComponent extends AbstractComponent implements OnInit {
   saveFinalOrder() {
     const finalOrder: FinalOrder = {
       orders: this.orders,
-      tax: this.orderForm.value.percent,
+      tax: this.orderForm.value.percent
     };
     this.sessionService.setFinalOrder(finalOrder);
   }

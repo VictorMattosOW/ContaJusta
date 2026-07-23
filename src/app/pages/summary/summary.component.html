@@ -39,14 +39,14 @@
         <div class="names-content">
           <h6>{{ order.name }}</h6>
           <legend>
-            {{ getFormattedUserNamesForDisplay(order.sharedUsers) }}
+            {{ order.sharedUsers | userNamesDisplay }}
           </legend>
         </div>
 
         <div class="description-price">
           <div class="price-content">
             <h6>
-              {{ multiplyValues(order.quantity, order.price) | currency }}
+              {{ order.quantity * order.price | currency }}
             </h6>
             <legend>({{ order.price | currency }})</legend>
           </div>

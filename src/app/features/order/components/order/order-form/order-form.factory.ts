@@ -1,4 +1,4 @@
-import { FormControl, FormGroup, Validators } from 'node_modules/@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { OrderFormControls } from '../../../models/order-form.interface';
 import { ORDER_FORM_CONSTANTS } from '../../../models/order-form.constants';
 

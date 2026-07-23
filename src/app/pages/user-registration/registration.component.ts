@@ -5,26 +5,26 @@ import {
   Component,
   ElementRef,
   OnInit,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/core/models/user.model';
-import { SessionService } from 'src/app/shared/services/session.service';
-import { AbstractComponent } from 'src/app/shared/utils/abstract.component';
+import { User } from 'app/core/models/user.model';
+import { SessionService } from 'app/shared/services/session.service';
+
 import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css'],
+  styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent extends AbstractComponent implements OnInit, AfterViewChecked, AfterViewInit {
+export class RegistrationComponent implements OnInit, AfterViewChecked, AfterViewInit {
   @ViewChild('autofocus', { static: false }) autofocusRef?: ElementRef;
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
 
   form: FormGroup = new FormGroup({
-    inputs: new FormArray([]),
+    inputs: new FormArray([])
   });
 
   isEdit = false;
@@ -37,9 +37,7 @@ export class RegistrationComponent extends AbstractComponent implements OnInit, 
     private router: Router,
     private sessionService: SessionService,
     private cd: ChangeDetectorRef
-  ) {
-    super();
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     this.cd.detectChanges();
@@ -71,7 +69,7 @@ export class RegistrationComponent extends AbstractComponent implements OnInit, 
     this.sessionService.getPath().subscribe({
       next: (path) => {
         this.isEdit = path === '/ordens';
-      },
+      }
     });
   }
 
@@ -84,7 +82,7 @@ export class RegistrationComponent extends AbstractComponent implements OnInit, 
       },
       error: (error) => {
         console.error(error);
-      },
+      }
     });
   }
 
@@ -116,10 +114,10 @@ export class RegistrationComponent extends AbstractComponent implements OnInit, 
     return new FormGroup({
       // Se o user.name existir, usa ele. Se não, começa com string vazia.
       name: new FormControl(user?.name ?? '', {
-        validators: [Validators.required, Validators.maxLength(25)],
+        validators: [Validators.required, Validators.maxLength(25)]
       }),
       // Se o user.id existir, usa ele. Se não, gera um novo UUID.
-      id: new FormControl(user?.id ?? uuid.v4()),
+      id: new FormControl(user?.id ?? uuid.v4())
     });
   }
 

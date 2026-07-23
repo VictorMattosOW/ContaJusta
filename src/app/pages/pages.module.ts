@@ -5,11 +5,9 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { StartComponent } from './start/start.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-// import { OrderComponent } from '../features/order/components/order/order.component';
 import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
 import { RegistrationComponent } from './user-registration/registration.component';
 import { SummaryComponent } from './summary/summary.component';
-// import { OrderDivisionComponent } from '../features/order/components/order-division/order-division.component';
 import { SharedModule } from '../shared/shared.module';
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
@@ -24,7 +22,7 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   nullable: true,
   min: 0,
   max: undefined,
-  inputMode: CurrencyMaskInputMode.FINANCIAL,
+  inputMode: CurrencyMaskInputMode.FINANCIAL
 };
 
 @NgModule({
@@ -32,7 +30,7 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
     StartComponent,
     RegistrationComponent,
     // OrderComponent,
-    SummaryComponent,
+    SummaryComponent
     // OrderDivisionComponent,
   ],
   imports: [
@@ -42,14 +40,14 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
     ReactiveFormsModule,
     FormsModule,
     NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
-    SharedModule,
+    SharedModule
   ],
   exports: [
     StartComponent,
     RegistrationComponent,
     // OrderComponent,
-    SummaryComponent,
+    SummaryComponent
     // OrderDivisionComponent,
-  ],
+  ]
 })
 export class PagesModule {}

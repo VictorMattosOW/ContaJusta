@@ -3,6 +3,7 @@
 ## CardOrdersComponent
 
 **Arquivos:**
+
 - `src/app/features/order/components/order/card-orders/card-orders.component.ts`
 - `src/app/features/order/components/order/card-orders/card-orders.component.html`
 - `src/app/features/order/components/order/card-orders/card-orders.component.css`
@@ -20,43 +21,43 @@ Criar um componente `OrderUserDisplay` que encapsula formatação de nomes e ló
 
 O `UserService` possui funções que são puras (sem estado): `getConcatenatedUserNames`, `getMaxNumberOfUsersInDisplay`, `maxNumberOfUsersInDisplayValue`. Essas não precisam de um service.
 
-- [ ] Mover `getConcatenatedUserNames` para pipe ou função utilitária
-- [ ] Mover `getMaxNumberOfUsersInDisplay` para pipe ou função utilitária
-- [ ] Transformar `maxNumberOfUsersInDisplay` em constante
-- [ ] Remover injeção de `UserService` do componente (se tooltip for extraído)
+- [x] Mover `getConcatenatedUserNames` para pipe ou função utilitária
+- [x] Mover `getMaxNumberOfUsersInDisplay` para pipe ou função utilitária
+- [x] Transformar `maxNumberOfUsersInDisplay` em constante
+- [x] Remover injeção de `UserService` do componente (se tooltip for extraído)
 
 ### 3. Criar pipe para formatação de nomes (OCP, performance)
 
 Substituir chamadas de função no template por pipe, que é cachingável e não roda em cada ciclo de change detection.
 
-- [ ] Criar `UserNamesPipe` (`shared/pipes/user-names.pipe.ts`)
-- [ ] Usar no template: `{{ order.sharedUsers | userNames }}`
-- [ ] Registrar no módulo
+- [x] Criar `UserNamesPipe` (`shared/pipes/user-names.pipe.ts`)
+- [x] Usar no template: `{{ order.sharedUsers | userNames }}`
+- [x] Registrar no módulo
 
 ### 4. Remover `multiplyValues` da classe (ISP, clean code)
 
 Atribuir função importada como propriedade da classe é anti-pattern. A operação `quantity * price` é trivial.
 
-- [ ] Usar inline no template: `{{ order.quantity * order.price | currency }}`
-- [ ] Remover `multiplyValues = multiplyValues` da classe
-- [ ] Remover import de `multiplyValues` de `utils.ts`
+- [x] Usar inline no template: `{{ order.quantity * order.price | currency }}`
+- [x] Remover `multiplyValues = multiplyValues` da classe
+- [x] Remover import de `multiplyValues` de `utils.ts`
 
 ### 5. Corrigir template HTML (semântica, acessibilidade)
 
-| Linha | Problema | Solução |
-|---|---|---|
-| 1 | Código comentado | Remover |
-| 11 | Chamada encadeada de funções | Usar pipe |
-| 14 | `style="display: inline-block"` inline | Mover para CSS |
-| 15-16 | `mouseover`/`mouseout` | Trocar por `mouseenter`/`mouseleave` |
-| 28-31 | `<legend>` para texto comum | Trocar por `<span>` ou `<p>` |
-| 33 | `<a>` sem `href` | Trocar por `<button>` (acessibilidade) |
+| Linha | Problema                               | Solução                                |
+| ----- | -------------------------------------- | -------------------------------------- |
+| 1     | Código comentado                       | Remover                                |
+| 11    | Chamada encadeada de funções           | Usar pipe                              |
+| 14    | `style="display: inline-block"` inline | Mover para CSS                         |
+| 15-16 | `mouseover`/`mouseout`                 | Trocar por `mouseenter`/`mouseleave`   |
+| 28-31 | `<legend>` para texto comum            | Trocar por `<span>` ou `<p>`           |
+| 33    | `<a>` sem `href`                       | Trocar por `<button>` (acessibilidade) |
 
 - [ ] Remover código comentado na linha 1
-- [ ] Trocar `<legend>` por `<span>` nas linhas 8, 10, 28, 31
-- [ ] Trocar `<a>` por `<button>` na linha 33
-- [ ] Mover `style="display: inline-block"` para classe CSS
-- [ ] Trocar `mouseover`/`mouseout` por `mouseenter`/`mouseleave`
+- [x] Trocar `<legend>` por `<span>` nas linhas 8, 10, 28, 31
+- [x] Trocar `<a>` por `<button>` na linha 33
+- [x] Mover `style="display: inline-block"` para classe CSS
+- [x] Trocar `mouseover`/`mouseout` por `mouseenter`/`mouseleave`
 
 ### 6. Corrigir OnPush + tooltip (funcionalidade)
 

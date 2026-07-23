@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 
 import { OrderRoutingModule } from './order-routing.module';
 import { OrderDivisionComponent } from './components/order-division/order-division.component';
-import { SharedModule } from 'src/app/shared/shared.module';
-import { FormsModule, ReactiveFormsModule } from 'node_modules/@angular/forms';
-import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'node_modules/ngx-currency';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
 import { OrderFormComponent } from './components/order/order-form/order-form.component';
 import { OrderComponent } from './components/order/order/order.component';
 import { UserCheckboxComponent } from './components/order/user-checkbox/user-checkbox.component';
 import { CardOrdersComponent } from './components/order/card-orders/card-orders.component';
+import { SharedModule } from 'app/shared/shared.module';
+import { OrderUserDisplayComponent } from './components/order/order-user-display/order-user-display.component';
 
 export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   align: 'right',
@@ -27,7 +28,14 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
 };
 
 @NgModule({
-  declarations: [OrderComponent, OrderDivisionComponent, OrderFormComponent, UserCheckboxComponent, CardOrdersComponent],
+  declarations: [
+    OrderComponent,
+    OrderDivisionComponent,
+    OrderFormComponent,
+    UserCheckboxComponent,
+    CardOrdersComponent,
+    OrderUserDisplayComponent
+  ],
   imports: [
     CommonModule,
     OrderRoutingModule,

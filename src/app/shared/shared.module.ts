@@ -5,11 +5,29 @@ import { ButtonLinkComponent } from './components/button-link/button-link.compon
 import { TooltipComponent } from './components/tooltip/tooltip.component';
 import { AutofocusDirective } from './diretivas/autofocus.directive';
 import { CurrencyPipe } from './pipes/currency.pipe';
+import { UserNamesPipe } from './pipes/user-names.pipe';
+import { UserNamesDisplayPipe } from './pipes/user-names-display.pipe';
 
 @NgModule({
-  declarations: [ButtonComponent, ButtonLinkComponent, TooltipComponent, AutofocusDirective, CurrencyPipe],
-  exports: [ButtonComponent, ButtonLinkComponent, TooltipComponent, AutofocusDirective, CurrencyPipe],
+  declarations: [
+    ButtonComponent,
+    ButtonLinkComponent,
+    TooltipComponent,
+    AutofocusDirective,
+    CurrencyPipe,
+    UserNamesPipe,
+    UserNamesDisplayPipe
+  ],
+  exports: [
+    ButtonComponent,
+    ButtonLinkComponent,
+    TooltipComponent,
+    AutofocusDirective,
+    CurrencyPipe,
+    UserNamesPipe,
+    UserNamesDisplayPipe
+  ],
   imports: [CommonModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SharedModule {}
