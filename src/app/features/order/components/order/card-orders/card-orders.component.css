@@ -56,3 +56,15 @@
   width: 16px;
   height: 16px;
 }
+
+.card-orders__item-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-orders__item-content__title {
+  color: var(--gray, #565d6c);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+}

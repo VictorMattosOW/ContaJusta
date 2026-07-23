@@ -47,8 +47,8 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getUsers();
-    this.getOrders();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   getFormData(order: OrderFormData) {
@@ -105,9 +105,6 @@ export class OrderComponent implements OnInit, OnDestroy {
   }
 
   getUsers() {
-    // this.orderForm.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-    //   this.formValidityChange.emit(this.orderForm.valid);
-    // });
     this.sessionService
       .getUsersObservable()
       .pipe(takeUntil(this.destroy$))
@@ -160,7 +157,6 @@ export class OrderComponent implements OnInit, OnDestroy {
     setTimeout(() => (this.resetCheckbox = false));
   }
 
-  // TODO: tirar esses "!"
   editOrder() {
     if (this.orderToEditOrDelete) {
       // const formValues = this.orderForm.value;
@@ -189,11 +185,6 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
     // this.saveOrders();
   }
-
-  // isValidForm(): boolean {
-  //   this.orderForm.markAllAsTouched();
-  //   return this.orderForm.valid;
-  // }
 
   canEnableSubmitItemButton(): boolean {
     // return this.isValidForm() && this.sharedFood.length !== 0;

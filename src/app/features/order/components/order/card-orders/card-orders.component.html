@@ -1,27 +1,26 @@
-<!-- <section class="card-orders" *ngIf="orders.length !== 0 && !isEdit"> -->
 <section class="card-orders" *ngIf="orders.length !== 0">
   <header class="card-orders__header">
     <h5>Já ta na conta</h5>
   </header>
   <div class="card-orders__item" *ngFor="let order of orders; trackBy: trackByOrderId; let i = index">
     <div class="card-orders__item-content">
-      <legend>{{ order.name }}</legend>
+      <span class="card-orders__item-content__title">{{ order.name }}</span>
       <div class="card-orders__item-users">
         <app-order-user-display [sharedUsers]="order.sharedUsers"></app-order-user-display>
       </div>
     </div>
     <div class="card-orders__item-actions">
-      <div>
-        <legend class="card-orders__item-price">
+      <div class="card-orders__item-content">
+        <span class="card-orders__item-price">
           {{ order.quantity * order.price | currency }}
-        </legend>
-        <legend class="card-orders__item-quantity card-orders__item-price">
+        </span>
+        <span class="card-orders__item-quantity card-orders__item-price">
           ({{ order.quantity }}x {{ order.price | currency }})
-        </legend>
+        </span>
       </div>
-      <a (click)="deleteItem(order)"
-        ><img class="card-orders__close-btn" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botão fechar"
-      /></a>
+      <button (click)="deleteItem(order)">
+        <img class="card-orders__close-btn" src="./assets/close_FILL0_wght400_GRAD0_opsz48.svg" alt="botão fechar" />
+      </button>
     </div>
   </div>
 </section>

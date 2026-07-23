@@ -22,12 +22,12 @@ body {
   background: var(--white);
 }
 
-input[type="text"]:focus-visible {
+input[type='text']:focus-visible {
   outline: 1px solid black;
 }
 
 ::backdrop {
-  --color-backdrop: rgba(31, 38, 51, 0.80);
+  --color-backdrop: rgba(31, 38, 51, 0.8);
 }
 
 dialog::backdrop {
@@ -39,7 +39,7 @@ body,
 input,
 button,
 p {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 h1 {

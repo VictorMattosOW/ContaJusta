@@ -4,6 +4,7 @@ import { FinalOrder, OrderPerUser } from 'app/core/models/order.model';
 import { User } from 'app/core/models/user.model';
 import { OrderService } from 'app/shared/services/order.service';
 import { SessionService } from 'app/shared/services/session.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-order-division',
@@ -11,6 +12,7 @@ import { SessionService } from 'app/shared/services/session.service';
   styleUrls: ['./order-division.component.css']
 })
 export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy {
+  private readonly destroy$ = new Subject<void>();
   usersList: User[] = [];
   finalOrder: FinalOrder = {} as FinalOrder;
   orderPerUser: OrderPerUser[] = [];
@@ -42,13 +44,16 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   getFinalOrder() {
-    this.sessionService.getFinalOrderObservable().subscribe({
-      next: (finalOrder: FinalOrder) => {
-        this.finalOrder = finalOrder;
-        this.isOrderEmpty();
-        this.calculateOrders();
-      }
-    });
+    this.sessionService
+      .getFinalOrderObservable()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (finalOrder: FinalOrder) => {
+          this.finalOrder = finalOrder;
+          this.isOrderEmpty();
+          this.calculateOrders();
+        }
+      });
   }
 
   isOrderEmpty() {
@@ -58,14 +63,17 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   getUsers() {
-    this.sessionService.getUsersObservable().subscribe({
-      next: (users) => {
-        if (users.length === 0) {
-          this.router.navigate(['registrar']);
+    this.sessionService
+      .getUsersObservable()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (users) => {
+          if (users.length === 0) {
+            this.router.navigate(['registrar']);
+          }
+          this.usersList = users;
         }
-        this.usersList = users;
-      }
-    });
+      });
   }
 
   openCard(index: number) {
@@ -87,6 +95,7 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
-    this.changeBackground();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

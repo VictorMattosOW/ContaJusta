@@ -13,8 +13,6 @@ export class CardOrdersComponent {
   @Output() orderToDelete = new EventEmitter<Order>();
 
   readonly constants = APP_CONSTANTS;
-  tooltipDisplayStates: boolean[] = [];
-
   trackByOrderId(index: number, order: Order): string {
     return order.id;
   }

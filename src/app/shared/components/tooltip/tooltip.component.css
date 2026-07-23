@@ -15,7 +15,7 @@
   transform: translate(50%, 20%);
 }
 
-.legend {
+.title {
   display: inline-block;
   color: var(--gray-3, #a3a9b7);
   font-size: 10px;
