@@ -9,10 +9,12 @@
         [maxlength]="constants.MAX_LENGTH_FOOD_NAME"
         [ngClass]="{ 'order-form__input--error': isFormValid() }" />
       <div class="order-form__error">
-        <p *ngIf="isFormValid() && foodName.hasError('maxlength')">
-          O nome não pode ter mais de {{ constants.MAX_LENGTH_FOOD_NAME }} caracteres.
-        </p>
-        <p *ngIf="isFormValid() && foodName.hasError('required')">Ops! Esse nome está em branco.</p>
+        @if (isFormValid() && foodName.hasError('maxlength')) {
+          <p>O nome não pode ter mais de {{ constants.MAX_LENGTH_FOOD_NAME }} caracteres.</p>
+        }
+        @if (isFormValid() && foodName.hasError('required')) {
+          <p>Ops! Esse nome está em branco.</p>
+        }
       </div>
     </div>
 
@@ -30,9 +32,11 @@
             'order-form__input--error': price.dirty && price.invalid
           }" />
       </div>
-      <div class="order-form__error" *ngIf="price.invalid && price.dirty">
-        <p>Digite o valor do item.</p>
-      </div>
+      @if (price.invalid && price.dirty) {
+        <div class="order-form__error">
+          <p>Digite o valor do item.</p>
+        </div>
+      }
     </div>
 
     <div class="order-form__quantity">

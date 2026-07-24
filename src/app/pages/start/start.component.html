@@ -1,7 +1,7 @@
 <div class="content">
   <section>
     <header>
-      <img class="logoMenor" src="../../../assets/logoMenor.svg" alt="">
+      <img class="logoMenor" src="../../../assets/logoMenor.svg" alt="" />
       <h1 class="title">Cansou de pedir só uma aguinha e pagar pelo banquete do amigo?</h1>
       <p class="subtitle">Com a <strong>contajusta</strong>, você paga somente o que consumiu.</p>
     </header>
@@ -13,9 +13,10 @@
       styleButton="yellow-primary"
       [isDisabled]="false"
       size="full"
-      (buttonAction)="goToRegister()"
-    ></app-button>
+      (buttonAction)="goToRegister()"></app-button>
 
-    <img *ngIf="!isXiaomiBrowser && !isSafariOnIphone" class="image" src="../../../assets/logoBg.svg" alt="">
+    @if (!isXiaomiBrowser && !isSafariOnIphone) {
+      <img class="image" src="../../../assets/logoBg.svg" alt="" />
+    }
   </footer>
 </div>

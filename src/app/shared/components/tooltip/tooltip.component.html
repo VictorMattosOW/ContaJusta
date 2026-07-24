@@ -1,5 +1,7 @@
 <span class="title">+{{ numberOfUsers }}</span>
 
-<div class="tooltip" *ngIf="showTooltip">
-  <span class="tooltiptext">{{ content }}</span>
-</div>
+@if (showTooltip) {
+  <div class="tooltip">
+    <span class="tooltiptext">{{ content }}</span>
+  </div>
+}

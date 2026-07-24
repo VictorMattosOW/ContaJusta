@@ -1,33 +1,39 @@
 <main class="content">
   <!-- TODO: modal vai sair e virar um component reutilizavel -->
   <dialog class="modal" #dialog>
-    <div class="modal-content" *ngIf="orderToEditOrDelete">
-      <div>
-        <h5>Tem certeza que deseja excluir o item {{ orderToEditOrDelete.name }}?</h5>
-        <legend>Se excluir, esse item não entrará na conta, ok?</legend>
+    @if (orderToEditOrDelete) {
+      <div class="modal-content">
+        <div>
+          <h5>Tem certeza que deseja excluir o item {{ orderToEditOrDelete.name }}?</h5>
+          <legend>Se excluir, esse item não entrará na conta, ok?</legend>
+        </div>
+        <div class="btn-edit">
+          <app-button
+            buttonTitle="Voltar"
+            styleButton="secondary"
+            size="modal"
+            (buttonAction)="closeDialog()"></app-button>
+          <app-button
+            buttonTitle="Excluir"
+            styleButton="primary"
+            size="modal"
+            (buttonAction)="deleteItem(orderToEditOrDelete)"></app-button>
+        </div>
       </div>
-      <div class="btn-edit">
-        <app-button
-          buttonTitle="Voltar"
-          styleButton="secondary"
-          size="modal"
-          (buttonAction)="closeDialog()"></app-button>
-        <app-button
-          buttonTitle="Excluir"
-          styleButton="primary"
-          size="modal"
-          (buttonAction)="deleteItem(orderToEditOrDelete)"></app-button>
-      </div>
-    </div>
+    }
   </dialog>
 
   <article>
     <header class="title">
-      <h1 class="primary" *ngIf="isEdit">Modificar item</h1>
-      <div *ngIf="!isEdit">
-        <h1 class="primary">O que pediram ?</h1>
-        <p>Adicione item por item</p>
-      </div>
+      @if (isEdit) {
+        <h1 class="primary">Modificar item</h1>
+      }
+      @if (!isEdit) {
+        <div>
+          <h1 class="primary">O que pediram ?</h1>
+          <p>Adicione item por item</p>
+        </div>
+      }
     </header>
 
     <app-card-orders [orders]="orders" (orderToDelete)="deleteItem($event)" />
@@ -39,28 +45,32 @@
         [resetTrigger]="resetCheckbox" />
     </app-order-form>
   </article>
-  <footer class="btn-content" *ngIf="!isEdit">
-    <app-button
-      [buttonTitle]="orders.length >= 1 ? 'próximo item' : 'incluir item'"
-      styleButton="primary"
-      size="large"
-      [isDisabled]="!isSubmitButton || !hasUserSelected"
-      (buttonAction)="createOrder()"></app-button>
-    <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary()"></app-button-link>
-  </footer>
+  @if (!isEdit) {
+    <footer class="btn-content">
+      <app-button
+        [buttonTitle]="orders.length >= 1 ? 'próximo item' : 'incluir item'"
+        styleButton="primary"
+        size="large"
+        [isDisabled]="!isSubmitButton || !hasUserSelected"
+        (buttonAction)="createOrder()"></app-button>
+      <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary()"></app-button-link>
+    </footer>
+  }
 
-  <footer class="btn-content-edit" *ngIf="isEdit">
-    <app-button
-      buttonTitle="voltar"
-      styleButton="secondary"
-      size="small"
-      [isDisabled]=""
-      (buttonAction)="navigateTo()"></app-button>
-    <app-button
-      buttonTitle="salvar"
-      styleButton="primary"
-      size="small"
-      [isDisabled]="this.canEnableSubmitItemButton()"
-      (buttonAction)="editOrder()"></app-button>
-  </footer>
+  @if (isEdit) {
+    <footer class="btn-content-edit">
+      <app-button
+        buttonTitle="voltar"
+        styleButton="secondary"
+        size="small"
+        [isDisabled]=""
+        (buttonAction)="navigateTo()"></app-button>
+      <app-button
+        buttonTitle="salvar"
+        styleButton="primary"
+        size="small"
+        [isDisabled]="this.canEnableSubmitItemButton()"
+        (buttonAction)="editOrder()"></app-button>
+    </footer>
+  }
 </main>
