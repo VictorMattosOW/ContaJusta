@@ -6,10 +6,11 @@ import { createOrderFormGroup } from './order-form.factory';
 import { ORDER_FORM_CONSTANTS } from '../../../models/order-form.constants';
 
 @Component({
-  selector: 'app-order-form',
-  templateUrl: './order-form.component.html',
-  styleUrls: ['./order-form.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-order-form',
+    templateUrl: './order-form.component.html',
+    styleUrls: ['./order-form.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OrderFormComponent implements OnInit, OnDestroy {
   @Output() formData = new EventEmitter<OrderFormData>();

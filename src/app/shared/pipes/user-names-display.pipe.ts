@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { User } from 'app/core/models/user.model';
 
 @Pipe({
-  name: 'userNamesDisplay'
+    name: 'userNamesDisplay',
+    standalone: false
 })
 export class UserNamesDisplayPipe implements PipeTransform {
   transform(sharedUsers: User[]): string {

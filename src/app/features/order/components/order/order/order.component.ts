@@ -8,10 +8,11 @@ import { OrderFormData } from 'app/features/order/models/order-form.interface';
 import { SessionService } from 'app/shared/services/session.service';
 
 @Component({
-  selector: 'app-order',
-  templateUrl: './order.component.html',
-  styleUrls: ['./order.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-order',
+    templateUrl: './order.component.html',
+    styleUrls: ['./order.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OrderComponent implements OnInit, OnDestroy {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;

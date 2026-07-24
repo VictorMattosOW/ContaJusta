@@ -6,9 +6,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { SessionService } from 'app/shared/services/session.service';
 
 @Component({
-  selector: 'app-summary',
-  templateUrl: './summary.component.html',
-  styleUrls: ['./summary.component.css']
+    selector: 'app-summary',
+    templateUrl: './summary.component.html',
+    styleUrls: ['./summary.component.css'],
+    standalone: false
 })
 export class SummaryComponent implements OnInit {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;

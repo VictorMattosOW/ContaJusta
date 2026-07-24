@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { User } from 'app/core/models/user.model';
 
 @Component({
-  selector: 'app-user-checkbox',
-  templateUrl: './user-checkbox.component.html',
-  styleUrls: ['./user-checkbox.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-user-checkbox',
+    templateUrl: './user-checkbox.component.html',
+    styleUrls: ['./user-checkbox.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class UserCheckboxComponent {
   @Input() usersList: User[] = [];

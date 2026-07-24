@@ -4,7 +4,8 @@ import { AutofocusDirective } from './autofocus.directive';
 
 // Componente host para testar a directive
 @Component({
-  template: '<input [appAutofocus]="true" />'
+    template: '<input [appAutofocus]="true" />',
+    standalone: false
 })
 class TestHostComponent {}
 

@@ -7,9 +7,10 @@ import { Subject, takeUntil } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 
 @Component({
-  selector: 'app-order-division',
-  templateUrl: './order-division.component.html',
-  styleUrls: ['./order-division.component.css']
+    selector: 'app-order-division',
+    templateUrl: './order-division.component.html',
+    styleUrls: ['./order-division.component.css'],
+    standalone: false
 })
 export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();

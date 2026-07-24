@@ -3,10 +3,11 @@ import { Order } from 'app/core/models/order.model';
 import { APP_CONSTANTS } from 'app/shared/constants/app.constants';
 
 @Component({
-  selector: 'app-card-orders',
-  templateUrl: './card-orders.component.html',
-  styleUrls: ['./card-orders.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-card-orders',
+    templateUrl: './card-orders.component.html',
+    styleUrls: ['./card-orders.component.css'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CardOrdersComponent {
   @Input() orders: Order[] = [];

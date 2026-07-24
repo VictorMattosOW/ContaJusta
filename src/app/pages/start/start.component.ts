@@ -3,9 +3,10 @@ import { Router } from '@angular/router';
 import { SessionService } from '../../shared/services/session.service';
 
 @Component({
-  selector: 'app-start',
-  templateUrl: './start.component.html',
-  styleUrls: ['./start.component.css'],
+    selector: 'app-start',
+    templateUrl: './start.component.html',
+    styleUrls: ['./start.component.css'],
+    standalone: false
 })
 export class StartComponent implements AfterViewInit, OnDestroy {
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
