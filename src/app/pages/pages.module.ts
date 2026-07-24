@@ -5,12 +5,12 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { StartComponent } from './start/start.component';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
+import { NgxCurrencyConfig, NgxCurrencyInputMode, NgxCurrencyDirective, provideEnvironmentNgxCurrency } from 'ngx-currency';
 import { RegistrationComponent } from './user-registration/registration.component';
 import { SummaryComponent } from './summary/summary.component';
 import { SharedModule } from '../shared/shared.module';
 
-export const customCurrencyMaskConfig: CurrencyMaskConfig = {
+export const customCurrencyMaskConfig: NgxCurrencyConfig = {
   align: 'right',
   allowNegative: false,
   allowZero: true,
@@ -22,7 +22,7 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   nullable: true,
   min: 0,
   max: undefined,
-  inputMode: CurrencyMaskInputMode.FINANCIAL
+  inputMode: NgxCurrencyInputMode.Financial
 };
 
 @NgModule({
@@ -39,9 +39,10 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig),
+    NgxCurrencyDirective,
     SharedModule
   ],
+  providers: [provideEnvironmentNgxCurrency(customCurrencyMaskConfig)],
   exports: [
     StartComponent,
     RegistrationComponent,

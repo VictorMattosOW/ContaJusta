@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { OrderRoutingModule } from './order-routing.module';
 import { OrderDivisionComponent } from './components/order-division/order-division.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CurrencyMaskConfig, CurrencyMaskInputMode, NgxCurrencyModule } from 'ngx-currency';
+import { NgxCurrencyConfig, NgxCurrencyInputMode, NgxCurrencyDirective, provideEnvironmentNgxCurrency } from 'ngx-currency';
 import { OrderFormComponent } from './components/order/order-form/order-form.component';
 import { OrderComponent } from './components/order/order/order.component';
 import { UserCheckboxComponent } from './components/order/user-checkbox/user-checkbox.component';
@@ -12,7 +12,7 @@ import { CardOrdersComponent } from './components/order/card-orders/card-orders.
 import { SharedModule } from 'app/shared/shared.module';
 import { OrderUserDisplayComponent } from './components/order/order-user-display/order-user-display.component';
 
-export const customCurrencyMaskConfig: CurrencyMaskConfig = {
+export const customCurrencyMaskConfig: NgxCurrencyConfig = {
   align: 'right',
   allowNegative: false,
   allowZero: true,
@@ -24,7 +24,7 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
   nullable: true,
   min: 0,
   max: undefined,
-  inputMode: CurrencyMaskInputMode.FINANCIAL
+  inputMode: NgxCurrencyInputMode.Financial
 };
 
 @NgModule({
@@ -42,7 +42,8 @@ export const customCurrencyMaskConfig: CurrencyMaskConfig = {
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
-  ]
+    NgxCurrencyDirective
+  ],
+  providers: [provideEnvironmentNgxCurrency(customCurrencyMaskConfig)]
 })
 export class OrderModule {}
