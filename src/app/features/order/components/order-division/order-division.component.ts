@@ -2,9 +2,9 @@ import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FinalOrder, OrderPerUser } from 'app/core/models/order.model';
 import { User } from 'app/core/models/user.model';
-import { OrderService } from 'app/shared/services/order.service';
 import { SessionService } from 'app/shared/services/session.service';
 import { Subject, takeUntil } from 'rxjs';
+import { OrderService } from '../../services/order.service';
 
 @Component({
   selector: 'app-order-division',
