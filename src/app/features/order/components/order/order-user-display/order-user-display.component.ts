@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { User } from 'app/core/models/user.model';
 import { APP_CONSTANTS } from 'app/shared/constants/app.constants';
 
@@ -20,6 +20,7 @@ import { APP_CONSTANTS } from 'app/shared/constants/app.constants';
       }
     </span>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class OrderUserDisplayComponent {

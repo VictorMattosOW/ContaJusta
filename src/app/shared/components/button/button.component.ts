@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 type sizeButton = 'large' | 'small' | 'full' | 'modal';
 type StyleButton = 'primary' | 'secondary' | 'yellow-primary' | 'yellow-secondary';
 @Component({
-    selector: 'app-button',
-    templateUrl: './button.component.html',
-    styleUrls: ['./button.component.css'],
-    standalone: false
+  selector: 'app-button',
+  templateUrl: './button.component.html',
+  styleUrls: ['./button.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ButtonComponent {
   @Input() buttonTitle = '';

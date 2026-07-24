@@ -1,12 +1,13 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { SessionService } from '../../shared/services/session.service';
 
 @Component({
-    selector: 'app-start',
-    templateUrl: './start.component.html',
-    styleUrls: ['./start.component.css'],
-    standalone: false
+  selector: 'app-start',
+  templateUrl: './start.component.html',
+  styleUrls: ['./start.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class StartComponent implements AfterViewInit, OnDestroy {
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);

@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
-    selector: 'app-button-link',
-    templateUrl: './button-link.component.html',
-    styleUrls: ['./button-link.component.css'],
-    standalone: false
+  selector: 'app-button-link',
+  templateUrl: './button-link.component.html',
+  styleUrls: ['./button-link.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class ButtonLinkComponent {
   @Input() title = '';

@@ -5,7 +5,8 @@ import {
   Component,
   ElementRef,
   OnInit,
-  ViewChild
+  ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -15,10 +16,11 @@ import { SessionService } from 'app/shared/services/session.service';
 import * as uuid from 'uuid';
 
 @Component({
-    selector: 'app-registration',
-    templateUrl: './registration.component.html',
-    styleUrls: ['./registration.component.css'],
-    standalone: false
+  selector: 'app-registration',
+  templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class RegistrationComponent implements OnInit, AfterViewChecked, AfterViewInit {
   @ViewChild('autofocus', { static: false }) autofocusRef?: ElementRef;

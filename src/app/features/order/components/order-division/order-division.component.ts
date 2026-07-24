@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { FinalOrder, OrderPerUser } from 'app/core/models/order.model';
 import { User } from 'app/core/models/user.model';
@@ -7,10 +7,11 @@ import { Subject, takeUntil } from 'rxjs';
 import { OrderService } from '../../services/order.service';
 
 @Component({
-    selector: 'app-order-division',
-    templateUrl: './order-division.component.html',
-    styleUrls: ['./order-division.component.css'],
-    standalone: false
+  selector: 'app-order-division',
+  templateUrl: './order-division.component.html',
+  styleUrls: ['./order-division.component.css'],
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();

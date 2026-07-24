@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { AutofocusDirective } from './autofocus.directive';
 
 // Componente host para testar a directive
 @Component({
-    template: '<input [appAutofocus]="true" />',
-    standalone: false
+  template: '<input [appAutofocus]="true" />',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false
 })
 class TestHostComponent {}
 
