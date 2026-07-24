@@ -13,13 +13,15 @@ export interface FinalOrder {
   orders: Order[];
 }
 
-export interface sharedFood {
+export interface SharedFood {
+  orderId: string;
   food: string;
   sharedValue: number;
 }
 
 export interface OrderPerUser {
+  userId: string;
   name: string;
-  orders: sharedFood[];
+  orders: SharedFood[];
   totalValue: number;
 }

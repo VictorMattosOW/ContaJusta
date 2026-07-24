@@ -24,7 +24,7 @@ describe('OrderService', () => {
       expect(service.sumTotalOrders([], 0)).toBe(0);
     });
 
-    it('should return total without tax when porcent=0', () => {
+    it('should return total without tax when taxPercent=0', () => {
       const orders: Order[] = [{ id: '1', name: 'Pizza', quantity: 2, price: 50, sharedUsers: [user1] }];
       expect(service.sumTotalOrders(orders, 0)).toBe(100);
     });
@@ -47,7 +47,6 @@ describe('OrderService', () => {
     it('should return users with zero total when no orders', () => {
       const users: User[] = [user1, user2];
       const result = service.calculateConsumption(users, [], 0);
-      console.log(result);
       expect(result.length).toBe(0);
       expect(result).toEqual([]);
     });
@@ -121,6 +120,27 @@ describe('OrderService', () => {
       // Total: 80
       expect(joao?.totalValue).toBe(80);
       expect(joao?.orders.length).toBe(2);
+    });
+
+    it('should throw error when tax is negative', () => {
+      const users: User[] = [user1];
+      const orders: Order[] = [{ id: '1', name: 'Pizza', quantity: 1, price: 100, sharedUsers: [user1] }];
+
+      expect(() => service.calculateConsumption(users, orders, -10)).toThrowError('Taxa não pode ser menor que 0');
+    });
+
+    it('should throw error when sharedUsers is empty', () => {
+      const users: User[] = [user1];
+      const orders: Order[] = [{ id: '1', name: 'Pizza', quantity: 1, price: 100, sharedUsers: [] }];
+
+      expect(() => service.calculateConsumption(users, orders, 0)).toThrowError('Order 1 has no shared users');
+    });
+
+    it('should throw error when user in order is not in users list', () => {
+      const users: User[] = [user1];
+      const orders: Order[] = [{ id: '1', name: 'Pizza', quantity: 1, price: 100, sharedUsers: [user2] }];
+
+      expect(() => service.calculateConsumption(users, orders, 0)).toThrowError('User 2 not found in consumption map');
     });
   });
 });
