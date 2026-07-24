@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './components/button/button.component';
 import { ButtonLinkComponent } from './components/button-link/button-link.component';
 import { TooltipComponent } from './components/tooltip/tooltip.component';
-import { AutofocusDirective } from './diretivas/autofocus.directive';
+import { AutofocusDirective } from './directives/autofocus.directive';
 import { CurrencyPipe } from './pipes/currency.pipe';
 import { UserNamesPipe } from './pipes/user-names.pipe';
 import { UserNamesDisplayPipe } from './pipes/user-names-display.pipe';
