@@ -39,7 +39,6 @@ export class OrderComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  // TODO: Onde tem subscribe eu preciso criar um destroy para resolver problema de memory leak.
   ngOnInit(): void {
     this.getUsers();
     this.getOrders();
