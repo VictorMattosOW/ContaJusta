@@ -23,7 +23,7 @@ describe('TooltipComponent', () => {
   });
 
   it('should have default values', () => {
-    expect(component.showTooltip).toBeFalse();
+    expect(component.showTooltip).toBe(false);
     expect(component.content).toBe('');
     expect(component.numberOfUsers).toBe(0);
   });

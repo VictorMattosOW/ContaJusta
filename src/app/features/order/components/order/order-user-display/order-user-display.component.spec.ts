@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { UserNamesPipe } from 'app/shared/pipes/user-names.pipe';
+import { UserNamesDisplayPipe } from 'app/shared/pipes/user-names-display.pipe';
+import { TooltipComponent } from 'app/shared/components/tooltip/tooltip.component';
 
 import { OrderUserDisplayComponent } from './order-user-display.component';
 
@@ -8,7 +11,7 @@ describe('OrderUserDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ OrderUserDisplayComponent ]
+      declarations: [OrderUserDisplayComponent, UserNamesPipe, UserNamesDisplayPipe, TooltipComponent]
     })
     .compileComponents();
 

@@ -1,5 +1,5 @@
 import { Router } from '@angular/router';
-import { Component, ElementRef, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { APP_CONSTANTS } from '../../shared/constants/app.constants';
 import { FinalOrder, Order } from 'app/core/models/order.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
@@ -9,7 +9,6 @@ import { SessionService } from 'app/shared/services/session.service';
   selector: 'app-summary',
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css'],
-  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false
 })
 export class SummaryComponent implements OnInit {

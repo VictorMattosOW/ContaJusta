@@ -15,8 +15,6 @@
       size="full"
       (buttonAction)="goToRegister()"></app-button>
 
-    @if (!isXiaomiBrowser && !isSafariOnIphone) {
-      <img class="image" src="../../../assets/logoBg.svg" alt="" />
-    }
+    <img *ngIf="!isXiaomiBrowser && !isSafariOnIphone" class="image" src="../../../assets/logoBg.svg" alt="" />
   </footer>
 </div>

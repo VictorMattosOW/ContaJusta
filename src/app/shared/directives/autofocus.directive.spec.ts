@@ -29,7 +29,7 @@ describe('AutofocusDirective', () => {
 
   it('should focus the element on init', () => {
     const input = fixture.nativeElement.querySelector('input');
-    spyOn(input, 'focus');
+    jest.spyOn(input, 'focus');
 
     fixture.detectChanges(); // agora sim: spy já existe, focus() é capturado
 
