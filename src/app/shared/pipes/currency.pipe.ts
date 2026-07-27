@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
     name: 'currency',
-    standalone: false
+    standalone: true
 })
 export class CurrencyPipe implements PipeTransform {
   transform(value: number): string {

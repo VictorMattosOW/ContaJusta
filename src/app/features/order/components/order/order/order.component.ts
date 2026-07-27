@@ -6,13 +6,19 @@ import { User } from 'app/core/models/user.model';
 import { Order } from 'app/core/models/order.model';
 import { OrderFormData } from 'app/features/order/models/order-form.interface';
 import { SessionService } from 'app/shared/services/session.service';
+import { ButtonComponent } from 'app/shared/components/button/button.component';
+import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { CardOrdersComponent } from '../card-orders/card-orders.component';
+import { UserCheckboxComponent } from '../user-checkbox/user-checkbox.component';
 
 @Component({
     selector: 'app-order',
     templateUrl: './order.component.html',
     styleUrls: ['./order.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: true,
+    imports: [ButtonComponent, ButtonLinkComponent, OrderFormComponent, CardOrdersComponent, UserCheckboxComponent]
 })
 export class OrderComponent implements OnInit, OnDestroy {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;

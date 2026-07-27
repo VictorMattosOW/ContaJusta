@@ -1,16 +1,20 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { OrderFormData } from '../../../models/order-form.interface';
 import { Subject, takeUntil } from 'rxjs';
 import { createOrderFormGroup } from './order-form.factory';
 import { ORDER_FORM_CONSTANTS } from '../../../models/order-form.constants';
+import { NgClass } from '@angular/common';
+import { NgxCurrencyDirective } from 'ngx-currency';
+
 
 @Component({
     selector: 'app-order-form',
     templateUrl: './order-form.component.html',
     styleUrls: ['./order-form.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: true,
+    imports: [ReactiveFormsModule, NgClass, NgxCurrencyDirective]
 })
 export class OrderFormComponent implements OnInit, OnDestroy {
   @Output() formData = new EventEmitter<OrderFormData>();

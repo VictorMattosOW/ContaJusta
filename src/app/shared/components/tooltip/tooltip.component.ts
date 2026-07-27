@@ -5,7 +5,7 @@ import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
   templateUrl: './tooltip.component.html',
   styleUrls: ['./tooltip.component.css'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  standalone: true
 })
 export class TooltipComponent {
   @Input() showTooltip = false;

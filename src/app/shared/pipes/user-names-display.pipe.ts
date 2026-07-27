@@ -3,7 +3,7 @@ import { User } from 'app/core/models/user.model';
 
 @Pipe({
     name: 'userNamesDisplay',
-    standalone: false
+    standalone: true
 })
 export class UserNamesDisplayPipe implements PipeTransform {
   transform(sharedUsers: User[]): string {

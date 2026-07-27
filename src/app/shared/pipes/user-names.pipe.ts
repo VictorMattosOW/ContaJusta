@@ -4,7 +4,7 @@ import { User } from 'app/core/models/user.model';
 
 @Pipe({
     name: 'userNames',
-    standalone: false
+    standalone: true
 })
 export class UserNamesPipe implements PipeTransform {
   transform(users: User[]): User[] {

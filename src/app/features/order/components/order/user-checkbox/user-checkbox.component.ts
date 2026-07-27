@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { User } from 'app/core/models/user.model';
 
 @Component({
@@ -6,7 +7,8 @@ import { User } from 'app/core/models/user.model';
     templateUrl: './user-checkbox.component.html',
     styleUrls: ['./user-checkbox.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: true,
+    imports: [FormsModule]
 })
 export class UserCheckboxComponent {
   @Input() usersList: User[] = [];

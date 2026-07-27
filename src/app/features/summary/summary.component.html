@@ -31,31 +31,34 @@
     <header>
       <h1 class="title">Resumo da conta</h1>
     </header>
-    <section class="description" *ngFor="let order of orders; let i = index">
-      <div class="icon">
-        <a (click)="openDialog(order)">{{ order.quantity }}</a>
-      </div>
-      <a class="btn-description" [routerLink]="'/ordens/' + order.id">
-        <div class="names-content">
-          <h6>{{ order.name }}</h6>
-          <legend>
-            {{ order.sharedUsers | userNamesDisplay }}
-          </legend>
+    @for (order of orders; track order.id) {
+      <section class="description">
+        <div class="icon">
+          <a (click)="openDialog(order)">{{ order.quantity }}</a>
         </div>
-
-        <div class="description-price">
-          <div class="price-content">
-            <h6>
-              {{ order.quantity * order.price | currency }}
-            </h6>
-            <legend>({{ order.price | currency }})</legend>
+        <a class="btn-description" [routerLink]="'/ordens/' + order.id">
+          <div class="names-content">
+            <h6>{{ order.name }}</h6>
+            <legend>
+              {{ order.sharedUsers | userNamesDisplay }}
+            </legend>
           </div>
-          <button>
-            <img width="8" src="../../../assets/icon _nav.svg" alt="" />
-          </button>
-        </div>
-      </a>
-    </section>
+
+          <div class="description-price">
+            <div class="price-content">
+              <h6>
+                {{ order.quantity * order.price | currency }}
+              </h6>
+              <legend>({{ order.price | currency }})</legend>
+            </div>
+            <button>
+              <img width="8" src="../../../assets/icon _nav.svg" alt="" />
+            </button>
+          </div>
+        </a>
+      </section>
+    }
+
     <section class="service-payment">
       <h4>Taxa de serviço</h4>
       <form action="" [formGroup]="orderForm">

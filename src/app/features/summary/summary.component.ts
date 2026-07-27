@@ -1,15 +1,19 @@
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { APP_CONSTANTS } from '../../shared/constants/app.constants';
 import { FinalOrder, Order } from 'app/core/models/order.model';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SessionService } from 'app/shared/services/session.service';
+import { CurrencyPipe, NgClass } from '@angular/common';
+import { ButtonComponent } from 'app/shared/components/button/button.component';
+import { UserNamesDisplayPipe } from 'app/shared/pipes/user-names-display.pipe';
 
 @Component({
   selector: 'app-summary',
   templateUrl: './summary.component.html',
   styleUrls: ['./summary.component.css'],
-  standalone: false
+  standalone: true,
+  imports: [NgClass, ButtonComponent, UserNamesDisplayPipe, CurrencyPipe, ReactiveFormsModule, RouterLink]
 })
 export class SummaryComponent implements OnInit {
   @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;

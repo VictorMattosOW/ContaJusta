@@ -5,13 +5,16 @@ import { User } from 'app/core/models/user.model';
 import { SessionService } from 'app/shared/services/session.service';
 import { Subject, takeUntil } from 'rxjs';
 import { OrderService } from '../../services/order.service';
+import { CurrencyPipe } from '@angular/common';
+import { ButtonComponent } from 'app/shared/components/button/button.component';
 
 @Component({
   selector: 'app-order-division',
   templateUrl: './order-division.component.html',
   styleUrls: ['./order-division.component.css'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  standalone: true,
+  imports: [CurrencyPipe, ButtonComponent]
 })
 export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();

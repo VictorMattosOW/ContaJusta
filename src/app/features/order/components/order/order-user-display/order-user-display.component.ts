@@ -1,6 +1,9 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { User } from 'app/core/models/user.model';
+import { TooltipComponent } from 'app/shared/components/tooltip/tooltip.component';
 import { APP_CONSTANTS } from 'app/shared/constants/app.constants';
+import { UserNamesDisplayPipe } from 'app/shared/pipes/user-names-display.pipe';
+import { UserNamesPipe } from 'app/shared/pipes/user-names.pipe';
 
 @Component({
   selector: 'app-order-user-display',
@@ -21,7 +24,8 @@ import { APP_CONSTANTS } from 'app/shared/constants/app.constants';
     </span>
   `,
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  standalone: true,
+  imports: [TooltipComponent, UserNamesPipe, UserNamesDisplayPipe]
 })
 export class OrderUserDisplayComponent {
   @Input() sharedUsers: User[] = [];

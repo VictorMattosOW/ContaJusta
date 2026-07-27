@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   AfterViewChecked,
   AfterViewInit,
@@ -7,9 +8,12 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import { FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormArray, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'app/core/models/user.model';
+import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
+import { ButtonComponent } from 'app/shared/components/button/button.component';
+import { AutofocusDirective } from 'app/shared/directives/autofocus.directive';
 import { SessionService } from 'app/shared/services/session.service';
 
 import * as uuid from 'uuid';
@@ -17,7 +21,9 @@ import * as uuid from 'uuid';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.css']
+  styleUrls: ['./registration.component.css'],
+  standalone: true,
+  imports: [ButtonComponent, ReactiveFormsModule, NgClass, ButtonLinkComponent, AutofocusDirective]
 })
 export class RegistrationComponent implements OnInit, AfterViewChecked, AfterViewInit {
   @ViewChild('autofocus', { static: false }) autofocusRef?: ElementRef;

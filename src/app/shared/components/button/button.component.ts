@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
 type sizeButton = 'large' | 'small' | 'full' | 'modal';
@@ -7,7 +8,8 @@ type StyleButton = 'primary' | 'secondary' | 'yellow-primary' | 'yellow-secondar
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  standalone: true,
+  imports: [NgClass]
 })
 export class ButtonComponent {
   @Input() buttonTitle = '';

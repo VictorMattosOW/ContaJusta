@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from 
   templateUrl: './button-link.component.html',
   styleUrls: ['./button-link.component.css'],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false
+  standalone: true
 })
 export class ButtonLinkComponent {
   @Input() title = '';
