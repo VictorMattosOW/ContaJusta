@@ -1,27 +1,16 @@
 <main class="content">
-  <!-- TODO: modal vai sair e virar um component reutilizavel -->
-  <dialog class="modal" #dialog>
-    @if (orderToEditOrDelete) {
-      <div class="modal-content">
-        <div>
-          <h5>Tem certeza que deseja excluir o item {{ orderToEditOrDelete.name }}?</h5>
-          <legend>Se excluir, esse item não entrará na conta, ok?</legend>
-        </div>
-        <div class="btn-edit">
-          <app-button
-            buttonTitle="Voltar"
-            styleButton="secondary"
-            size="modal"
-            (buttonAction)="closeDialog()"></app-button>
-          <app-button
-            buttonTitle="Excluir"
-            styleButton="primary"
-            size="modal"
-            (buttonAction)="deleteItem(orderToEditOrDelete)"></app-button>
-        </div>
-      </div>
-    }
-  </dialog>
+  <app-modal 
+    [(open)]="isDeleteModalOpen" 
+    title="Excluir item" 
+    confirmText="Excluir"
+    cancelText="Voltar"
+    (confirm)="confirmDelete()"
+    (cancel)="onModalDismiss()">
+    <div modalBody>
+      <h5>Tem certeza que deseja excluir o item {{ orderToDelete()?.name }}?</h5>
+      <legend>Se excluir, esse item não entrará na conta, ok?</legend>
+    </div>
+  </app-modal>
 
   <article>
     <header class="title">
@@ -36,7 +25,7 @@
       }
     </header>
 
-    <app-card-orders [orders]="orders" (orderToDelete)="deleteItem($event)" />
+    <app-card-orders [orders]="orders" (orderToDelete)="requestDelete($event)" />
 
     <app-order-form (formData)="getFormData($event)" (formValidityChange)="isSubmitButton = $event">
       <app-user-checkbox
@@ -69,7 +58,7 @@
         buttonTitle="salvar"
         styleButton="primary"
         size="small"
-        [isDisabled]="this.canEnableSubmitItemButton()"
+        [isDisabled]="!isSubmitButton || !hasUserSelected"
         (buttonAction)="editOrder()"></app-button>
     </footer>
   }

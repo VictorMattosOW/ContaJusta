@@ -1,0 +1,28 @@
+dialog {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: 350px;
+  max-width: calc(100vw - 2rem);
+  padding: 24px 32px;
+  border: 1px solid var(--gray);
+  border-radius: 8px;
+  background: var(--white);
+  z-index: 99999;
+  backdrop-filter: blur(100%);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+}
+
+.modal-content {
+  display: grid;
+  gap: 32px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+}

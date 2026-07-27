@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderFormComponent } from '../order-form/order-form.component';
 import { Subject, takeUntil } from 'rxjs';
@@ -8,9 +8,9 @@ import { OrderFormData } from 'app/features/order/models/order-form.interface';
 import { SessionService } from 'app/shared/services/session.service';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
-import { ReactiveFormsModule } from '@angular/forms';
 import { CardOrdersComponent } from '../card-orders/card-orders.component';
 import { UserCheckboxComponent } from '../user-checkbox/user-checkbox.component';
+import { ModalComponent } from 'app/shared/components/modal/modal.component';
 
 @Component({
     selector: 'app-order',
@@ -18,12 +18,15 @@ import { UserCheckboxComponent } from '../user-checkbox/user-checkbox.component'
     styleUrls: ['./order.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: true,
-    imports: [ButtonComponent, ButtonLinkComponent, OrderFormComponent, CardOrdersComponent, UserCheckboxComponent]
+    imports: [ButtonComponent, ButtonLinkComponent, OrderFormComponent, CardOrdersComponent, UserCheckboxComponent, ModalComponent]
 })
 export class OrderComponent implements OnInit, OnDestroy {
-  @ViewChild('dialog') dialogElement!: ElementRef<HTMLDialogElement>;
   @ViewChild(OrderFormComponent) orderForm: OrderFormComponent = {} as OrderFormComponent;
+  
+  readonly isDeleteModalOpen = signal(false);
+  readonly orderToDelete = signal<Order | null>(null);
   private readonly destroy$ = new Subject<void>();
+
   orderToEditId = '';
 
   usersList: User[] = [];
@@ -57,6 +60,22 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  requestDelete(order: Order): void {
+    this.orderToDelete.set(order);
+    this.isDeleteModalOpen.set(true);
+  }
+
+  confirmDelete(): void {
+    const target = this.orderToDelete();
+    if (target) this.deleteItem(target);
+    this.onModalDismiss();
+  }
+
+  onModalDismiss(): void {
+    this.orderToDelete.set(null);
+    this.isDeleteModalOpen.set(false);
+  }
+
   getFormData(order: OrderFormData) {
     this.order = order;
   }
@@ -66,14 +85,14 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.sharedFood = users;
   }
 
-  openDialog(order?: Order): void {
-    this.orderToEditOrDelete = order;
-    this.dialogElement.nativeElement.show();
-  }
+  // openDialog(order?: Order): void {
+  //   this.orderToEditOrDelete = order;
+  //   this.dialogElement.nativeElement.show();
+  // }
 
-  closeDialog(): void {
-    this.dialogElement.nativeElement.close();
-  }
+  // closeDialog(): void {
+  //   this.dialogElement.nativeElement.close();
+  // }
 
   getPath() {
     const orderId = this.route.snapshot.params['id'];
@@ -117,7 +136,7 @@ export class OrderComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (users) => {
           if (users.length === 0) {
-            // this.router.navigate(['registrar']);
+            this.router.navigate(['registrar']);
           }
           this.usersList = users;
         }
@@ -182,19 +201,9 @@ export class OrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  resetForm() {
-    this.quantity = 1;
-    this.sharedFood = [];
-  }
-
   deleteItem(orderToDelete: Order) {
     this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
-    // this.saveOrders();
-  }
-
-  canEnableSubmitItemButton(): boolean {
-    // return this.isValidForm() && this.sharedFood.length !== 0;
-    return true;
+    this.saveOrders();
   }
 
   canEnableButtonGoToSummary(): boolean {
