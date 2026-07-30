@@ -13,7 +13,7 @@ import { User } from 'app/core/models/user.model';
 export class UserCheckboxComponent {
   @Input() usersList: User[] = [];
   @Output() selectedUserList = new EventEmitter<User[]>();
-  @Input() set resetTrigger(value: boolean) {
+  @Input() set resetTrigger(value: number) {
     if (value) {
       this.markAllUsers = false;
       this.sharedFood = [];

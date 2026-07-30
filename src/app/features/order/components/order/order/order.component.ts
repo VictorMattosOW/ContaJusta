@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderFormComponent } from '../order-form/order-form.component';
 import { Subject, takeUntil } from 'rxjs';
@@ -37,7 +37,9 @@ export class OrderComponent implements OnInit, OnDestroy {
   order: OrderFormData = {} as OrderFormData;
   sharedFood: User[] = [];
 
-  resetCheckbox = false;
+  // No parent
+  resetCheckbox = signal(0);
+
   isEdit = false;
   orderToEditOrDelete: Order | undefined = {} as Order;
   isSubmitButton = false;
@@ -84,15 +86,6 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.hasUserSelected = users.length > 0;
     this.sharedFood = users;
   }
-
-  // openDialog(order?: Order): void {
-  //   this.orderToEditOrDelete = order;
-  //   this.dialogElement.nativeElement.show();
-  // }
-
-  // closeDialog(): void {
-  //   this.dialogElement.nativeElement.close();
-  // }
 
   getPath() {
     const orderId = this.route.snapshot.params['id'];
@@ -178,8 +171,7 @@ export class OrderComponent implements OnInit, OnDestroy {
     };
     this.orders = [...this.orders, order];
 
-    this.resetCheckbox = true;
-    setTimeout(() => (this.resetCheckbox = false));
+    this.resetCheckbox.update(v => v + 1);
   }
 
   editOrder() {
