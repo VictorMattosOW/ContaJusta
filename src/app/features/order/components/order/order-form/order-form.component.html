@@ -9,10 +9,10 @@
         [maxlength]="constants.MAX_LENGTH_FOOD_NAME"
         [ngClass]="{ 'order-form__input--error': isFormValid() }" />
       <div class="order-form__error">
-        @if (isFormValid() && foodName.hasError('maxlength')) {
+        @if (isFormValid() && orderForm.hasError('maxlength')) {
           <p>O nome não pode ter mais de {{ constants.MAX_LENGTH_FOOD_NAME }} caracteres.</p>
         }
-        @if (isFormValid() && foodName.hasError('required')) {
+        @if (isFormValid() && orderForm.hasError('required')) {
           <p>Ops! Esse nome está em branco.</p>
         }
       </div>

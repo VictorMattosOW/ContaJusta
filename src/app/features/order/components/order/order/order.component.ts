@@ -1,60 +1,63 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderFormComponent } from '../order-form/order-form.component';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'app/core/models/user.model';
 import { Order } from 'app/core/models/order.model';
-import { OrderFormData } from 'app/features/order/models/order-form.interface';
+import { OrderFormControls } from 'app/features/order/models/order-form.interface';
 import { SessionService } from 'app/shared/services/session.service';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
 import { CardOrdersComponent } from '../card-orders/card-orders.component';
 import { UserCheckboxComponent } from '../user-checkbox/user-checkbox.component';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
+import { OrderService } from 'app/features/order/services/order.service';
+import { FormGroup } from '@angular/forms';
+import { createOrderFormGroup } from '../order-form/order-form.factory';
 
 @Component({
-    selector: 'app-order',
-    templateUrl: './order.component.html',
-    styleUrls: ['./order.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ButtonComponent, ButtonLinkComponent, OrderFormComponent, CardOrdersComponent, UserCheckboxComponent, ModalComponent]
+  selector: 'app-order',
+  templateUrl: './order.component.html',
+  styleUrls: ['./order.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ButtonComponent,
+    ButtonLinkComponent,
+    OrderFormComponent,
+    CardOrdersComponent,
+    UserCheckboxComponent,
+    ModalComponent
+  ]
 })
 export class OrderComponent implements OnInit, OnDestroy {
-  @ViewChild(OrderFormComponent) orderForm: OrderFormComponent = {} as OrderFormComponent;
-  
+  orderForm: FormGroup<OrderFormControls> = createOrderFormGroup();
+
   readonly isDeleteModalOpen = signal(false);
   readonly orderToDelete = signal<Order | null>(null);
   private readonly destroy$ = new Subject<void>();
-
-  orderToEditId = '';
-
-  usersList: User[] = [];
-  quantity = 1;
-  value = '';
-
-  orders: Order[] = [];
-  order: OrderFormData = {} as OrderFormData;
-  sharedFood: User[] = [];
-
-  // No parent
+  isSubmitButton = signal(false);
   resetCheckbox = signal(0);
 
-  isEdit = false;
   orderToEditOrDelete: Order | undefined = {} as Order;
-  isSubmitButton = false;
-  hasUserSelected = false;
+  usersList = signal<User[]>([]);
+  sharedFood = signal<User[]>([]);
+  isEdit = signal(false);
+  hasUserSelected = signal(false);
 
   constructor(
     private sessionService: SessionService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
     this.getUsers();
-    this.getOrders();
     this.getPath();
+    this.orderForm.statusChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.isSubmitButton.set(this.orderForm.valid));
   }
 
   ngOnDestroy(): void {
@@ -65,6 +68,10 @@ export class OrderComponent implements OnInit, OnDestroy {
   requestDelete(order: Order): void {
     this.orderToDelete.set(order);
     this.isDeleteModalOpen.set(true);
+  }
+
+  get getOrder(): Order[] {
+    return this.orderService.orders$();
   }
 
   confirmDelete(): void {
@@ -78,46 +85,35 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.isDeleteModalOpen.set(false);
   }
 
-  getFormData(order: OrderFormData) {
-    this.order = order;
-  }
-
   getSharedUserFood(users: User[]) {
-    this.hasUserSelected = users.length > 0;
-    this.sharedFood = users;
+    this.hasUserSelected.set(users.length > 0);
+    this.sharedFood.update(list => [...list, ...users]);
   }
 
   getPath() {
     const orderId = this.route.snapshot.params['id'];
-    if (orderId !== undefined) {
-      this.isEdit = true;
-      this.orderToEditOrDelete = this.findOrderById(orderId);
+    const orderEdit = this.findOrderById(orderId);
+
+    if (orderEdit !== undefined) {
+      this.isEdit.set(true);
+      this.setOrderForEdit(orderEdit);
     }
 
-    if (this.orderToEditOrDelete) {
-      this.setOrderForEdit(this.orderToEditOrDelete);
-    }
+    // if (this.orderToEditOrDelete) {
+    //   this.setOrderForEdit(this.orderToEditOrDelete);
+    // }
   }
 
-  setOrderForEdit({ name, price, sharedUsers = [], quantity }: Order) {
-    // this.orderForm.patchValue({
-    //   foodName: name,
-    //   price: price,
-    // });
-    this.quantity = quantity;
+  private findOrderById(orderId: string): Order | undefined {
+    return this.getOrder.find((order) => order.id === orderId);
+  }
 
-    // sharedUsers.forEach((user: User, index: number) => {
-    //   const foundIndex = this.usersList.findIndex((userList: User) => userList.id === user.id);
-    //   if (foundIndex !== -1) {
-    //     this.selectedUser(foundIndex, true);
-    //   } else {
-    //     this.selectedUser(index, false);
-    //   }
-    // });
+
+  setOrderForEdit({ name, price, quantity }: Order) {
+    this.orderForm.patchValue({ foodName: name, price, quantity });
   }
 
   editarPessoas() {
-    this.sessionService.setOrders(this.orders);
     this.sessionService.setPath('/ordens');
     this.router.navigate(['registrar']);
   }
@@ -131,80 +127,38 @@ export class OrderComponent implements OnInit, OnDestroy {
           if (users.length === 0) {
             this.router.navigate(['registrar']);
           }
-          this.usersList = users;
+          this.usersList.update(list => [...list, ...users]);
         }
       });
-  }
-
-  getOrders() {
-    this.sessionService
-      .getOrdersObservable()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (orders: Order[]) => {
-          orders.forEach((order) => {
-            order.sharedUsers = order.sharedUsers
-              .map((user) => this.findUserById(user.id))
-              .filter((user): user is User => user !== undefined);
-          });
-          this.orders = orders;
-        }
-      });
-  }
-
-  private findUserById(userId: string): User | undefined {
-    return this.usersList.find((userList) => userList.id === userId);
-  }
-
-  private findOrderById(orderId: string): Order | undefined {
-    return this.orders.find((order) => order.id === orderId);
   }
 
   createOrder() {
-    this.orderForm.submitOrder();
-    const order: Order = {
-      id: `${this.order.foodName} + ${Date.now()}`,
-      name: this.order.foodName,
-      price: this.order.price,
-      quantity: this.order.quantity,
-      sharedUsers: this.sharedFood
-    };
-    this.orders = [...this.orders, order];
-
-    this.resetCheckbox.update(v => v + 1);
+    this.orderService.addOrder(this.orderForm.getRawValue(), this.sharedFood());
+    this.orderForm.reset();
+    this.resetCheckbox.update((v) => v + 1);
   }
 
   editOrder() {
-    if (this.orderToEditOrDelete) {
-      // const formValues = this.orderForm.value;
-      // this.orders.forEach((order, index) => {
-      //   if (order.id === this.orderToEditOrDelete!.id) {
-      //     this.orders[index] = {
-      //       id: this.orderToEditOrDelete!.id,
-      //       name: formValues.foodName,
-      //       price: Number(formValues.price),
-      //       quantity: Number(this.quantity),
-      //       sharedUsers: this.sharedFood,
-      //     };
-      //   }
-      // });
-      this.saveOrders();
+    const order = this.orderToEditOrDelete;
+    if (order) {
+      const formData = this.orderForm.getRawValue();
+      this.orderService.editOrder({
+        ...order,
+        name: formData.foodName,
+        price: formData.price,
+        quantity: formData.quantity,
+        sharedUsers: this.sharedFood()
+      });
       this.navigateTo();
     }
   }
 
-  deleteItem(orderToDelete: Order) {
-    this.orders = this.orders.filter((order) => order.id !== orderToDelete.id);
-    this.saveOrders();
+  deleteItem({ id }: Order) {
+    this.orderService.removeOrder(id);
   }
 
   canEnableButtonGoToSummary(): boolean {
-    return this.orders.length > 0;
-  }
-
-  saveOrders() {
-    this.sessionService.setOrders(this.orders);
-    this.sessionService.setUsers(this.usersList);
+    return this.getOrder.length > 0;
   }
 
   navigateTo() {
@@ -213,7 +167,6 @@ export class OrderComponent implements OnInit, OnDestroy {
 
   goToSummary() {
     if (this.canEnableButtonGoToSummary()) {
-      this.saveOrders();
       this.navigateTo();
     }
   }

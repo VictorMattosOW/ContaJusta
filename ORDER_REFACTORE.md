@@ -1,6 +1,6 @@
 # Plano de Refatoração — `OrderComponent`
 
-historico do opencode opencode -s ses_0548b85d0ffedS9Um96aKb6lo8
+opencode -s ses_0548b85d0ffedS9Um96aKb6lo8
 
 ## Sumário
 

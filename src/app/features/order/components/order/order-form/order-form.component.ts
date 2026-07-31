@@ -1,12 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { OrderFormData } from '../../../models/order-form.interface';
-import { Subject, takeUntil } from 'rxjs';
-import { createOrderFormGroup } from './order-form.factory';
+import { OrderFormControls } from '../../../models/order-form.interface';
 import { ORDER_FORM_CONSTANTS } from '../../../models/order-form.constants';
 import { NgClass } from '@angular/common';
 import { NgxCurrencyDirective } from 'ngx-currency';
-
 
 @Component({
     selector: 'app-order-form',
@@ -16,29 +13,13 @@ import { NgxCurrencyDirective } from 'ngx-currency';
     standalone: true,
     imports: [ReactiveFormsModule, NgClass, NgxCurrencyDirective]
 })
-export class OrderFormComponent implements OnInit, OnDestroy {
-  @Output() formData = new EventEmitter<OrderFormData>();
-  @Output() formValidityChange = new EventEmitter<boolean>();
+export class OrderFormComponent {
+  @Input() orderForm!: FormGroup<OrderFormControls>;
   readonly constants = ORDER_FORM_CONSTANTS;
-  private readonly destroy$ = new Subject<void>();
 
-  orderForm: FormGroup = createOrderFormGroup();
-
-  ngOnInit(): void {
-    this.orderForm.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.formValidityChange.emit(this.orderForm.valid);
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  submitOrder() {
-    const order: OrderFormData = this.orderForm.value as OrderFormData;
-    this.formData.emit(order);
-    this.orderForm.reset();
+  isFormValid(): boolean {
+    return this.orderForm.controls['foodName'].dirty
+      && this.orderForm.controls['foodName'].invalid;
   }
 
   updateQuantity(operation: 'add' | 'subtract'): void {
@@ -50,9 +31,6 @@ export class OrderFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  isFormValid(): boolean {
-    return this.foodName.dirty && this.foodName.invalid;
-  }
 
   protected get foodName() {
     return this.orderForm.controls['foodName'];
@@ -66,3 +44,53 @@ export class OrderFormComponent implements OnInit, OnDestroy {
     return this.orderForm.controls['quantity'];
   }
 }
+// export class OrderFormComponent implements OnInit, OnDestroy {
+//   @Output() formData = new EventEmitter<OrderFormData>();
+//   @Output() formValidityChange = new EventEmitter<boolean>();
+//   readonly constants = ORDER_FORM_CONSTANTS;
+//   private readonly destroy$ = new Subject<void>();
+
+//   orderForm: FormGroup = createOrderFormGroup();
+
+//   ngOnInit(): void {
+//     this.orderForm.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+//       this.formValidityChange.emit(this.orderForm.valid);
+//     });
+//   }
+
+//   ngOnDestroy(): void {
+//     this.destroy$.next();
+//     this.destroy$.complete();
+//   }
+
+//   submitOrder() {
+//     const order: OrderFormData = this.orderForm.value as OrderFormData;
+//     this.formData.emit(order);
+//     this.orderForm.reset();
+//   }
+
+//   updateQuantity(operation: 'add' | 'subtract'): void {
+//     const current = this.quantity.value ?? this.constants.MIN_QUANTITY;
+//     const newValue = operation === 'add' ? current + 1 : current - 1;
+
+//     if (newValue >= this.constants.MIN_QUANTITY) {
+//       this.quantity.setValue(newValue, { emitEvent: false });
+//     }
+//   }
+
+//   isFormValid(): boolean {
+//     return this.foodName.dirty && this.foodName.invalid;
+//   }
+
+//   protected get foodName() {
+//     return this.orderForm.controls['foodName'];
+//   }
+
+//   protected get price() {
+//     return this.orderForm.controls['price'];
+//   }
+
+//   protected get quantity() {
+//     return this.orderForm.controls['quantity'];
+//   }
+// }

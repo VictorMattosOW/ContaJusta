@@ -1,23 +1,25 @@
 <main class="content">
-  <app-modal
-    [(open)]="isDeleteModalOpen"
-    title="Excluir item"
-    confirmText="Excluir"
-    cancelText="Voltar"
-    (confirm)="confirmDelete()"
-    (cancel)="onModalDismiss()">
-    <div modalBody>
-      <h5>Tem certeza que deseja excluir o item {{ orderToDelete()?.name }}?</h5>
-      <legend>Se excluir, esse item não entrará na conta, ok?</legend>
-    </div>
-  </app-modal>
+  @if (isDeleteModalOpen()) {
+    <app-modal
+      [(open)]="isDeleteModalOpen"
+      title="Excluir item"
+      confirmText="Excluir"
+      cancelText="Voltar"
+      (confirm)="confirmDelete()"
+      (cancel)="onModalDismiss()">
+      <div modalBody>
+        <h5>Tem certeza que deseja excluir o item {{ orderToDelete()?.name }}?</h5>
+        <legend>Se excluir, esse item não entrará na conta, ok?</legend>
+      </div>
+    </app-modal>
+  }
 
   <article>
     <header class="title">
-      @if (isEdit) {
+      @if (isEdit()) {
         <h1 class="primary">Modificar item</h1>
       }
-      @if (!isEdit) {
+      @if (!isEdit()) {
         <div>
           <h1 class="primary">O que pediram ?</h1>
           <p>Adicione item por item</p>
@@ -25,35 +27,30 @@
       }
     </header>
 
-    <app-card-orders [orders]="orders" (orderToDelete)="requestDelete($event)" />
+    <app-card-orders [orders]="getOrder" (orderToDelete)="requestDelete($event)" />
 
-    <app-order-form (formData)="getFormData($event)" (formValidityChange)="isSubmitButton = $event">
+    <app-order-form [orderForm]="orderForm">
       <app-user-checkbox
-        [usersList]="usersList"
+        [usersList]="usersList()"
         (selectedUserList)="getSharedUserFood($event)"
         [resetTrigger]="resetCheckbox()" />
     </app-order-form>
   </article>
-  @if (!isEdit) {
+  @if (!isEdit()) {
     <footer class="btn-content">
       <app-button
-        [buttonTitle]="orders.length >= 1 ? 'próximo item' : 'incluir item'"
+        [buttonTitle]="getOrder.length >= 1 ? 'próximo item' : 'incluir item'"
         styleButton="primary"
         size="large"
-        [isDisabled]="!isSubmitButton || !hasUserSelected"
+        [isDisabled]="!isSubmitButton() || !hasUserSelected"
         (buttonAction)="createOrder()"></app-button>
       <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary()"></app-button-link>
     </footer>
   }
 
-  @if (isEdit) {
+  @if (isEdit()) {
     <footer class="btn-content-edit">
-      <app-button
-        buttonTitle="voltar"
-        styleButton="secondary"
-        size="small"
-        [isDisabled]=""
-        (buttonAction)="navigateTo()"></app-button>
+      <app-button buttonTitle="voltar" styleButton="secondary" size="small" (buttonAction)="navigateTo()"></app-button>
       <app-button
         buttonTitle="salvar"
         styleButton="primary"
