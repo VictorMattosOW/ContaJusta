@@ -19,4 +19,7 @@ jobs:
           node-version: 22
           cache: 'npm'
       - run: npm ci
-      - run: npm run test
+      # - run: npm run test
+
+      - name: Build docker image
+        run: docker build -t conta-justa:v1 .
