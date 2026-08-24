@@ -55,16 +55,19 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
       .subscribe({
         next: (finalOrder: FinalOrder) => {
           this.finalOrder = finalOrder;
-          this.isOrderEmpty();
+          // Interrompe o fluxo quando não há pedido: evita crash ao calcular
+          if (this.isOrderEmpty()) return;
           this.calculateOrders();
         }
       });
   }
 
-  isOrderEmpty() {
+  isOrderEmpty(): boolean {
     if (!this.finalOrder) {
       this.router.navigate(['registrar']);
+      return true;
     }
+    return false;
   }
 
   getUsers() {

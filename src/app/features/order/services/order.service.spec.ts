@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * TESTE 3 — SERVIÇO COM ESTADO (SIGNALS) VIA TESTBED
+ * ============================================================================
+ *
+ * POR QUÊ o TestBed aqui, se no order-calculator.spec dispensamos?
+ * O OrderService é injetável (@Injectable providedIn: 'root') e carrega ESTADO
+ * interno (o signal `orders`). Usar TestBed.configureTestingModule({}) +
+ * TestBed.inject() cria uma instância "do jeito que o Angular criaria",
+ * garantindo que o teste exercita a mesma configuração de produção.
+ *
+ * ISOLAMENTO AUTOMÁTICO: entre um teste e outro o Angular reinicia o TestBed
+ * (resetTestingModule). Resultado: CADA teste recebe um serviço NOVO, com o
+ * signal vazio. Nunca dependa da ordem dos testes!
+ *
+ * SOBRE SIGNALS: signal é apenas uma função — para LER o valor, chame-a:
+ *   service.orders$()   ← os parênteses no final são a leitura
+ * E para escrever use os métodos do serviço; o teste nunca deve espiar o
+ * estado privado, só o que é exposto publicamente (orders$ asReadonly).
+ * ============================================================================
+ */
 import { TestBed } from '@angular/core/testing';
 import { OrderService } from './order.service';
 import { Order } from 'app/core/models/order.model';
@@ -11,6 +32,7 @@ describe('OrderService', () => {
   const user3: User = { id: '3', name: 'Ana' };
 
   beforeEach(() => {
+    // Sem providers = usa a configuração real do serviço (providedIn: 'root').
     TestBed.configureTestingModule({});
     service = TestBed.inject(OrderService);
   });
@@ -19,6 +41,81 @@ describe('OrderService', () => {
     expect(service).toBeTruthy();
   });
 
+  // ===========================================================================
+  // PARTE 1 — GERENCIAMENTO DE PEDIDOS (CRUD sobre o signal interno)
+  // ===========================================================================
+  describe('gerenciamento de pedidos (signals)', () => {
+    it('deve iniciar com a lista de pedidos vazia', () => {
+      expect(service.orders$()).toEqual([]);
+    });
+
+    it('addOrder deve criar pedido completo, adicionar à lista e retorná-lo', () => {
+      const dados = { foodName: 'Pizza', price: 50, quantity: 2 };
+
+      const retorno = service.addOrder(dados, [user1]); // Act
+
+      /**
+       * O id é gerado DENTRO do serviço (crypto.randomUUID). Como não temos
+       * como saber qual valor sairá, afirmamos o TIPO/FORMATO com
+       * expect.any(String) em vez de fixar um valor — teste não deve ser
+       * frágil a detalhes aleatórios, mas sim às regras (aqui: "tem id").
+       */
+      expect(retorno.id).toEqual(expect.any(String));
+      expect(retorno.name).toBe('Pizza');
+      expect(retorno.price).toBe(50);
+      expect(retorno.quantity).toBe(2);
+      expect(retorno.sharedUsers).toEqual([user1]);
+
+      // Efeito colateral essencial: o pedido aparece na leitura pública
+      expect(service.orders$()).toEqual([retorno]);
+    });
+
+    it('removeOrder deve excluir somente o pedido alvo', () => {
+      const pedidoA = service.addOrder({ foodName: 'Pizza', price: 50, quantity: 1 }, [user1]);
+      const pedidoB = service.addOrder({ foodName: 'Suco', price: 10, quantity: 1 }, [user1]);
+
+      service.removeOrder(pedidoA.id); // Act
+
+      const restantes = service.orders$();
+      expect(restantes).toHaveLength(1);
+      expect(restantes[0].id).toBe(pedidoB.id);
+    });
+
+    it('editOrder deve substituir o pedido de mesmo id preservando os demais', () => {
+      const pedidoA = service.addOrder({ foodName: 'Pizza', price: 50, quantity: 1 }, [user1]);
+      const pedidoB = service.addOrder({ foodName: 'Suco', price: 10, quantity: 1 }, [user2]);
+
+      const versaoEditada: Order = { ...pedidoA, name: 'Calzone', price: 60 };
+      service.editOrder(versaoEditada); // Act
+
+      const lista = service.orders$();
+      expect(lista).toHaveLength(2);
+      expect(lista.find((o) => o.id === pedidoA.id)).toMatchObject({
+        name: 'Calzone',
+        price: 60,
+        sharedUsers: [user1] // campos não editados vêm junto do spread
+      });
+      expect(lista.find((o) => o.id === pedidoB.id)?.name).toBe('Suco'); // intacto
+    });
+
+    it('clearOrder deve esvaziar toda a lista', () => {
+      service.addOrder({ foodName: 'Pizza', price: 50, quantity: 1 }, [user1]);
+      service.addOrder({ foodName: 'Suco', price: 10, quantity: 1 }, [user2]);
+
+      service.clearOrder(); // Act
+
+      expect(service.orders$()).toEqual([]);
+    });
+  });
+
+  // ===========================================================================
+  // PARTE 2 — DELEGAÇÃO DE CÁLCULOS
+  // As regras matemáticas JÁ estão cobertas nos testes das funções puras
+  // (utils/order-calculator.spec.ts). Aqui o objetivo é outro: garantir que o
+  // serviço delega corretamente (assinaturas/parâmetros em ordem).
+  // É o padrão "teste fino": quando a lógica vive numa função pura, o wrapper
+  // só precisa provar que repassa o trabalho.
+  // ===========================================================================
   describe('sumTotalOrders', () => {
     it('should return 0 for empty orders', () => {
       expect(service.sumTotalOrders([], 0)).toBe(0);
