@@ -3,3 +3,11 @@ build
 dist
 Dockerfile
 .git
+.github
+*.md
+.editorconfig
+.prettierrc*
+eslint.config.js
+jest.config.*
+.env*
+coverage
