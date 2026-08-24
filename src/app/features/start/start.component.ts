@@ -8,7 +8,7 @@ import { ButtonComponent } from 'app/shared/components/button/button.component';
   standalone: true,
   imports: [ButtonComponent],
   templateUrl: './start.component.html',
-  styleUrls: ['./start.component.css'],
+  styleUrls: ['./start.component.css']
 })
 export class StartComponent implements AfterViewInit, OnDestroy {
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);

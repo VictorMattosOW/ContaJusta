@@ -27,11 +27,11 @@ export class OrderService {
   }
 
   removeOrder(id: string): void {
-    this.orders.update(list => list.filter(o => o.id !== id));
+    this.orders.update((list) => list.filter((o) => o.id !== id));
   }
 
   editOrder(data: Order): void {
-    this.orders.update(list => list.map(o => o.id === data.id ? { ...o, ...data} : o));
+    this.orders.update((list) => list.map((o) => (o.id === data.id ? { ...o, ...data } : o)));
   }
 
   clearOrder(): void {

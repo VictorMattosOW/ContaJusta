@@ -29,7 +29,7 @@ export class ModalComponent {
       if (!el) return;
       if (this.open()) el.showModal();
       else if (el.open) el.close();
-    })
+    });
   }
 
   onBackdrop(e: MouseEvent) {

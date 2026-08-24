@@ -6,20 +6,19 @@ import { NgClass } from '@angular/common';
 import { NgxCurrencyDirective } from 'ngx-currency';
 
 @Component({
-    selector: 'app-order-form',
-    templateUrl: './order-form.component.html',
-    styleUrls: ['./order-form.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [ReactiveFormsModule, NgClass, NgxCurrencyDirective]
+  selector: 'app-order-form',
+  templateUrl: './order-form.component.html',
+  styleUrls: ['./order-form.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [ReactiveFormsModule, NgClass, NgxCurrencyDirective]
 })
 export class OrderFormComponent {
   @Input() orderForm!: FormGroup<OrderFormControls>;
   readonly constants = ORDER_FORM_CONSTANTS;
 
   isFormValid(): boolean {
-    return this.orderForm.controls['foodName'].dirty
-      && this.orderForm.controls['foodName'].invalid;
+    return this.orderForm.controls['foodName'].dirty && this.orderForm.controls['foodName'].invalid;
   }
 
   updateQuantity(operation: 'add' | 'subtract'): void {
@@ -30,7 +29,6 @@ export class OrderFormComponent {
       this.quantity.setValue(newValue, { emitEvent: false });
     }
   }
-
 
   protected get foodName() {
     return this.orderForm.controls['foodName'];

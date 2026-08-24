@@ -3,12 +3,12 @@ import { FormsModule } from '@angular/forms';
 import { User } from 'app/core/models/user.model';
 
 @Component({
-    selector: 'app-user-checkbox',
-    templateUrl: './user-checkbox.component.html',
-    styleUrls: ['./user-checkbox.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [FormsModule]
+  selector: 'app-user-checkbox',
+  templateUrl: './user-checkbox.component.html',
+  styleUrls: ['./user-checkbox.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [FormsModule]
 })
 export class UserCheckboxComponent {
   @Input() usersList: User[] = [];

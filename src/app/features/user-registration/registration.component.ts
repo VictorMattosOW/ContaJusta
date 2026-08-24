@@ -15,8 +15,7 @@ import { ButtonLinkComponent } from 'app/shared/components/button-link/button-li
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { AutofocusDirective } from 'app/shared/directives/autofocus.directive';
 import { SessionService } from 'app/shared/services/session.service';
-
-import * as uuid from 'uuid';
+import { UserService } from 'app/shared/services/user/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -42,6 +41,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked, AfterVie
   constructor(
     private router: Router,
     private sessionService: SessionService,
+    private userService: UserService,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -80,16 +80,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked, AfterVie
   }
 
   loadUsersFromSession() {
-    this.sessionService.getUsersObservable().subscribe({
-      next: (users: User[]) => {
-        if (users) {
-          users.forEach((users) => this.addNewUserInput(users));
-        }
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    });
+    this.userService.users$().forEach((user: User) => this.addNewUserInput(user));
   }
 
   get inputs(): FormArray {
@@ -123,7 +114,7 @@ export class RegistrationComponent implements OnInit, AfterViewChecked, AfterVie
         validators: [Validators.required, Validators.maxLength(25)]
       }),
       // Se o user.id existir, usa ele. Se não, gera um novo UUID.
-      id: new FormControl(user?.id ?? uuid.v4())
+      id: new FormControl(user?.id ?? crypto.randomUUID())
     });
   }
 
@@ -138,13 +129,14 @@ export class RegistrationComponent implements OnInit, AfterViewChecked, AfterVie
   }
 
   navigateTo() {
+    console.log("/orders");
+    
     this.router.navigate(['/orders']);
   }
 
   submit() {
-    console.log('to aqui');
     if (this.canEnableSubmitButton()) {
-      this.sessionService.setUsers(this.inputs.value);
+      this.userService.addUser(this.inputs.value);
       this.navigateTo();
     }
   }

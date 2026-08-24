@@ -8,7 +8,7 @@ describe('OrderFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [OrderFormComponent],
+      declarations: [OrderFormComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(OrderFormComponent);

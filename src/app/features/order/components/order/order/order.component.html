@@ -16,10 +16,10 @@
 
   <article>
     <header class="title">
-      @if (isEdit()) {
+      @if (draft.isEdit()) {
         <h1 class="primary">Modificar item</h1>
       }
-      @if (!isEdit()) {
+      @if (!draft.isEdit()) {
         <div>
           <h1 class="primary">O que pediram ?</h1>
           <p>Adicione item por item</p>
@@ -29,33 +29,33 @@
 
     <app-card-orders [orders]="getOrder" (orderToDelete)="requestDelete($event)" />
 
-    <app-order-form [orderForm]="orderForm">
+    <app-order-form [orderForm]="draft.form">
       <app-user-checkbox
         [usersList]="usersList()"
-        (selectedUserList)="getSharedUserFood($event)"
+        (selectedUserList)="selection.select($event)"
         [resetTrigger]="resetCheckbox()" />
     </app-order-form>
   </article>
-  @if (!isEdit()) {
+  @if (!draft.isEdit()) {
     <footer class="btn-content">
       <app-button
         [buttonTitle]="getOrder.length >= 1 ? 'próximo item' : 'incluir item'"
         styleButton="primary"
         size="large"
-        [isDisabled]="!isSubmitButton() || !hasUserSelected"
+        [isDisabled]="!isSubmitButton() || !selection.hasUserSelected()"
         (buttonAction)="createOrder()"></app-button>
       <app-button-link title="Finalizar pedidos >" (buttonAction)="goToSummary()"></app-button-link>
     </footer>
   }
 
-  @if (isEdit()) {
+  @if (draft.isEdit()) {
     <footer class="btn-content-edit">
       <app-button buttonTitle="voltar" styleButton="secondary" size="small" (buttonAction)="navigateTo()"></app-button>
       <app-button
         buttonTitle="salvar"
         styleButton="primary"
         size="small"
-        [isDisabled]="!isSubmitButton || !hasUserSelected"
+        [isDisabled]="!isSubmitButton() || !selection.hasUserSelected()"
         (buttonAction)="editOrder()"></app-button>
     </footer>
   }

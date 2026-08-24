@@ -12,7 +12,7 @@ import { pipe, Subject, takeUntil } from 'rxjs';
   standalone: true,
   imports: [RouterOutlet, NgClass]
 })
-export class AppComponent implements OnInit, OnDestroy{
+export class AppComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   title = 'contaJusta';
   bgColor = '';
@@ -23,12 +23,15 @@ export class AppComponent implements OnInit, OnDestroy{
     this.destroy$.next();
     this.destroy$.complete();
   }
-  
+
   ngOnInit(): void {
-    this.session.getBackgroundColor().pipe(takeUntil(this.destroy$)).subscribe({
-      next: (bg) => {
-        this.bgColor = bg;
-      }
-    });
+    this.session
+      .getBackgroundColor()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (bg) => {
+          this.bgColor = bg;
+        }
+      });
   }
 }

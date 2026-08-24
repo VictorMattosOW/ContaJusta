@@ -1,8 +1,8 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Directive({
-    selector: '[appAutofocus]',
-    standalone: true
+  selector: '[appAutofocus]',
+  standalone: true
 })
 export class AutofocusDirective implements AfterViewInit, OnChanges {
   @Input() appAutofocus = true;

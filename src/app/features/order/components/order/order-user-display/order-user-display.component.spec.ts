@@ -12,8 +12,7 @@ describe('OrderUserDisplayComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [OrderUserDisplayComponent, UserNamesPipe, UserNamesDisplayPipe, TooltipComponent]
-    })
-    .compileComponents();
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OrderUserDisplayComponent);
     component = fixture.componentInstance;

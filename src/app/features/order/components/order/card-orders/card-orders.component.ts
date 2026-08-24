@@ -5,12 +5,12 @@ import { OrderUserDisplayComponent } from '../order-user-display/order-user-disp
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-    selector: 'app-card-orders',
-    templateUrl: './card-orders.component.html',
-    styleUrls: ['./card-orders.component.css'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [OrderUserDisplayComponent, CurrencyPipe]
+  selector: 'app-card-orders',
+  templateUrl: './card-orders.component.html',
+  styleUrls: ['./card-orders.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [OrderUserDisplayComponent, CurrencyPipe]
 })
 export class CardOrdersComponent {
   @Input() orders: Order[] = [];

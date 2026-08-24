@@ -1,19 +1,17 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderFormComponent } from '../order-form/order-form.component';
 import { Subject, takeUntil } from 'rxjs';
-import { User } from 'app/core/models/user.model';
 import { Order } from 'app/core/models/order.model';
-import { OrderFormControls } from 'app/features/order/models/order-form.interface';
-import { SessionService } from 'app/shared/services/session.service';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
 import { CardOrdersComponent } from '../card-orders/card-orders.component';
 import { UserCheckboxComponent } from '../user-checkbox/user-checkbox.component';
 import { ModalComponent } from 'app/shared/components/modal/modal.component';
 import { OrderService } from 'app/features/order/services/order.service';
-import { FormGroup } from '@angular/forms';
-import { createOrderFormGroup } from '../order-form/order-form.factory';
+import { UserService } from 'app/shared/services/user/user.service';
+import { OrderDraftModel } from './order-draft.model';
+import { UserSelectionStore } from './user-selection.store';
 
 @Component({
   selector: 'app-order',
@@ -31,33 +29,29 @@ import { createOrderFormGroup } from '../order-form/order-form.factory';
   ]
 })
 export class OrderComponent implements OnInit, OnDestroy {
-  orderForm: FormGroup<OrderFormControls> = createOrderFormGroup();
+  readonly draft = new OrderDraftModel();
+  readonly selection = new UserSelectionStore();
+  readonly usersList = computed(() => this.userService.users$());
 
   readonly isDeleteModalOpen = signal(false);
   readonly orderToDelete = signal<Order | null>(null);
-  private readonly destroy$ = new Subject<void>();
-  isSubmitButton = signal(false);
-  resetCheckbox = signal(0);
+  readonly isSubmitButton = signal(false);
+  readonly resetCheckbox = signal(0);
 
-  orderToEditOrDelete: Order | undefined = {} as Order;
-  usersList = signal<User[]>([]);
-  sharedFood = signal<User[]>([]);
-  isEdit = signal(false);
-  hasUserSelected = signal(false);
+  private readonly destroy$ = new Subject<void>();
 
   constructor(
-    private sessionService: SessionService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private orderService: OrderService
+    private readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly orderService: OrderService,
+    private readonly userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.getUsers();
-    this.getPath();
-    this.orderForm.statusChanges
+    this.startEditFlow();
+    this.draft.form.statusChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.isSubmitButton.set(this.orderForm.valid));
+      .subscribe(() => this.isSubmitButton.set(this.draft.form.valid));
   }
 
   ngOnDestroy(): void {
@@ -65,13 +59,22 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
+  get getOrder(): Order[] {
+    return this.orderService.orders$();
+  }
+
+  private startEditFlow(): void {
+    const orderId = this.route.snapshot.params['id'];
+    this.draft.startEditing(this.findOrderById(orderId));
+  }
+
+  private findOrderById(orderId: string): Order | undefined {
+    return this.getOrder.find((order) => order.id === orderId);
+  }
+
   requestDelete(order: Order): void {
     this.orderToDelete.set(order);
     this.isDeleteModalOpen.set(true);
-  }
-
-  get getOrder(): Order[] {
-    return this.orderService.orders$();
   }
 
   confirmDelete(): void {
@@ -85,70 +88,17 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.isDeleteModalOpen.set(false);
   }
 
-  getSharedUserFood(users: User[]) {
-    this.hasUserSelected.set(users.length > 0);
-    this.sharedFood.update(list => [...list, ...users]);
-  }
-
-  getPath() {
-    const orderId = this.route.snapshot.params['id'];
-    const orderEdit = this.findOrderById(orderId);
-
-    if (orderEdit !== undefined) {
-      this.isEdit.set(true);
-      this.setOrderForEdit(orderEdit);
-    }
-
-    // if (this.orderToEditOrDelete) {
-    //   this.setOrderForEdit(this.orderToEditOrDelete);
-    // }
-  }
-
-  private findOrderById(orderId: string): Order | undefined {
-    return this.getOrder.find((order) => order.id === orderId);
-  }
-
-
-  setOrderForEdit({ name, price, quantity }: Order) {
-    this.orderForm.patchValue({ foodName: name, price, quantity });
-  }
-
-  editarPessoas() {
-    this.sessionService.setPath('/ordens');
-    this.router.navigate(['registrar']);
-  }
-
-  getUsers() {
-    this.sessionService
-      .getUsersObservable()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (users) => {
-          if (users.length === 0) {
-            this.router.navigate(['registrar']);
-          }
-          this.usersList.update(list => [...list, ...users]);
-        }
-      });
-  }
-
   createOrder() {
-    this.orderService.addOrder(this.orderForm.getRawValue(), this.sharedFood());
-    this.orderForm.reset();
+    this.orderService.addOrder(this.draft.buildCreatePayload(), this.selection.selectedUsers());
+    this.draft.reset();
+    this.selection.reset();
     this.resetCheckbox.update((v) => v + 1);
   }
 
   editOrder() {
-    const order = this.orderToEditOrDelete;
-    if (order) {
-      const formData = this.orderForm.getRawValue();
-      this.orderService.editOrder({
-        ...order,
-        name: formData.foodName,
-        price: formData.price,
-        quantity: formData.quantity,
-        sharedUsers: this.sharedFood()
-      });
+    const payload = this.draft.buildEditPayload(this.selection.selectedUsers());
+    if (payload) {
+      this.orderService.editOrder(payload);
       this.navigateTo();
     }
   }

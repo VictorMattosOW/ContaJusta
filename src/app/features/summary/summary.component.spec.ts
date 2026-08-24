@@ -17,10 +17,8 @@ describe('SummaryComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [SummaryComponent, UserNamesDisplayPipe],
       imports: [CurrencyPipe, ReactiveFormsModule, RouterTestingModule],
-      providers: [
-        { provide: SessionService, useValue: { getOrdersObservable: () => of([]) } }
-      ],
-      schemas: [NO_ERRORS_SCHEMA],
+      providers: [{ provide: SessionService, useValue: { getOrdersObservable: () => of([]) } }],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
 
     fixture = TestBed.createComponent(SummaryComponent);
