@@ -37,4 +37,4 @@ jobs:
         run: docker build -t victormatttosow/conta-justa:${{ steps.generate_tag.outputs.sha }} .
 
       - name: Push image
-        run: docker push -t victormatttosow/conta-justa:${{ steps.generate_tag.outputs.sha }} .
+        run: docker push victormatttosow/conta-justa:${{ steps.generate_tag.outputs.sha }}
