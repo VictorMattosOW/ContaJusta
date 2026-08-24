@@ -129,8 +129,8 @@ export class RegistrationComponent implements OnInit, AfterViewChecked, AfterVie
   }
 
   navigateTo() {
-    console.log("/orders");
-    
+    console.log('/orders');
+
     this.router.navigate(['/orders']);
   }
 

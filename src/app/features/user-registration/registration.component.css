@@ -11,7 +11,7 @@
   margin-bottom: 2.5rem;
 }
 
-input[type="text"] {
+input[type='text'] {
   padding: 1rem 0.8rem;
   border-radius: 8px;
   display: block;
@@ -68,7 +68,7 @@ input[type="text"] {
   padding-top: 6px;
 }
 
-.input-content.error-input input[type="text"] {
+.input-content.error-input input[type='text'] {
   border: #d2252f;
   outline: 1px solid #d2252f;
 }
@@ -87,7 +87,7 @@ input[type="text"] {
   border-radius: 8px;
   border: 1px solid var(--gray);
   padding: 24px 32px;
-  z-index:99999;
+  z-index: 99999;
   backdrop-filter: blur(100%);
 }
 

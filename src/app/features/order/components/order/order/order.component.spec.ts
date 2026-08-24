@@ -58,10 +58,7 @@ describe('OrderComponent', () => {
 
     component.createOrder();
 
-    expect(orderServiceMock.addOrder).toHaveBeenCalledWith(
-      { foodName: 'Sushi', price: 50, quantity: 1 },
-      [userA]
-    );
+    expect(orderServiceMock.addOrder).toHaveBeenCalledWith({ foodName: 'Sushi', price: 50, quantity: 1 }, [userA]);
     expect(component.draft.form.value).toEqual({ foodName: '', price: 0, quantity: 1 });
     expect(component.selection.hasUserSelected()).toBe(false);
   });
