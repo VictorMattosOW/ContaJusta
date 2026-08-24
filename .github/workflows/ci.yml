@@ -21,5 +21,20 @@ jobs:
       - run: npm ci
       # - run: npm run test
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v4
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Generate tag
+        id: generate_tag
+        run: |
+          SHA=$(echo $GITHUB_SHA | head -c7)
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+
       - name: Build docker image
-        run: docker build -t conta-justa:v1 .
+        run: docker build -t victormatttosow/conta-justa:{{ steps.generate_tag.outputs.sha }} .
+
+      - name: Push image
+        run: docker push victormatttosow/conta-justa:{{ steps.generate_tag.outputs.sha }} .
