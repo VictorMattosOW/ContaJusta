@@ -34,7 +34,7 @@ jobs:
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
       - name: Build docker image
-        run: docker build -t victormatttosow/conta-justa:{{ steps.generate_tag.outputs.sha }} .
+        run: docker build -t victormatttosow/conta-justa:${{ steps.generate_tag.outputs.sha }} .
 
       - name: Push image
-        run: docker push victormatttosow/conta-justa:{{ steps.generate_tag.outputs.sha }} .
+        run: docker push victormatttosow/conta-justa:${{ steps.generate_tag.outputs.sha }} .
