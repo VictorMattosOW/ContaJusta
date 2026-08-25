@@ -1,0 +1,4 @@
+export const REGISTRATION_FORM_CONSTANTS = {
+  MAX_LENGTH_NAME: 25,
+  MIN_USERS: 2
+} as const;

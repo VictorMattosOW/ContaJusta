@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:watch": "ng test --watch",
-    "test:coverage": "ng test --code-coverage",
+    "test:coverage": "npx jest --coverage",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format:check": "npx prettier --check .",

@@ -3,13 +3,11 @@
     <app-modal
       [(open)]="isDeleteModalOpen"
       title="Excluir item"
-      confirmText="Excluir"
-      cancelText="Voltar"
       (confirm)="confirmDelete()"
       (cancel)="onModalDismiss()">
       <div modalBody>
         <h5>Tem certeza que deseja excluir o item {{ orderToDelete()?.name }}?</h5>
-        <legend>Se excluir, esse item não entrará na conta, ok?</legend>
+        <span>Se excluir, esse item não entrará na conta, ok?</span>
       </div>
     </app-modal>
   }

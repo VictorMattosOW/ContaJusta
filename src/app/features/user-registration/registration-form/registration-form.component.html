@@ -1,0 +1,30 @@
+<form class="form-content" [formGroup]="registrationForm()" [scrollTop]="autofocus.scrollHeight" #autofocus>
+  <div formArrayName="inputs">
+    @for (input of inputs.controls; track input.getRawValue().id; let i = $index) {
+      <div [formGroupName]="i">
+        <div
+          class="input-content"
+          [ngClass]="{
+            'error-input': this.inputs.at(i).dirty && this.inputs.at(i).invalid
+          }">
+          <input type="text" name="name" formControlName="name" [appAutofocus]="true" maxlength="25" />
+          <app-button-link (buttonAction)="indexToDelete.emit(i)" title="excluir"></app-button-link>
+        </div>
+        <div class="error-msg">
+          @if (this.inputs.at(i).get('name')?.hasError('maxlength') && this.inputs.at(i).dirty) {
+            <span>O nome não pode ter mais de 25 caracteres.</span>
+          }
+
+          @if (this.inputs.at(i).get('name')?.hasError('required') && this.inputs.at(i).dirty) {
+            <span>Ops! Esse nome está em branco.</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+  <div class="input-content">
+    <button class="btn-add" (click)="addNewUserInput()">
+      <p>Nome da pessoa</p>
+    </button>
+  </div>
+</form>
