@@ -1,4 +1,4 @@
-name: CI
+name: CI/CD
 
 on:
   push:
@@ -6,23 +6,29 @@ on:
       - main
 
 jobs:
+  # FASE 1: Roda nos servidores gratuitos do GitHub
   build:
-    name: 'Build anb Push'
+    name: 'Build and Push'
     runs-on: ubuntu-latest
 
+    # Criamos um "output" para passar a tag gerada para o Job de deploy
+    outputs:
+      image_tag: ${{ steps.generate_tag.outputs.sha }}
+
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
       - name: Setup node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: 'npm'
+
       - run: npm ci
       # - run: npm run test
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v4
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -33,8 +39,29 @@ jobs:
           SHA=$(echo $GITHUB_SHA | head -c7)
           echo "sha=$SHA" >> $GITHUB_OUTPUT
 
-      - name: Build docker image
-        run: docker build -t victormatttosow/conta-justa:${{ steps.generate_tag.outputs.sha }} .
+      # Corrigido: agora é um passo separado!
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: victormatttosow/conta-justa:${{ steps.generate_tag.outputs.sha }},victormatttosow/conta-justa:latest
 
-      - name: Push image
-        run: docker push victormatttosow/conta-justa:${{ steps.generate_tag.outputs.sha }}
+  # FASE 2: Roda direto no seu PC
+  deploy:
+    name: 'Deploy Local'
+    needs: build # Só roda se o build der 100% certo
+    runs-on: self-hosted # <--- A mágica acontece aqui!
+
+    steps:
+      - name: Baixar imagem e rodar
+        run: |
+          # 1. Baixa a imagem exata que acabou de ser construída
+          docker pull victormatttosow/conta-justa:${{ needs.build.outputs.image_tag }}
+
+          # 2. Derruba a versão velha que estiver rodando (o '|| true' ignora erro se não existir)
+          docker rm -f conta-justa-app || true
+
+          # 3. Sobe a versão nova. 
+          # ATENÇÃO: Ajuste o -p 8080:80 para a porta que sua aplicação usa
+          docker run -d -p 8080:80 --name conta-justa-app victormatttosow/conta-justa:${{ needs.build.outputs.image_tag }}
