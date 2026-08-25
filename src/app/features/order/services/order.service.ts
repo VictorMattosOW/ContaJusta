@@ -1,4 +1,4 @@
-import { Injectable, signal, Signal } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Order, OrderPerUser } from 'app/core/models/order.model';
 import { User } from 'app/core/models/user.model';
 import {

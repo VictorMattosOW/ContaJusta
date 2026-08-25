@@ -7,7 +7,7 @@ export class UserService {
   readonly users$ = this.users.asReadonly();
 
   addUser(data: User[]): User[] {
-    this.users.update((list) => [...data]);
+    this.users.update(() => [...data]);
     return data;
   }
 
