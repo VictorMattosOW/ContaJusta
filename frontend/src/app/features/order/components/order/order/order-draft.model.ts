@@ -10,6 +10,7 @@ export class OrderDraftModel {
 
   readonly isEdit = signal(false);
   private readonly orderToEdit = signal<Order | null>(null);
+  readonly original = this.orderToEdit.asReadonly();
 
   startEditing(order: Order | undefined): void {
     if (order) {

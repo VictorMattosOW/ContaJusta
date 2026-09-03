@@ -1,0 +1,12 @@
+<form (ngSubmit)="$event.preventDefault()" [formGroup]="form()">
+  <div class="percent-content">
+    <input
+      id="percent"
+      formControlName="percent"
+      type="number"
+      max="100"
+      placeholder="10"
+      aria-label="Taxa de serviço em porcentagem" />
+    <span class="percent-symbol" aria-hidden="true">%</span>
+  </div>
+</form>

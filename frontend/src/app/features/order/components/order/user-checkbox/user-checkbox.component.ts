@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { User } from 'app/core/models/user.model';
 
@@ -11,49 +11,23 @@ import { User } from 'app/core/models/user.model';
   imports: [FormsModule]
 })
 export class UserCheckboxComponent {
-  @Input() usersList: User[] = [];
-  @Output() selectedUserList = new EventEmitter<User[]>();
-  @Input() set resetTrigger(value: number) {
-    if (value) {
-      this.markAllUsers = false;
-      this.sharedFood = [];
-      this.selectedUsers = [];
-      this.selectedUserList.emit([]);
-    }
-  }
+  readonly usersList = input.required<User[]>();
+  readonly selectedUsers = input<User[]>([]);
+  readonly selectedUsersChange = output<User[]>();
 
-  markAllUsers = false;
-  sharedFood: User[] = [];
-  selectedUsers: boolean[] = [];
+  readonly selectedIds = computed(() => new Set(this.selectedUsers().map((u) => u.id)));
+  readonly allSelected = computed(
+    () => this.usersList().length > 0 && this.selectedUsers().length === this.usersList().length
+  );
 
-  // user-checkbox.component.ts
-  trackByUserId(index: number, user: User): string {
-    return user.id;
+  toggleUser(user: User, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    const next = checked ? [...this.selectedUsers(), user] : this.selectedUsers().filter((u) => u.id !== user.id);
+    this.selectedUsersChange.emit(next);
   }
 
   selectAllUser(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
-    if (checked) {
-      this.sharedFood = [...this.usersList];
-      this.selectedUsers.length = this.sharedFood.length;
-      this.selectedUsers.fill(checked);
-    } else {
-      this.sharedFood = [];
-      this.selectedUsers.fill(checked);
-    }
-    this.markAllUsers = checked;
-    this.selectedUserList.emit(this.sharedFood);
-  }
-
-  selectedUser(index: number, event: Event | boolean) {
-    const checked = event instanceof Event ? (event.target as HTMLInputElement).checked : event;
-
-    if (checked) {
-      this.sharedFood.push(this.usersList[index]);
-    } else {
-      this.sharedFood = this.sharedFood.filter((element) => element !== this.usersList[index]);
-    }
-    this.selectedUsers[index] = checked;
-    this.selectedUserList.emit(this.sharedFood);
+    this.selectedUsersChange.emit(checked ? [...this.usersList()] : []);
   }
 }

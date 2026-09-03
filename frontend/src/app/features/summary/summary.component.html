@@ -1,101 +1,36 @@
 <main class="content">
-  <dialog class="modal" #dialog>
-    <div class="btn-close-content">
-      <button class="btn-close-modal" (click)="closeDialog()">
-        <img width="30" height="30" src="../../../assets/close.svg" />
-      </button>
-    </div>
-    <div class="quantity-content">
-      <h2>Altere a quantidade</h2>
-      <div class="quantity">
-        <button
-          class="btn"
-          [ngClass]="{ 'btn-disabled': orderToEdit.quantity <= 1 }"
-          [disabled]="canEnableButton()"
-          (click)="subtractQuantity()">
-          -
-        </button>
-        <span>{{ orderToEdit.quantity }}</span>
-        <button class="btn" (click)="addQuantity()">+</button>
-      </div>
-      <app-button
-        [isDisabled]="false"
-        buttonTitle="confirmar"
-        size="large"
-        styleButton="primary"
-        (buttonAction)="closeDialog()"></app-button>
-    </div>
-  </dialog>
-
+  <span style="display: none">{{ cdCount() }}</span>
   <div>
     <header>
       <h1 class="title">Resumo da conta</h1>
     </header>
-    @for (order of orders; track order.id) {
-      <section class="description">
-        <div class="icon">
-          <a (click)="openDialog(order)">{{ order.quantity }}</a>
-        </div>
-        <a class="btn-description" [routerLink]="'/ordens/' + order.id">
-          <div class="names-content">
-            <h6>{{ order.name }}</h6>
-            <legend>
-              {{ order.sharedUsers | userNamesDisplay }}
-            </legend>
-          </div>
-
-          <div class="description-price">
-            <div class="price-content">
-              <h6>
-                {{ order.quantity * order.price | currency }}
-              </h6>
-              <legend>({{ order.price | currency }})</legend>
-            </div>
-            <button>
-              <img width="8" src="../../../assets/icon _nav.svg" alt="" />
-            </button>
-          </div>
-        </a>
-      </section>
-    }
+    <app-card-items-order [orders]="orders()" (orderToEdit)="setOrderToEdit($event)" />
 
     <section class="service-payment">
       <h4>Taxa de serviço</h4>
-      <form action="" [formGroup]="orderForm">
-        <div class="percent-content">
-          <input
-            formControlName="percent"
-            type="number"
-            name="percent"
-            max="100"
-            placeholder="10"
-            (change)="sumTotalOrders()" />
-          <h3>%</h3>
-        </div>
-      </form>
+      <app-summary-form [form]="summaryForm" />
     </section>
 
     <section class="resume">
       <h2>Total</h2>
       <div>
-        <h1>{{ sumTotalOrders() | currency }}</h1>
-        <legend>com taxa de {{ orderForm.get('percent')?.value }}%</legend>
+        <h1>{{ total() | currency }}</h1>
+        <span>com taxa de {{ percent() }}%</span>
       </div>
     </section>
   </div>
 
   <footer class="button-content">
     <app-button
-      [isDisabled]="false"
       buttonTitle="incluir item"
       size="small"
       styleButton="secondary"
       (buttonAction)="goToOrder()"></app-button>
-    <app-button
-      [isDisabled]="false"
-      buttonTitle="dividir"
-      size="small"
-      styleButton="primary"
-      (buttonAction)="navigateTo()"></app-button>
+    <app-button buttonTitle="dividir" size="small" styleButton="primary" (buttonAction)="navigateTo()"></app-button>
   </footer>
 </main>
+@if (isOpenModal()) {
+  <app-modal-quantity [(open)]="isOpenModal">
+    <app-items-quantity [orderQuantity]="orderToEdit()?.quantity ?? 1" (close)="updateQuantity($event)" />
+  </app-modal-quantity>
+}

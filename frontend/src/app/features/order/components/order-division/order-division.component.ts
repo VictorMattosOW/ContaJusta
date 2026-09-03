@@ -1,12 +1,13 @@
 import { Component, AfterViewInit, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
-import { FinalOrder, OrderPerUser } from 'app/core/models/order.model';
+import { FinalOrder, OrderPerUser, SharedFood } from 'app/core/models/order.model';
 import { User } from 'app/core/models/user.model';
 import { SessionService } from 'app/shared/services/session.service';
 import { Subject, takeUntil } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { CurrencyPipe } from '@angular/common';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
+import { CurrencyPipe } from 'app/shared/pipes/currency.pipe';
+import { UserService } from 'app/shared/services/user/user.service';
 
 @Component({
   selector: 'app-order-division',
@@ -23,10 +24,12 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
   orderPerUser: OrderPerUser[] = [];
   cardState: boolean[] = [];
   finalValue = 0;
+
   constructor(
     private sessionService: SessionService,
     private router: Router,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -34,12 +37,16 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
     this.getFinalOrder();
   }
 
+  get users() {
+    return this.userService.users$();
+  }
+
   ngAfterViewInit() {
     this.changeBackground('blue');
   }
 
-  trackByOrderKey(index: number, sharedFood: any): string {
-    return `${sharedFood.food}-${sharedFood.sharedValue}`;
+  trackByOrderKey(index: number, sharedFood: SharedFood): string {
+    return sharedFood.orderId;
   }
 
   changeBackground(color = 'white') {
@@ -64,24 +71,16 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
 
   isOrderEmpty(): boolean {
     if (!this.finalOrder) {
-      this.router.navigate(['registrar']);
+      // this.router.navigate(['registrar']);
       return true;
     }
     return false;
   }
 
   getUsers() {
-    this.sessionService
-      .getUsersObservable()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (users) => {
-          if (users.length === 0) {
-            this.router.navigate(['registrar']);
-          }
-          this.usersList = users;
-        }
-      });
+    if (this.users.length === 0) {
+      this.router.navigate(['registrar']);
+    }
   }
 
   openCard(index: number) {
@@ -103,6 +102,7 @@ export class OrderDivisionComponent implements AfterViewInit, OnInit, OnDestroy 
   }
 
   ngOnDestroy(): void {
+    this.sessionService.setBackgroundColor('white');
     this.destroy$.next();
     this.destroy$.complete();
   }

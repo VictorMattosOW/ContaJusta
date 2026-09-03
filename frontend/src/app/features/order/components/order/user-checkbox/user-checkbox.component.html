@@ -5,21 +5,18 @@
   </div>
   <div class="form-content">
     <div class="mark-all-users">
-      <input id="all-users" [(ngModel)]="markAllUsers" type="checkbox" name="name" (change)="selectAllUser($event)" />
+      <input id="all-users" type="checkbox" [checked]="allSelected()" (change)="selectAllUser($event)" />
       <label for="name">Selecionar todos</label>
     </div>
-    @for (user of usersList; track trackByUserId(i, user); let i = $index) {
-      <form class="form-checkbox">
-        <input type="checkbox" name="name" [(ngModel)]="selectedUsers[i]" (change)="selectedUser(i, $event)" />
-        <label for="name">{{ user.name }}</label>
-      </form>
+    @for (user of usersList(); track user.id) {
+      <div class="form-checkbox">
+        <input
+          type="checkbox"
+          [id]="'user-' + user.id"
+          [checked]="selectedIds().has(user.id)"
+          (change)="toggleUser(user, $event)" />
+        <label [for]="'user-' + user.id">{{ user.name }}</label>
+      </div>
     }
-    <!-- TODO: ver como resolver isso depois -->
-    <!-- <div class="btn-trash" *ngIf="isEdit">
-    <a (click)="openDialog(orderToEditOrDelete)">
-      <img src="./assets/trash_.svg" alt="" />
-      <app-button-link title="Excluir item"></app-button-link>
-    </a>
-  </div> -->
   </div>
 </div>

@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { OrderComponent } from './features/order/components/order/order/order.component';
 
 export const routes: Routes = [
   {
@@ -13,6 +14,10 @@ export const routes: Routes = [
   {
     path: 'orders',
     loadComponent: () => import('./features/order/components/order/order/order.component').then((m) => m.OrderComponent)
+  },
+  {
+    path: 'orders/:id',
+    component: OrderComponent
   },
   {
     path: 'resumo',

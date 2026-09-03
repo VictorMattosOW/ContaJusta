@@ -87,7 +87,7 @@ p .p_light {
   text-decoration: underline;
 }
 
-legend {
+span {
   color: var(--gray, #565d6c);
   font-size: 12px;
   font-weight: 400;

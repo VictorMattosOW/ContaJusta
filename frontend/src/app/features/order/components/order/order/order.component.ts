@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderFormComponent } from '../order-form/order-form.component';
-import { Subject, takeUntil } from 'rxjs';
 import { Order } from 'app/core/models/order.model';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
@@ -12,13 +11,20 @@ import { OrderService } from 'app/features/order/services/order.service';
 import { UserService } from 'app/shared/services/user/user.service';
 import { OrderDraftModel } from './order-draft.model';
 import { UserSelectionStore } from './user-selection.store';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { User } from 'app/core/models/user.model';
+
+function sameUserIds(a: User[], b: User[]): boolean {
+  if (a.length !== b.length) return false;
+  const ids = new Set(a.map((u) => u.id));
+  return b.every((u) => ids.has(u.id));
+}
 
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
   styleUrls: ['./order.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [
     ButtonComponent,
     ButtonLinkComponent,
@@ -28,48 +34,66 @@ import { UserSelectionStore } from './user-selection.store';
     ModalComponent
   ]
 })
-export class OrderComponent implements OnInit, OnDestroy {
+export class OrderComponent implements OnInit {
+  private readonly router = inject(Router); // troca constructor por inject()
+  private readonly route = inject(ActivatedRoute); // motives: field-init order
+  private readonly orderService = inject(OrderService);
+  private readonly userService = inject(UserService);
+
   readonly draft = new OrderDraftModel();
   readonly selection = new UserSelectionStore();
-  readonly usersList = computed(() => this.userService.users$());
 
+  readonly orders = this.orderService.orders$; // substitui get getOrder()
+  readonly usersList = this.userService.users$; // substitui o computed-inútil
+
+  readonly formStatus = toSignal(this.draft.form.statusChanges, {
+    initialValue: this.draft.form.status
+  });
+  readonly formValues = toSignal(this.draft.form.valueChanges, {
+    initialValue: this.draft.form.value
+  });
+
+  readonly isFormValid = computed(() => this.formStatus() === 'VALID');
+
+  readonly hasChanges = computed(() => {
+    const original = this.draft.original();
+    if (!original) return false;
+    const v = this.formValues();
+    return (
+      v.foodName !== original.name ||
+      v.price !== original.price ||
+      v.quantity !== original.quantity ||
+      !sameUserIds(this.selection.selectedUsers(), original.sharedUsers)
+    );
+  });
+
+  readonly canCreate = computed(() => this.isFormValid() && this.selection.hasUserSelected());
+  readonly canSave = computed(() => this.canCreate() && this.hasChanges());
   readonly isDeleteModalOpen = signal(false);
   readonly orderToDelete = signal<Order | null>(null);
-  readonly isSubmitButton = signal(false);
-  readonly resetCheckbox = signal(0);
-
-  private readonly destroy$ = new Subject<void>();
-
-  constructor(
-    private readonly router: Router,
-    private readonly route: ActivatedRoute,
-    private readonly orderService: OrderService,
-    private readonly userService: UserService
-  ) {}
 
   ngOnInit(): void {
     this.startEditFlow();
-    this.draft.form.statusChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.isSubmitButton.set(this.draft.form.valid));
+    this.hasUsers();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  get getOrder(): Order[] {
-    return this.orderService.orders$();
+  hasUsers() {
+    if (this.usersList().length === 0) {
+      this.router.navigate(['registrar']);
+    }
   }
 
   private startEditFlow(): void {
     const orderId = this.route.snapshot.params['id'];
-    this.draft.startEditing(this.findOrderById(orderId));
+    const order = this.findOrderById(orderId);
+    this.draft.startEditing(order);
+    if (order) {
+      this.selection.select(order.sharedUsers);
+    }
   }
 
   private findOrderById(orderId: string): Order | undefined {
-    return this.getOrder.find((order) => order.id === orderId);
+    return this.orders().find((order) => order.id === orderId);
   }
 
   requestDelete(order: Order): void {
@@ -92,14 +116,13 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.orderService.addOrder(this.draft.buildCreatePayload(), this.selection.selectedUsers());
     this.draft.reset();
     this.selection.reset();
-    this.resetCheckbox.update((v) => v + 1);
   }
 
   editOrder() {
     const payload = this.draft.buildEditPayload(this.selection.selectedUsers());
     if (payload) {
       this.orderService.editOrder(payload);
-      this.navigateTo();
+      this.navigateToSummary();
     }
   }
 
@@ -107,17 +130,9 @@ export class OrderComponent implements OnInit, OnDestroy {
     this.orderService.removeOrder(id);
   }
 
-  canEnableButtonGoToSummary(): boolean {
-    return this.getOrder.length > 0;
-  }
-
-  navigateTo() {
-    this.router.navigate(['resumo']);
-  }
-
-  goToSummary() {
-    if (this.canEnableButtonGoToSummary()) {
-      this.navigateTo();
+  navigateToSummary() {
+    if (this.orders().length > 0) {
+      this.router.navigate(['resumo']);
     }
   }
 }

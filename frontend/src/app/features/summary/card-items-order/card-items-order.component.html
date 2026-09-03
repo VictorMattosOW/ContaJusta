@@ -1,0 +1,27 @@
+@for (order of orders(); track order.id) {
+  <section class="description">
+    <div class="icon">
+      <button (click)="openDialog(order)" aria-label="Editar quantidade de {{ order.name }}">{{ order.quantity }}</button>
+    </div>
+    <a class="btn-description" [routerLink]="'/orders/' + order.id">
+      <div class="names-content">
+        <h6>{{ order.name }}</h6>
+        <span>
+          {{ order.sharedUsers | userNamesDisplay }}
+        </span>
+      </div>
+
+      <div class="description-price">
+        <div class="price-content">
+          <h6>
+            {{ order.quantity * order.price | currency }}
+          </h6>
+          <span>({{ order.price | currency }})</span>
+        </div>
+        <button aria-label="Ver detalhes de {{ order.name }}">
+          <img width="8" src="../../../assets/icon _nav.svg" alt="" />
+        </button>
+      </div>
+    </a>
+  </section>
+}

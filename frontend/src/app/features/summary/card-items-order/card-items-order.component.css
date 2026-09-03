@@ -1,0 +1,75 @@
+.description {
+  display: flex;
+  padding: 0.8rem 0;
+}
+
+.btn-description {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  text-decoration: none;
+}
+
+.description:is(:focus, :active) {
+  margin-left: -2rem;
+  margin-right: -2rem;
+  background-color: #ebefff;
+  padding: 0.8rem 2rem;
+}
+
+.names-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.price-content {
+  display: flex;
+  flex-direction: column;
+  white-space: nowrap;
+}
+
+.description-price {
+  display: flex;
+  flex-direction: row;
+}
+
+.description-price > span {
+  text-align: end;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.description-price > button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 1.25rem;
+  background-color: transparent;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  width: 40px;
+  height: 45px;
+  padding: 8px;
+  margin-right: 0.75rem;
+  gap: 8px;
+  border-radius: 8px 8px 0px 8px;
+  background: var(--cinza-2, #565d6c);
+}
+
+.icon > button {
+  color: var(--branco, #f9f9f9);
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  width: 100%;
+  text-align: center;
+}

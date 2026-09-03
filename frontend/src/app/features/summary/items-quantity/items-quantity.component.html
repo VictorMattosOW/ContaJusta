@@ -1,0 +1,14 @@
+<div class="quantity-content">
+  <h2>Altere a quantidade</h2>
+  <div class="quantity">
+    <button class="btn" [disabled]="isMinQuantity()" aria-label="Diminuir quantidade" (click)="subtractQuantity()">-</button>
+    <span>{{ orderQuantity() }}</span>
+    <button class="btn" aria-label="Aumentar quantidade" (click)="addQuantity()">+</button>
+  </div>
+  <app-button
+    buttonTitle="confirmar"
+    size="large"
+    styleButton="primary"
+    (buttonAction)="confirmed()">
+  </app-button>
+</div>
