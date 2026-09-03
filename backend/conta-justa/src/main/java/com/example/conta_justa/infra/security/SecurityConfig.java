@@ -1,0 +1,65 @@
+package com.example.conta_justa.infra.security;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+/**
+ * SecurityConfig
+ */
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+  private JwtAuthFilter jwtAuthFilter;
+
+  public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+    this.jwtAuthFilter = jwtAuthFilter;
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public AuthenticationManager authenticationManager(
+    AuthenticationConfiguration config
+  ) throws Exception {
+    return config.getAuthenticationManager();
+  }
+
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http)
+    throws Exception {
+    http
+      .csrf(csrf -> csrf.disable()) // necessário para o H2 console (usar só em dev)
+      .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // permite iframes do H2
+      .sessionManagement(session ->
+        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+      )
+      .authorizeHttpRequests(
+        auth ->
+          auth
+            .requestMatchers("/h2-console/**")
+            .permitAll() // libera o console H2
+            .requestMatchers("/auth/register", "/auth/login")
+            .permitAll()
+            .anyRequest()
+            .authenticated() // o resto exige login
+      )
+      .addFilterBefore(
+        jwtAuthFilter,
+        UsernamePasswordAuthenticationFilter.class
+      );
+    return http.build();
+  }
+}
