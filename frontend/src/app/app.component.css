@@ -9,11 +9,12 @@ router-outlet {
   display: grid;
 }
 
-.white {
+/* Fundos do shell: o valor aplicado aqui vem do data.background da rota ativa */
+.bg--default {
   background: #f9f9f9;
 }
 
-.blue {
+.bg--primary {
   background: var(--blue-primary-500);
 }
 

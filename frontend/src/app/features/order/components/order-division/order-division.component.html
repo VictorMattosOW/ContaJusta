@@ -4,13 +4,13 @@
       <header>
         <h1 class="title">Conta justa feita com sucesso!</h1>
       </header>
-      @for (user of orderPerUser; track user; let i = $index) {
-        <div class="card" (click)="openCard(i)">
+      @for (user of orderPerUser; track user.userId; let i = $index) {
+        <button class="card" (click)="openCard(i)">
           <div class="card-description">
             <h4>{{ user.name }}</h4>
             <h3>{{ user.totalValue | currency }}</h3>
           </div>
-          @for (sharedFood of user.orders; track trackByOrderKey($index, sharedFood)) {
+          @for (sharedFood of user.orders; track sharedFood.orderId) {
             @if (cardState[i]) {
               <div class="card-description details">
                 <legend>{{ sharedFood.food }}</legend>
@@ -18,7 +18,7 @@
               </div>
             }
           }
-        </div>
+        </button>
       }
     </section>
     <footer>
@@ -26,7 +26,7 @@
         <h2>Total</h2>
         <div>
           <h1>{{ finalValue | currency }}</h1>
-          <legend>com taxa de {{ finalOrder.tax }}%</legend>
+          <legend>com taxa de {{ finalOrder().tax }}%</legend>
         </div>
       </div>
       <div class="button-content">

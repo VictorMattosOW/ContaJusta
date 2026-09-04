@@ -54,11 +54,6 @@ export class SummaryComponent implements OnInit {
     this.isOrderEmpty();
   }
 
-  cdCount() {
-    console.count('SummaryComponent checou');
-    return '';
-  }
-
   isOrderEmpty() {
     if (this.orders().length === 0) {
       this.router.navigate(['registrar']);
@@ -94,7 +89,7 @@ export class SummaryComponent implements OnInit {
       orders: this.orders(),
       tax: this.percent()
     };
-    this.sessionService.setFinalOrder(finalOrder);
+    this.orderService.addFinalOrder(finalOrder);
   }
 
   navigateTo() {

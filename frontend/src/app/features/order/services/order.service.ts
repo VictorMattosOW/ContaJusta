@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Order, OrderPerUser } from 'app/core/models/order.model';
+import { FinalOrder, Order, OrderPerUser } from 'app/core/models/order.model';
 import { User } from 'app/core/models/user.model';
 import {
   calculateConsumption as _calculateConsumption,
@@ -13,6 +13,17 @@ import { OrderFormData } from '../models/order-form.interface';
 export class OrderService {
   private orders = signal<Order[]>([]);
   readonly orders$ = this.orders.asReadonly();
+
+  private finalOrder = signal<FinalOrder>({
+    orders: [],
+    tax: 0
+  });
+
+  readonly finalOrder$ = this.finalOrder.asReadonly();
+
+  addFinalOrder(finalOrder: FinalOrder) {
+    this.finalOrder.set(finalOrder);
+  }
 
   addOrder(data: OrderFormData, sharedUsers: User[]): Order {
     const order: Order = {

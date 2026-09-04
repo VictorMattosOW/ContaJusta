@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { SessionService } from '../../shared/services/session.service';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 
 @Component({
@@ -10,30 +9,13 @@ import { ButtonComponent } from 'app/shared/components/button/button.component';
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.css']
 })
-export class StartComponent implements AfterViewInit, OnDestroy {
+export class StartComponent {
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
   isSafariOnIphone = navigator.userAgent.includes('iPhone') && navigator.userAgent.includes('Safari');
 
-  constructor(
-    private sessionService: SessionService,
-    private router: Router
-  ) {}
-
-  ngAfterViewInit() {
-    this.changeBackground('blue');
-  }
-
-  changeBackground(color = 'white') {
-    setTimeout(() => {
-      this.sessionService.setBackgroundColor(color);
-    }, 0);
-  }
+  constructor(private router: Router) {}
 
   goToRegister() {
     this.router.navigate(['registrar']);
-  }
-
-  ngOnDestroy(): void {
-    this.changeBackground();
   }
 }

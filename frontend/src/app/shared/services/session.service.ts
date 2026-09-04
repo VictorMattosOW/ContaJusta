@@ -1,33 +1,13 @@
 import { Injectable } from '@angular/core';
-import { FinalOrder, Order } from 'app/core/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { FinalOrder } from 'app/core/models/order.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  private users = new BehaviorSubject<User[]>([]);
-  private orders = new BehaviorSubject<Order[]>([]);
   private finalOrder = new BehaviorSubject<FinalOrder>({} as FinalOrder);
-  private changeBgColor = new BehaviorSubject<string>('');
   private path = new BehaviorSubject<string>('');
-
-  setUsers(users: User[]): void {
-    this.users.next(users);
-  }
-
-  getUsersObservable(): Observable<User[]> {
-    return this.users.asObservable();
-  }
-
-  setOrders(orders: Order[]): void {
-    this.orders.next(orders);
-  }
-
-  getOrdersObservable(): Observable<Order[]> {
-    return this.orders.asObservable();
-  }
 
   setFinalOrder(finalOrder: FinalOrder): void {
     this.finalOrder.next(finalOrder);
@@ -35,14 +15,6 @@ export class SessionService {
 
   getFinalOrderObservable(): Observable<FinalOrder> {
     return this.finalOrder.asObservable();
-  }
-
-  setBackgroundColor(color: string) {
-    this.changeBgColor.next(color);
-  }
-
-  getBackgroundColor(): Observable<string> {
-    return this.changeBgColor.asObservable();
   }
 
   setPath(path: string) {

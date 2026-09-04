@@ -4,7 +4,9 @@ import { OrderComponent } from './features/order/components/order/order/order.co
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./features/start/start.component').then((m) => m.StartComponent)
+    loadComponent: () => import('./features/start/start.component').then((m) => m.StartComponent),
+    // Tela de abertura usa o fundo de marca
+    data: { background: 'primary' }
   },
   {
     path: 'registrar',
@@ -28,6 +30,8 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/order/components/order-division/order-division.component').then(
         (m) => m.OrderDivisionComponent
-      )
+      ),
+    // Divisão da conta também usa o fundo de marca
+    data: { background: 'primary' }
   }
 ];
