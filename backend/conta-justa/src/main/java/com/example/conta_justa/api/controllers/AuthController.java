@@ -2,7 +2,9 @@ package com.example.conta_justa.api.controllers;
 
 import com.example.conta_justa.api.dtos.LoginRequestDto;
 import com.example.conta_justa.api.dtos.RegisterRequestDto;
+import com.example.conta_justa.application.useCases.GetMeService;
 import com.example.conta_justa.application.useCases.RegisterUserService;
+import com.example.conta_justa.domain.AppUser;
 import com.example.conta_justa.infra.security.JwtService;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -26,15 +28,18 @@ public class AuthController {
   private final RegisterUserService registerUserService;
   private AuthenticationManager authenticationManager;
   private final JwtService jwtService;
+  private final GetMeService getMeService;
 
   public AuthController(
     RegisterUserService registerUserService,
     AuthenticationManager authenticationManager,
-    JwtService jwtService
+    JwtService jwtService,
+    GetMeService getMeService
   ) {
     this.registerUserService = registerUserService;
     this.authenticationManager = authenticationManager;
     this.jwtService = jwtService;
+    this.getMeService = getMeService;
   }
 
   @PostMapping("/register")
@@ -54,6 +59,9 @@ public class AuthController {
 
   @GetMapping("/me")
   public ResponseEntity<?> me(Authentication authentication) {
-    return ResponseEntity.ok(Map.of("email", authentication.getName()));
+    AppUser appUser = (AppUser) authentication.getPrincipal();
+    GetMeService.MeResponse response = getMeService.execute(appUser);
+
+    return ResponseEntity.ok(response);
   }
 }

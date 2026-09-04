@@ -3,6 +3,7 @@ package com.example.conta_justa.domain;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.example.conta_justa.application.useCases.DivisionService;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;

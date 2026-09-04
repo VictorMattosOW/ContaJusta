@@ -1,6 +1,7 @@
 package com.example.conta_justa.infra.repository;
 
 import com.example.conta_justa.domain.AppUser;
+import java.util.UUID;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,12 +21,16 @@ public class AppUserRepository {
 
   private final RowMapper<AppUser> rowMapper = (rs, rowNum) -> {
     AppUser u = new AppUser(rs.getString("email"), rs.getString("password"));
+    String userId = rs.getString("user_id");
+    if (userId != null) {
+      u.setUserId(UUID.fromString(userId));
+    }
     return u;
   };
 
   public AppUser findByEmail(String email) {
     var result = jdbcTemplate.query(
-      "SELECT id, email, password FROM app_user WHERE email = ?",
+      "SELECT id, email, password, user_id FROM app_user WHERE email = ?",
       rowMapper,
       email
     );
@@ -35,9 +40,10 @@ public class AppUserRepository {
 
   public void save(AppUser user) {
     jdbcTemplate.update(
-      "INSERT INTO app_user (email, password) VALUES (?, ?)",
+      "INSERT INTO app_user (email, password, user_id) VALUES (?, ?, ?)",
       user.getEmail(),
-      user.getPassword()
+      user.getPassword(),
+      user.getUserId() != null ? user.getUserId().toString() : null
     );
   }
 }

@@ -7,13 +7,31 @@ public class User {
   private UUID id;
   private String name;
 
+  private Long appUserId;
+
+  public User(UUID id, String name) {
+    if (name == null || name.isBlank()) {
+      throw new RuntimeException("Nome não pode ser vazio.");
+    }
+    this.id = id;
+    this.name = name;
+  }
+
   public User(String name) {
-    if (name.length() < 15) throw new RuntimeException(
-      "Nome precisa ter pelo menos 15 caracteres."
+    if (name.length() <= 0) throw new RuntimeException(
+      "Nome não pode ser vazio."
     );
 
     this.id = UUID.randomUUID();
     this.name = name;
+  }
+
+  public void setAppUserId(Long appUserId) {
+    this.appUserId = appUserId;
+  }
+
+  public Long getAppUserId() {
+    return appUserId;
   }
 
   public UUID getId() {

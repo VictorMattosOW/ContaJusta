@@ -32,4 +32,16 @@ public class GlobalExceptionHandler {
     problem.setTitle("Não autorizado");
     return problem;
   }
+
+  @ExceptionHandler(EmailAlreadyExistsException.class)
+  public ProblemDetail handleEmailAlreadyExistsException(
+    EmailAlreadyExistsException ex
+  ) {
+    ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+      HttpStatus.CONFLICT,
+      "Email já cadastrado no sistema."
+    );
+    problem.setTitle("Email já existe.");
+    return problem;
+  }
 }

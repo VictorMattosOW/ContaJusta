@@ -1,15 +1,23 @@
-package com.example.conta_justa.domain;
+package com.example.conta_justa.application.useCases;
 
+import com.example.conta_justa.domain.Money;
+import com.example.conta_justa.domain.Order;
+import com.example.conta_justa.domain.OrderPerUser;
+import com.example.conta_justa.domain.SharedFood;
+import com.example.conta_justa.domain.User;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
 /**
  * DivisionService
  */
+
+@Service
 public class DivisionService {
 
   public List<OrderPerUser> calculateConsumption(

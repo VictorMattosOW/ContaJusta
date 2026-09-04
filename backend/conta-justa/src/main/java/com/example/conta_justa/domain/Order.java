@@ -17,12 +17,12 @@ public final class Order {
     final Money price,
     final int quantidade
   ) {
-    if (foodShared.size() < 2) throw new RuntimeException(
+    if (foodShared == null || foodShared.size() < 1) throw new RuntimeException(
       "Precisa ter pelo menos 2 pessoas"
     );
 
-    if (foodName.length() < 25) throw new RuntimeException(
-      "Nome da comida precisa ter pelo menos 25 caracteres."
+    if (foodName.length() <= 0) throw new RuntimeException(
+      "Nome do pedido não pode ser vazio."
     );
 
     if (quantidade < 1) throw new RuntimeException(

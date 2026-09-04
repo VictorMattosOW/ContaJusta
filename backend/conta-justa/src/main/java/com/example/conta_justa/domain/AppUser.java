@@ -2,6 +2,7 @@ package com.example.conta_justa.domain;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +15,21 @@ public class AppUser implements UserDetails {
   private Long id;
   private String email;
   private String password;
+  private UUID userId;
 
   public AppUser(String email, String password) {
     this.email = email;
     this.password = password;
+  }
+
+  public void setUserId(UUID id) {
+    if (id != null) {
+      this.userId = id;
+    }
+  }
+
+  public UUID getUserId() {
+    return userId;
   }
 
   public Long getId() {
