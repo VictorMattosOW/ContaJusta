@@ -33,12 +33,10 @@ export class OrderDivisionComponent implements OnInit {
     this.calculateOrders();
   }
 
-  isOrderEmpty(): boolean {
-    if (!this.finalOrder) {
-      // this.router.navigate(['registrar']);
-      return true;
+  isOrderEmpty() {
+    if (!this.finalOrder()) {
+      this.router.navigate(['registrar']);
     }
-    return false;
   }
 
   getUsers() {
@@ -53,7 +51,6 @@ export class OrderDivisionComponent implements OnInit {
 
   calculateOrders() {
     const { orders, tax } = this.finalOrder();
-    console.log('this.finalOrder', this.finalOrder);
     this.orderPerUser = this.orderService.calculateConsumption(this.users(), orders, tax) ?? [];
     this.finalValue = this.orderService.sumTotalOrders(this.finalOrder().orders, this.finalOrder().tax);
   }
