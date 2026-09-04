@@ -1,0 +1,27 @@
+.content {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.primary {
+  color: var(--blue-primary-500);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: var(--gray3);
+  margin-bottom: 2.5rem;
+}
+
+.btn-next {
+  margin-top: 2rem;
+  align-self: flex-end;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.25rem;
+}

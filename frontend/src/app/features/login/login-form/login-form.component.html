@@ -1,0 +1,36 @@
+<form class="form-content" [formGroup]="loginForm()">
+  <section class="field">
+    <div class="input-content" [ngClass]="{ 'error-input': email.dirty && email.invalid }">
+      <input
+        type="email"
+        name="email"
+        formControlName="email"
+        placeholder="Seu e-mail"
+        [maxlength]="constants.MAX_LENGTH_EMAIL" />
+    </div>
+    <div class="error-msg">
+      @if ((email.hasError('required') || email.hasError('email')) && email.dirty) {
+        <span>Digite um e-mail válido.</span>
+      }
+    </div>
+  </section>
+
+  <section class="field">
+    <div class="input-content" [ngClass]="{ 'error-input': password.dirty && password.invalid }">
+      <input
+        type="password"
+        name="password"
+        formControlName="password"
+        placeholder="Sua senha"
+        [maxlength]="constants.MAX_LENGTH_PASSWORD" />
+    </div>
+    <div class="error-msg">
+      @if (password.hasError('required') && password.dirty) {
+        <span>Ops! A senha está em branco.</span>
+      }
+      @if (password.hasError('minlength') && password.dirty) {
+        <span>A senha precisa ter no mínimo {{ constants.MIN_LENGTH_PASSWORD }} caracteres.</span>
+      }
+    </div>
+  </section>
+</form>

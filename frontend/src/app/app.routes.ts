@@ -9,6 +9,14 @@ export const routes: Routes = [
     data: { background: 'primary' }
   },
   {
+    path: 'login',
+    loadComponent: () => import('./features/login/login.component').then((m) => m.LoginComponent)
+  },
+  {
+    path: 'criar-conta',
+    loadComponent: () => import('./features/signup/signup.component').then((m) => m.SignupComponent)
+  },
+  {
     path: 'registrar',
     loadComponent: () =>
       import('./features/user-registration/registration.component').then((m) => m.RegistrationComponent)

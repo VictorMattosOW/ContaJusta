@@ -1,0 +1,21 @@
+<main class="content">
+  <section>
+    <h1 class="primary">Crie sua conta</h1>
+    <p class="subtitle">Cadastre-se para começar a dividir a conta de forma justa.</p>
+
+    <app-signup-form [signupForm]="signupFormModel.form"></app-signup-form>
+  </section>
+
+  <footer class="btn-next">
+    <app-button
+      buttonTitle="criar conta"
+      [isDisabled]="!isFormValid()"
+      styleButton="primary"
+      size="large"
+      (buttonAction)="submit()"></app-button>
+  </footer>
+
+  <aside class="links">
+    <app-button-link title="Já tenho conta" (buttonAction)="goToLogin()"></app-button-link>
+  </aside>
+</main>

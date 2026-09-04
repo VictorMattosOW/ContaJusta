@@ -1,0 +1,21 @@
+<main class="content">
+  <section>
+    <h1 class="primary">Bem-vindo(a) de volta!</h1>
+    <p class="subtitle">Faça login para continuar dividindo a conta de forma justa.</p>
+
+    <app-login-form [loginForm]="loginFormModel.form"></app-login-form>
+  </section>
+
+  <footer class="btn-next">
+    <app-button
+      buttonTitle="entrar"
+      [isDisabled]="!isFormValid()"
+      styleButton="primary"
+      size="large"
+      (buttonAction)="submit()"></app-button>
+  </footer>
+
+  <aside class="links">
+    <app-button-link title="Criar conta" (buttonAction)="goToSignup()"></app-button-link>
+  </aside>
+</main>
