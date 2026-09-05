@@ -5,6 +5,8 @@ import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginFormModel } from './login-form/login-form.model';
+import { AuthService } from '../services/auth.service';
+import { LoginRequest } from '../services/auth.model';
 @Component({
   imports: [ButtonComponent, ButtonLinkComponent, LoginFormComponent],
   selector: 'app-login',
@@ -14,6 +16,8 @@ import { LoginFormModel } from './login-form/login-form.model';
 })
 export class LoginComponent {
   loginFormModel = new LoginFormModel();
+  private readonly authService = inject(AuthService);
+
   private readonly router = inject(Router);
   private readonly formStatus = toSignal(this.loginFormModel.form.statusChanges, {
     initialValue: this.loginFormModel.form.status
@@ -30,8 +34,20 @@ export class LoginComponent {
   submit() {
     if (this.loginFormModel.isValidForm()) {
       this.isSubmitting.set(true);
-      // TODO: integrar com o backend de autenticação
-      this.router.navigate(['orders']);
+      const login: LoginRequest = {
+        email: this.loginFormModel.form.getRawValue().email,
+        password: this.loginFormModel.form.getRawValue().password
+      };
+      this.authService.login(login).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.router.navigate(['registrar']);
+        },
+        error(err) {
+          console.error(err);
+        }
+      });
+      // this.router.navigate(['orders']);
     }
   }
 }

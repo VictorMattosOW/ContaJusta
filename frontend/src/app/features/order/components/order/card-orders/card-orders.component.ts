@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
-import { Order } from 'app/core/models/order.model';
+import { Order } from 'app/features/order/models/order.model';
 import { APP_CONSTANTS } from 'app/shared/constants/app.constants';
 import { OrderUserDisplayComponent } from '../order-user-display/order-user-display.component';
 import { CurrencyPipe } from 'app/shared/pipes/currency.pipe';

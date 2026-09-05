@@ -1,4 +1,4 @@
-import { User } from './user.model';
+import { User } from '../../user-registration/models/user.model';
 
 export interface Order {
   id: string;

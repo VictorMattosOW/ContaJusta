@@ -22,7 +22,7 @@
  * ============================================================================
  */
 import { OrderDraftModel } from './order-draft.model';
-import { Order } from 'app/core/models/order.model';
+import { Order } from 'app/features/order/models/order.model';
 import { User } from 'app/core/models/user.model';
 
 const userA: User = { id: 'a', name: 'Ana' };

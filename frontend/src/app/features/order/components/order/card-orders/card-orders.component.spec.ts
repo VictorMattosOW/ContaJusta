@@ -23,7 +23,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardOrdersComponent } from './card-orders.component';
-import { Order } from 'app/core/models/order.model';
+import { Order } from 'app/features/order/models/order.model';
 import { User } from 'app/core/models/user.model';
 
 describe('CardOrdersComponent', () => {
@@ -97,9 +97,7 @@ describe('CardOrdersComponent', () => {
       const espiao = jest.fn();
       component.orderToDelete.subscribe(espiao);
 
-      const botaoExcluir = fixture.nativeElement.querySelector<HTMLButtonElement>(
-        '.card-orders__item-actions button'
-      );
+      const botaoExcluir = fixture.nativeElement.querySelector<HTMLButtonElement>('.card-orders__item-actions button');
       botaoExcluir!.click();
 
       expect(espiao).toHaveBeenCalledTimes(1);

@@ -1,10 +1,12 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
 import { SignupFormModel } from './signup-form/signup-form.model';
+import { AuthService } from '../services/auth.service';
+import { SingInRequest } from '../services/auth.model';
 
 @Component({
   imports: [ButtonComponent, ButtonLinkComponent, SignupFormComponent],
@@ -15,6 +17,7 @@ import { SignupFormModel } from './signup-form/signup-form.model';
 })
 export class SignupComponent {
   signupFormModel = new SignupFormModel();
+  private readonly authService = inject(AuthService);
 
   private readonly formStatus = toSignal(this.signupFormModel.form.statusChanges, {
     initialValue: this.signupFormModel.form.status
@@ -33,8 +36,20 @@ export class SignupComponent {
   submit() {
     if (this.signupFormModel.isValidForm()) {
       this.isSubmitting.set(true);
-      // TODO: integrar com o backend de cadastro
-      this.router.navigate(['login']);
+      const singInForm: SingInRequest = {
+        name: this.signupFormModel.form.getRawValue().name,
+        email: this.signupFormModel.form.getRawValue().email,
+        password: this.signupFormModel.form.getRawValue().password
+      };
+      this.authService.singIn(singInForm).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.router.navigate(['registrar']);
+        },
+        error(err) {
+          console.error(err);
+        }
+      });
     }
   }
 }

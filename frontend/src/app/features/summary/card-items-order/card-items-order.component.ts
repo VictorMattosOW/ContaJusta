@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Order } from 'app/core/models/order.model';
+import { Order } from 'app/features/order/models/order.model';
 import { CurrencyPipe } from 'app/shared/pipes/currency.pipe';
 import { UserNamesDisplayPipe } from 'app/shared/pipes/user-names-display.pipe';
 

@@ -21,7 +21,7 @@
  */
 import { TestBed } from '@angular/core/testing';
 import { OrderService } from './order.service';
-import { Order } from 'app/core/models/order.model';
+import { Order } from 'app/features/order/models/order.model';
 import { User } from 'app/core/models/user.model';
 
 describe('OrderService', () => {

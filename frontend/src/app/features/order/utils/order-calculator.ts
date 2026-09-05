@@ -1,5 +1,5 @@
-import { Order, OrderPerUser, SharedFood } from 'app/core/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { Order, OrderPerUser, SharedFood } from 'app/features/order/models/order.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 export function applyTax(value: number, taxPercent: number): number {
   const finalValue = value + (value * taxPercent) / 100;

@@ -1,7 +1,7 @@
 import { signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Order } from 'app/core/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { Order } from 'app/features/order/models/order.model';
+import { User } from 'app/features/user-registration/models/user.model';
 import { OrderFormControls, OrderFormData } from 'app/features/order/models/order-form.interface';
 import { createOrderFormGroup } from '../order-form/order-form.factory';
 

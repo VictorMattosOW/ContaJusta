@@ -1,5 +1,5 @@
 import { computed, signal } from '@angular/core';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 export class UserSelectionStore {
   private readonly sharedFood = signal<User[]>([]);

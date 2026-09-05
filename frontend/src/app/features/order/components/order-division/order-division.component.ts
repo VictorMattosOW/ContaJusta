@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { OrderPerUser } from 'app/core/models/order.model';
+import { OrderPerUser } from 'app/features/order/models/order.model';
 import { OrderService } from '../../services/order.service';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { CurrencyPipe } from 'app/shared/pipes/currency.pipe';

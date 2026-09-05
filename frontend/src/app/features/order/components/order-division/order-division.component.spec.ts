@@ -34,7 +34,7 @@ import { Subject } from 'rxjs';
 import { OrderDivisionComponent } from './order-division.component';
 import { SessionService } from 'app/shared/services/session.service';
 import { OrderService } from '../../services/order.service';
-import { FinalOrder, Order, OrderPerUser } from 'app/core/models/order.model';
+import { FinalOrder, Order, OrderPerUser } from 'app/features/order/models/order.model';
 import { User } from 'app/core/models/user.model';
 
 describe('OrderDivisionComponent', () => {

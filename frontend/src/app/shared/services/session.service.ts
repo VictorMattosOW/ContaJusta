@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FinalOrder } from 'app/core/models/order.model';
+import { FinalOrder } from 'app/features/order/models/order.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({

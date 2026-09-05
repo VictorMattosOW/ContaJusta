@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { FinalOrder, Order, OrderPerUser } from 'app/core/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { FinalOrder, Order, OrderPerUser } from 'app/features/order/models/order.model';
+import { User } from 'app/features/user-registration/models/user.model';
 import {
   calculateConsumption as _calculateConsumption,
   sumTotalOrders as _sumTotalOrders

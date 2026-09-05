@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
-import { FinalOrder, Order } from 'app/core/models/order.model';
+import { FinalOrder, Order } from 'app/features/order/models/order.model';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SessionService } from 'app/shared/services/session.service';
 import { ButtonComponent } from 'app/shared/components/button/button.component';

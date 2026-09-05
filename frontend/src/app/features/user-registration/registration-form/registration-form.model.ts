@@ -1,6 +1,6 @@
 import { FormArray } from '@angular/forms';
 import { createRegistrationFormGroup, createUserInputFormGroup } from './registration-from.factory';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 import { REGISTRATION_FORM_CONSTANTS } from '../models/registration-form.constants';
 import { signal } from '@angular/core';
 

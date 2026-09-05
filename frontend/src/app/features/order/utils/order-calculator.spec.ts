@@ -25,7 +25,7 @@
  * ============================================================================
  */
 import { applyTax, calculateConsumption, sumTotalOrders } from './order-calculator';
-import { Order } from 'app/core/models/order.model';
+import { Order } from 'app/features/order/models/order.model';
 import { User } from 'app/core/models/user.model';
 
 // -----------------------------------------------------------------------------
@@ -177,9 +177,7 @@ describe('calculateConsumption', () => {
   it('deve lançar erro quando o pedido não tem usuários para dividir', () => {
     const pizzaSemDonos = { ...pizza, sharedUsers: [] };
 
-    expect(() => calculateConsumption([joao], [pizzaSemDonos], 0)).toThrow(
-      'Order o1 has no shared users'
-    );
+    expect(() => calculateConsumption([joao], [pizzaSemDonos], 0)).toThrow('Order o1 has no shared users');
   });
 
   it('deve lançar erro quando usuário do pedido não está na lista de usuários', () => {
@@ -187,8 +185,6 @@ describe('calculateConsumption', () => {
     // principal de usuários (dado inconsistente vindo de outra tela).
     const pizzaComFantasma = { ...pizza, sharedUsers: [ana] };
 
-    expect(() => calculateConsumption([joao], [pizzaComFantasma], 0)).toThrow(
-      'User 3 not found in consumption map'
-    );
+    expect(() => calculateConsumption([joao], [pizzaComFantasma], 0)).toThrow('User 3 not found in consumption map');
   });
 });

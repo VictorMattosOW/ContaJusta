@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { APP_CONSTANTS } from '../../shared/constants/app.constants';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 @Pipe({
   name: 'userNames',

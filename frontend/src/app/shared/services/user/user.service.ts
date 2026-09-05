@@ -1,5 +1,5 @@
 import { Service, signal } from '@angular/core';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 @Service()
 export class UserService {

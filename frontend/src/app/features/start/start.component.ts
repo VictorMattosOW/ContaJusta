@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
+import { AuthService } from '../auth/services/auth.service';
 @Component({
   selector: 'app-start',
   standalone: true,
@@ -8,11 +9,18 @@ import { ButtonComponent } from 'app/shared/components/button/button.component';
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.css']
 })
-export class StartComponent {
+export class StartComponent implements OnInit {
+  private readonly authService = inject(AuthService);
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
   isSafariOnIphone = navigator.userAgent.includes('iPhone') && navigator.userAgent.includes('Safari');
 
   constructor(private router: Router) {}
+
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['registrar']);
+    }
+  }
 
   goToRegister() {
     this.router.navigate(['criar-conta']);
