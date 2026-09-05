@@ -14,10 +14,11 @@ export class StartComponent implements OnInit {
   isXiaomiBrowser = /MiuiBrowser/i.test(navigator.userAgent);
   isSafariOnIphone = navigator.userAgent.includes('iPhone') && navigator.userAgent.includes('Safari');
 
+  isAuthenticated = this.authService.isAuthenticated();
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    if (this.authService.isAuthenticated()) {
+    if (this.isAuthenticated) {
       this.router.navigate(['registrar']);
     }
   }
