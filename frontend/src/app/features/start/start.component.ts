@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
-import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
-
 @Component({
   selector: 'app-start',
   standalone: true,
-  imports: [ButtonComponent, ButtonLinkComponent, ButtonLinkComponent],
+  imports: [ButtonComponent],
   templateUrl: './start.component.html',
   styleUrls: ['./start.component.css']
 })

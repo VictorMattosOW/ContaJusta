@@ -1,11 +1,10 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { LoginFormModel } from './login-form/login-form.model';
-
 @Component({
   imports: [ButtonComponent, ButtonLinkComponent, LoginFormComponent],
   selector: 'app-login',
@@ -15,7 +14,7 @@ import { LoginFormModel } from './login-form/login-form.model';
 })
 export class LoginComponent {
   loginFormModel = new LoginFormModel();
-
+  private readonly router = inject(Router);
   private readonly formStatus = toSignal(this.loginFormModel.form.statusChanges, {
     initialValue: this.loginFormModel.form.status
   });
@@ -23,8 +22,6 @@ export class LoginComponent {
   readonly isFormValid = computed(() => this.formStatus() === 'VALID');
 
   private readonly isSubmitting = signal(false);
-
-  constructor(private router: Router) {}
 
   goToSignup() {
     this.router.navigate(['criar-conta']);

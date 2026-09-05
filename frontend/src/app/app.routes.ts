@@ -10,11 +10,11 @@ export const routes: Routes = [
   },
   {
     path: 'login',
-    loadComponent: () => import('./features/login/login.component').then((m) => m.LoginComponent)
+    loadComponent: () => import('./features/auth/login/login.component').then((m) => m.LoginComponent)
   },
   {
     path: 'criar-conta',
-    loadComponent: () => import('./features/signup/signup.component').then((m) => m.SignupComponent)
+    loadComponent: () => import('./features/auth/signup/signup.component').then((m) => m.SignupComponent)
   },
   {
     path: 'registrar',
