@@ -23,10 +23,10 @@ export class OrderDivisionComponent implements OnInit {
   readonly orders = this.orderService.orders$;
 
   finalOrder = this.orderService.finalOrder$;
-
-  orderPerUser: OrderPerUser[] = [];
+  orderPerUserResponse = this.orderService.orderPerUser$;
+  orderPerUser: OrderPerUser[] = this.orderPerUserResponse().ordersPerUser;
   cardState: boolean[] = [];
-  finalValue = 0;
+  finalValue = this.orderPerUserResponse().total;
 
   ngOnInit(): void {
     this.getUsers();
@@ -50,16 +50,17 @@ export class OrderDivisionComponent implements OnInit {
   }
 
   calculateOrders() {
-    const { orders, tax } = this.finalOrder();
-    this.orderPerUser = this.orderService.calculateConsumption(this.users(), orders, tax) ?? [];
-    this.finalValue = this.orderService.sumTotalOrders(this.finalOrder().orders, this.finalOrder().tax);
+    // const { orders, tax } = this.finalOrder();
+    // this.orderPerUser = this.orderService.calculateConsumption(this.users(), orders, tax) ?? [];
+    // this.finalValue = this.orderService.sumTotalOrders(this.finalOrder().orders, this.finalOrder().tax);
+    console.log(this.orderPerUser);
   }
 
   goToSummary() {
     this.router.navigate(['resumo']);
   }
 
-  goToStart() {
-    this.router.navigate(['inicio']);
+  goToEventName() {
+    this.router.navigate(['evento']);
   }
 }

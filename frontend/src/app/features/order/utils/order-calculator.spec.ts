@@ -26,7 +26,7 @@
  */
 import { applyTax, calculateConsumption, sumTotalOrders } from './order-calculator';
 import { Order } from 'app/features/order/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 // -----------------------------------------------------------------------------
 // FIXTURES: objetos-exemplo reutilizáveis.

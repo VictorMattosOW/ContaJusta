@@ -28,7 +28,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserCheckboxComponent } from './user-checkbox.component';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 describe('UserCheckboxComponent', () => {
   let component: UserCheckboxComponent;

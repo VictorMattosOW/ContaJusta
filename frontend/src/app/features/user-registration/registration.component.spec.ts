@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegistrationComponent } from './registration.component';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 import { signal, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'app/shared/services/user/user.service';

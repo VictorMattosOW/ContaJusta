@@ -7,7 +7,13 @@ export class UserService {
   readonly users$ = this.users.asReadonly();
 
   addUser(data: User[]): User[] {
-    this.users.update(() => [...data]);
+    const users: User[] = data.map((u) => {
+      return {
+        ...u,
+        id: u.id ?? crypto.randomUUID()
+      };
+    });
+    this.users.update(() => [...users]);
     return data;
   }
 

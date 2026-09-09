@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderFormComponent } from '../order-form/order-form.component';
-import { Order } from 'app/features/order/models/order.model';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
 import { CardOrdersComponent } from '../card-orders/card-orders.component';
@@ -13,6 +12,7 @@ import { OrderDraftModel } from './order-draft.model';
 import { UserSelectionStore } from './user-selection.store';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { User } from 'app/features/user-registration/models/user.model';
+import { Order } from 'app/features/order/models/order.model';
 
 function sameUserIds(a: User[], b: User[]): boolean {
   if (a.length !== b.length) return false;

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <!--
+    Configuração de logging para desenvolvimento.
+    - Padrão com cores e nome de classe abreviado (menos poluição).
+    - Níveis de log por pacote definidos aqui (ou via application.properties).
+  -->
+
+  <!-- Carrega as regras de cor (clr) e a conversão padrão do Spring Boot,
+       evitando redefini-las manualmente (e o warning de depreciação). -->
+  <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+  <!-- Padrão de saída: data, nível (cor), classe abreviada, mensagem -->
+  <property name="CONSOLE_PATTERN"
+    value="%d{yyyy-MM-dd HH:mm:ss.SSS} %clr(%5p){faint} %clr(%-40.40logger{36}){cyan} %clr(:){faint} %m%n%wEx" />
+
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>${CONSOLE_PATTERN}</pattern>
+      <charset>UTF-8</charset>
+    </encoder>
+  </appender>
+
+  <!-- Nível raiz -->
+  <root level="INFO">
+    <appender-ref ref="CONSOLE" />
+  </root>
+
+  <!-- Reduz o ruído de pacotes de terceiros (Item 2) -->
+  <logger name="org.springframework.web" level="WARN" />
+  <logger name="com.zaxxer.hikari" level="WARN" />
+  <logger name="org.apache.catalina" level="WARN" />
+  <logger name="org.apache.tomcat" level="WARN" />
+
+  <!-- Habilita o log do SQL executado via JdbcTemplate (Item 3) -->
+  <logger name="org.springframework.jdbc.core.JdbcTemplate" level="DEBUG" />
+  <logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE" />
+
+  <!-- Nosso pacote em DEBUG para ver o que nossa aplicação faz -->
+  <logger name="com.example.conta_justa" level="DEBUG" />
+
+</configuration>

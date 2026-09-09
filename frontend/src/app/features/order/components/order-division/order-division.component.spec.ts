@@ -35,7 +35,7 @@ import { OrderDivisionComponent } from './order-division.component';
 import { SessionService } from 'app/shared/services/session.service';
 import { OrderService } from '../../services/order.service';
 import { FinalOrder, Order, OrderPerUser } from 'app/features/order/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 describe('OrderDivisionComponent', () => {
   let component: OrderDivisionComponent;

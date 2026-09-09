@@ -24,7 +24,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CardOrdersComponent } from './card-orders.component';
 import { Order } from 'app/features/order/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 describe('CardOrdersComponent', () => {
   let component: CardOrdersComponent;

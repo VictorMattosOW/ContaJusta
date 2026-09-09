@@ -1,0 +1,17 @@
+<main class="content">
+  <section>
+    <h1 class="primary">Foi em qual rolê?</h1>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <input formControlName="eventName" type="text" maxlength="30" placeholder="Ex: churrasco do João" />
+    </form>
+  </section>
+
+  <footer class="btn-content">
+    <app-button
+      [isDisabled]="!canSubmit()"
+      buttonTitle="próximo"
+      size="large"
+      styleButton="primary"
+      (buttonAction)="submit()"></app-button>
+  </footer>
+</main>

@@ -23,7 +23,7 @@
  */
 import { OrderDraftModel } from './order-draft.model';
 import { Order } from 'app/features/order/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 const userA: User = { id: 'a', name: 'Ana' };
 const order: Order = { id: 'o1', name: 'Pizza', price: 30, quantity: 2, sharedUsers: [userA] };

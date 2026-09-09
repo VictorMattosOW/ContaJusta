@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { FinalOrder, Order, OrderPerUser } from 'app/features/order/models/order.model';
 import { User } from 'app/features/user-registration/models/user.model';
 import {
@@ -6,23 +6,56 @@ import {
   sumTotalOrders as _sumTotalOrders
 } from '../utils/order-calculator';
 import { OrderFormData } from '../models/order-form.interface';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+export interface OrderCalculatedResponse {
+  ordersPerUser: OrderPerUser[];
+  total: number;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = 'http://localhost:8080/division';
+
   private orders = signal<Order[]>([]);
   readonly orders$ = this.orders.asReadonly();
 
+  private orderPerUser = signal<OrderCalculatedResponse>({} as OrderCalculatedResponse);
+  readonly orderPerUser$ = this.orderPerUser.asReadonly();
+
   private finalOrder = signal<FinalOrder>({
     orders: [],
-    tax: 0
+    tax: 0,
+    users: [],
+    groupName: ''
   });
 
   readonly finalOrder$ = this.finalOrder.asReadonly();
 
+  setOrderPerUser(orderPerUser: OrderCalculatedResponse) {
+    this.orderPerUser.set(orderPerUser);
+  }
+
+  postOrders(data: FinalOrder): Observable<OrderCalculatedResponse> {
+    const order: FinalOrder = {
+      ...data,
+      groupName: this.finalOrder().groupName
+    };
+    console.log(order);
+    return this.http.post<OrderCalculatedResponse>(`${this.apiUrl}/calculate`, order);
+  }
+
   addFinalOrder(finalOrder: FinalOrder) {
     this.finalOrder.set(finalOrder);
+  }
+
+  setEventName(groupName: string) {
+    this.finalOrder.update((fo) => ({ ...fo, groupName }));
+    console.log(this.finalOrder());
   }
 
   addOrder(data: OrderFormData, sharedUsers: User[]): Order {

@@ -11,6 +11,8 @@ export interface Order {
 export interface FinalOrder {
   tax: number;
   orders: Order[];
+  users: User[];
+  groupName?: string;
 }
 
 export interface SharedFood {
@@ -23,5 +25,6 @@ export interface OrderPerUser {
   userId: string;
   name: string;
   orders: SharedFood[];
+  // users: User[];
   totalValue: number;
 }

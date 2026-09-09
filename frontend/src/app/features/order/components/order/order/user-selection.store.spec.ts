@@ -19,7 +19,7 @@
  * ============================================================================
  */
 import { UserSelectionStore } from './user-selection.store';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 const userA: User = { id: 'a', name: 'Ana' };
 const userB: User = { id: 'b', name: 'Bruno' };

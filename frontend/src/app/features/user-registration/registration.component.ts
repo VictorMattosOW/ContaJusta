@@ -57,7 +57,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   navigateTo() {
-    this.router.navigate(['/orders']);
+    this.router.navigate(['/evento']);
   }
 
   submit() {

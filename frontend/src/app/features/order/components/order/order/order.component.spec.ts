@@ -34,7 +34,7 @@ import { OrderComponent } from './order.component';
 import { OrderService } from 'app/features/order/services/order.service';
 import { UserService } from 'app/shared/services/user/user.service';
 import { Order } from 'app/features/order/models/order.model';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 describe('OrderComponent', () => {
   let component: OrderComponent;

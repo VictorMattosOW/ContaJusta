@@ -31,7 +31,7 @@ import { By } from '@angular/platform-browser';
 import { OrderUserDisplayComponent } from './order-user-display.component';
 import { TooltipComponent } from 'app/shared/components/tooltip/tooltip.component';
 import { APP_CONSTANTS } from 'app/shared/constants/app.constants';
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 
 describe('OrderUserDisplayComponent', () => {
   let component: OrderUserDisplayComponent;

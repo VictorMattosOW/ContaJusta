@@ -1,6 +1,6 @@
 // src/app/features/user-registration/registration-form/registration-form.model.spec.ts
 
-import { User } from 'app/core/models/user.model';
+import { User } from 'app/features/user-registration/models/user.model';
 import { RegistrationFormModel } from './registration-form.model';
 
 const userA: User = { id: 'a', name: 'Ana' };
