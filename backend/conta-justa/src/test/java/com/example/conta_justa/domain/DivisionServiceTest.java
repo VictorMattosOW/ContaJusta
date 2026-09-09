@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -19,7 +20,7 @@ public class DivisionServiceTest {
   DivisionService divisao = new DivisionService();
 
   private User createUser(String name) {
-    return new User(name);
+    return new User(UUID.randomUUID(), name);
   }
 
   private Set<User> createUsers(int count) {
@@ -36,7 +37,7 @@ public class DivisionServiceTest {
     BigDecimal price,
     int quantidade
   ) {
-    return new Order(name, shared, new Money(price), quantidade);
+    return new Order(UUID.randomUUID(), name, shared, new Money(price), quantidade);
   }
 
   private List<Order> createOrders(

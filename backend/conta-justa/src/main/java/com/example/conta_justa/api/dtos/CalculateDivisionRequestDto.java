@@ -8,5 +8,6 @@ import java.util.List;
 public record CalculateDivisionRequestDto(
   List<UserDto> users,
   int tax,
-  List<OrderRequestDto> orders
+  List<OrderRequestDto> orders,
+  String groupName
 ) {}

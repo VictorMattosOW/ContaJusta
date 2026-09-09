@@ -6,11 +6,14 @@ import com.example.conta_justa.api.dtos.OrderPerUserDto;
 import com.example.conta_justa.api.dtos.OrderRequestDto;
 import com.example.conta_justa.api.dtos.SharedFoodDto;
 import com.example.conta_justa.api.dtos.UserDto;
+import com.example.conta_justa.application.id.IdGenerator;
+import com.example.conta_justa.domain.Group;
 import com.example.conta_justa.domain.Money;
 import com.example.conta_justa.domain.Order;
 import com.example.conta_justa.domain.OrderPerUser;
 import com.example.conta_justa.domain.SharedFood;
 import com.example.conta_justa.domain.User;
+import com.example.conta_justa.infra.repository.GroupRepository;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,9 +26,17 @@ import org.springframework.stereotype.Service;
 public class CalculateDivisionService {
 
   private final DivisionService divisionService;
+  private final GroupRepository groupRepository;
+  private final IdGenerator idGenerator;
 
-  public CalculateDivisionService(DivisionService divisionService) {
+  public CalculateDivisionService(
+    DivisionService divisionService,
+    GroupRepository groupRepository,
+    IdGenerator idGenerator
+  ) {
     this.divisionService = divisionService;
+    this.groupRepository = groupRepository;
+    this.idGenerator = idGenerator;
   }
 
   public CalculateDivisionResponseDto execute(
@@ -52,12 +63,20 @@ public class CalculateDivisionService {
 
     Money total = divisionService.sumTotalOrders(orders, request.tax());
 
-    List<OrderPerUserDto> dtos = result
+    Group g = new Group(
+      idGenerator.generate(),
+      request.groupName(),
+      total.amount(),
+      users,
+      result
+    );
+
+    this.groupRepository.save(g);
+    List<OrderPerUserDto> ordersPerUser = result
       .stream()
       .map(this::toOrderPerUserDto)
       .toList();
-
-    return new CalculateDivisionResponseDto(total.amount(), dtos);
+    return new CalculateDivisionResponseDto(total.amount(), ordersPerUser);
   }
 
   // AGORA preserva o id do request (um único id por usuário)
@@ -67,14 +86,15 @@ public class CalculateDivisionService {
 
   private Order toOrder(OrderRequestDto dto, Map<UUID, User> userMap) {
     Set<User> shared = new HashSet<>();
-    for (UUID userId : dto.sharedUserIds()) {
-      User u = userMap.get(userId);
+    for (UserDto userId : dto.sharedUsers()) {
+      User u = userMap.get(userId.id());
       if (u == null) {
         throw new IllegalArgumentException("Usuário não encontrado: " + userId);
       }
       shared.add(u);
     }
     return new Order(
+      idGenerator.generate(),
       dto.name(),
       shared,
       new Money(dto.price()),

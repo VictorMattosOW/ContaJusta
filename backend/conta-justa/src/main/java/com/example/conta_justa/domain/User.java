@@ -17,15 +17,6 @@ public class User {
     this.name = name;
   }
 
-  public User(String name) {
-    if (name.length() <= 0) throw new RuntimeException(
-      "Nome não pode ser vazio."
-    );
-
-    this.id = UUID.randomUUID();
-    this.name = name;
-  }
-
   public void setAppUserId(Long appUserId) {
     this.appUserId = appUserId;
   }

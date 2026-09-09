@@ -12,6 +12,7 @@ public final class Order {
   private final Set<User> foodShared;
 
   public Order(
+    final UUID id,
     final String foodName,
     final Set<User> foodShared,
     final Money price,
@@ -29,7 +30,7 @@ public final class Order {
       "Quantidade tem que ser maior que 0."
     );
 
-    this.id = UUID.randomUUID();
+    this.id = id;
     this.foodShared = foodShared;
     this.foodName = foodName;
     this.price = price;

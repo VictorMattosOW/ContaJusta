@@ -65,7 +65,7 @@ public class DivisionService {
           current.name(),
           concat(
             current.orders(),
-            new SharedFood(order.getId().toString(), order.getFoodName(), share)
+            new SharedFood(order.getId(), order.getFoodName(), share)
           ),
           current.totalValue().add(share)
         );

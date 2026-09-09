@@ -1,6 +1,8 @@
 package com.example.conta_justa.domain;
 
+import java.util.UUID;
+
 /**
  * SharedFood
  */
-public record SharedFood(String orderId, String food, Money sharedValue) {}
+public record SharedFood(UUID orderId, String food, Money sharedValue) {}

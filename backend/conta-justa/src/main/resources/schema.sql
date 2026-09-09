@@ -10,3 +10,35 @@ CREATE TABLE app_user (
   user_id UUID,
   CONSTRAINT fk_app_user_person FOREIGN KEY (user_id) REFERENCES person(id)
 );
+
+CREATE TABLE groups (
+  id UUID PRIMARY KEY,
+  group_name VARCHAR(255) NOT NULL,
+  total NUMERIC(12,2) NOT NULL,
+  created_at TIMESTAMP NOT NULL
+);
+
+CREATE TABLE group_user (
+  id UUID PRIMARY KEY,
+  group_id UUID NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  CONSTRAINT fk_group_user FOREIGN KEY (group_id) REFERENCES groups(id)
+);
+
+CREATE TABLE group_order_per_user (
+  id UUID PRIMARY KEY,
+  group_id UUID NOT NULL,
+  user_id UUID NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  total_value NUMERIC(12,2) NOT NULL,
+  CONSTRAINT fk_group_opu_group FOREIGN KEY (group_id) REFERENCES groups(id)
+);
+
+CREATE TABLE group_shared_food (
+  id UUID PRIMARY KEY,
+  order_per_user_id UUID NOT NULL,
+  order_id UUID,
+  food VARCHAR(255) NOT NULL,
+  shared_value NUMERIC(12,2) NOT NULL,
+  CONSTRAINT fk_group_sf_opu FOREIGN KEY (order_per_user_id) REFERENCES group_order_per_user(id)
+);
