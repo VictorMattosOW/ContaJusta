@@ -10,7 +10,6 @@
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["jest"],
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
