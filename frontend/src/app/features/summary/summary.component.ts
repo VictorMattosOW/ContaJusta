@@ -50,6 +50,7 @@ export class SummaryComponent implements OnInit {
   readonly total = computed(() => sumTotalOrders(this.orders(), this.percent()));
   isOpenModal = signal<boolean>(false);
   orderToEdit = signal<Order | null>(null);
+  errorMessage = signal<string | null>(null);
 
   ngOnInit(): void {
     this.isOrderEmpty();
@@ -86,6 +87,7 @@ export class SummaryComponent implements OnInit {
   }
 
   saveFinalOrder() {
+    this.errorMessage.set(null);
     const finalOrder: FinalOrder = {
       orders: this.orders(),
       tax: this.percent(),
@@ -97,7 +99,11 @@ export class SummaryComponent implements OnInit {
         this.router.navigate(['divisao-pedido']);
       },
       error: (error: HttpErrorResponse) => {
-        console.error(error);
+        this.errorMessage.set(
+          error.status === 0
+            ? 'Servidor indisponível. Tente novamente.'
+            : 'Não foi possível dividir a conta. Tente novamente.'
+        );
       }
     });
   }

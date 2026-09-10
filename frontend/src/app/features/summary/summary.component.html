@@ -17,6 +17,10 @@
         <span>com taxa de {{ percent() }}%</span>
       </div>
     </section>
+
+    @if (errorMessage()) {
+      <p class="error-message" role="alert">{{ errorMessage() }}</p>
+    }
   </div>
 
   <footer class="button-content">

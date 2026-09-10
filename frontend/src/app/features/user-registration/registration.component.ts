@@ -2,7 +2,6 @@ import { Component, OnInit, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'app/features/user-registration/models/user.model';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
-import { SessionService } from 'app/shared/services/session.service';
 import { UserService } from 'app/shared/services/user/user.service';
 import { RegistrationFormComponent } from './registration-form/registration-form.component';
 import { RegistrationFormModel } from './registration-form/registration-form.model';
@@ -24,21 +23,11 @@ export class RegistrationComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private sessionService: SessionService,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.getPath();
     this.loadUsersFromSession();
-  }
-
-  getPath() {
-    this.sessionService.getPath().subscribe({
-      next: (path) => {
-        this.isEdit = path === '/ordens';
-      }
-    });
   }
 
   loadUsersFromSession() {

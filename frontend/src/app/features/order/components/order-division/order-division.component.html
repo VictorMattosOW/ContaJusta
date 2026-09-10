@@ -1,10 +1,10 @@
-@if (orderPerUser) {
+@if (orderPerUser()) {
   <div class="content">
     <section>
       <header>
         <h1 class="title">Conta justa feita com sucesso!</h1>
       </header>
-      @for (user of orderPerUser; track user.userId; let i = $index) {
+      @for (user of orderPerUser() ?? []; track user.userId; let i = $index) {
         <button class="card" (click)="openCard(i)">
           <div class="card-description">
             <h4>{{ user.name }}</h4>
@@ -25,7 +25,7 @@
       <div class="total">
         <h2>Total</h2>
         <div>
-          <h1>{{ finalValue | currency }}</h1>
+          <h1>{{ finalValue() | currency }}</h1>
           <legend>com taxa de {{ finalOrder().tax }}%</legend>
         </div>
       </div>
