@@ -1,0 +1,9 @@
+@if (orders.isLoading()) {
+  <p>Carregando lista de ordens...</p>
+} @else if (orders.hasValue()) {
+  @for (order of orders.value(); track order.id) {
+    <div>
+      <h3>{{ order.groupName }}</h3>
+    </div>
+  }
+}

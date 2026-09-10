@@ -52,5 +52,10 @@ export const routes: Routes = [
     path: 'evento',
     loadComponent: () => import('./features/event-name/event-name.component').then((m) => m.EventNameComponent)
     // sem data.background → usa o fundo claro padrão
+  },
+  {
+    path: 'history',
+    loadComponent: () => import('./features/history/history.component').then((m) => m.HistoryComponent)
+    // sem data.background → usa o fundo claro padrão
   }
 ];
