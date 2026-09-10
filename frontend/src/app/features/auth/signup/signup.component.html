@@ -18,4 +18,8 @@
   <aside class="links">
     <app-button-link title="Já tenho conta" (buttonAction)="goToLogin()"></app-button-link>
   </aside>
+
+  @if (errorMessage()) {
+    <p class="error-message" role="alert">{{ errorMessage() }}</p>
+  }
 </main>

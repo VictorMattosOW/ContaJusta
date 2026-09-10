@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { OrderPerUser } from 'app/features/order/models/order.model';
 import { OrderService } from '../../services/order.service';
@@ -21,22 +21,15 @@ export class OrderDivisionComponent implements OnInit {
 
   readonly users = this.userService.users$;
   readonly orders = this.orderService.orders$;
+  readonly finalOrder = this.orderService.finalOrder$;
+  private readonly orderPerUserResponse = this.orderService.orderPerUser$;
+  readonly orderPerUser = computed<OrderPerUser[] | null>(() => this.orderPerUserResponse()?.ordersPerUser ?? null);
+  readonly finalValue = computed<number>(() => this.orderPerUserResponse()?.total ?? 0);
 
-  finalOrder = this.orderService.finalOrder$;
-  orderPerUserResponse = this.orderService.orderPerUser$;
-  orderPerUser: OrderPerUser[] = this.orderPerUserResponse().ordersPerUser;
   cardState: boolean[] = [];
-  finalValue = this.orderPerUserResponse().total;
 
   ngOnInit(): void {
     this.getUsers();
-    this.calculateOrders();
-  }
-
-  isOrderEmpty() {
-    if (!this.finalOrder()) {
-      this.router.navigate(['registrar']);
-    }
   }
 
   getUsers() {
@@ -46,14 +39,7 @@ export class OrderDivisionComponent implements OnInit {
   }
 
   openCard(index: number) {
-    this.cardState[index] = this.cardState[index] ? false : true;
-  }
-
-  calculateOrders() {
-    // const { orders, tax } = this.finalOrder();
-    // this.orderPerUser = this.orderService.calculateConsumption(this.users(), orders, tax) ?? [];
-    // this.finalValue = this.orderService.sumTotalOrders(this.finalOrder().orders, this.finalOrder().tax);
-    console.log(this.orderPerUser);
+    this.cardState[index] = !this.cardState[index];
   }
 
   goToSummary() {
@@ -61,6 +47,6 @@ export class OrderDivisionComponent implements OnInit {
   }
 
   goToEventName() {
-    this.router.navigate(['evento']);
+    this.router.navigate(['history']);
   }
 }

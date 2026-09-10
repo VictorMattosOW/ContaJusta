@@ -109,26 +109,26 @@ describe('OrderComponent', () => {
     expect(orderServiceMock.addOrder).toHaveBeenCalledWith({ foodName: 'Sushi', price: 50, quantity: 1 }, [userA]);
     // 2) Efeitos colaterais: form resetado...
     expect(component.draft.form.value).toEqual({ foodName: '', price: 0, quantity: 1 });
-    // 3) ...seleção zerada...
+    // 3) ...seleção zerada (o reset dos checkboxes agora vive no store de seleção)
     expect(component.selection.hasUserSelected()).toBe(false);
-    // 4) ...e gatilho de reset dos checkboxes incrementado (filho escuta)
-    expect(component.resetCheckbox()).toBe(1);
   });
 
-  it('isSubmitButton acompanha a validade do form via statusChanges', () => {
+  it('canCreate acompanha validade do form e seleção de usuários', () => {
     createComponent(); // ngOnInit assina statusChanges
 
     /**
-     * CUIDADO com validade de FORM GRUPO: o form só fica válido quando TODOS
-     * os controles estão válidos. Com price=0 (abaixo do mínimo 0,01) o grupo
-     * permanece inválido mesmo com nome preenchido! Por isso usamos patchValue
-     * cobrindo os dois campos em cada cenário.
+     * canCreate = form válido E ao menos um usuário selecionado.
+     * O form só fica válido quando TODOS os controles estão válidos — por isso
+     * cobrimos nome e preço em cada cenário.
      */
     component.draft.form.patchValue({ foodName: '', price: 0 }); // inválido
-    expect(component.isSubmitButton()).toBe(false);
+    expect(component.canCreate()).toBe(false);
 
-    component.draft.form.patchValue({ foodName: 'X', price: 10 }); // tudo válido
-    expect(component.isSubmitButton()).toBe(true);
+    component.draft.form.patchValue({ foodName: 'X', price: 10 }); // válido, mas sem usuário
+    expect(component.canCreate()).toBe(false);
+
+    component.selection.select([userA]); // usuário selecionado
+    expect(component.canCreate()).toBe(true);
   });
 
   it('modo edição: preenche form a partir da rota, salva e navega', () => {
@@ -187,11 +187,11 @@ describe('OrderComponent', () => {
     expect(component.isDeleteModalOpen()).toBe(false);
   });
 
-  describe('goToSummary (guarda de navegação)', () => {
+  describe('navigateToSummary (guarda de navegação)', () => {
     it('não deve navegar quando não há pedidos', () => {
       createComponent(); // ordersSignal vazio
 
-      component.goToSummary();
+      component.navigateToSummary();
 
       expect(routerMock.navigate).not.toHaveBeenCalled();
     });
@@ -200,7 +200,7 @@ describe('OrderComponent', () => {
       ordersSignal.set([order]); // signal é lido pelo getter getOrder
       createComponent();
 
-      component.goToSummary();
+      component.navigateToSummary();
 
       expect(routerMock.navigate).toHaveBeenCalledWith(['resumo']);
     });

@@ -14,6 +14,11 @@ export interface OrderCalculatedResponse {
   total: number;
 }
 
+export interface getAllOrders extends OrderCalculatedResponse {
+  id: string;
+  groupName: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,7 +29,7 @@ export class OrderService {
   private orders = signal<Order[]>([]);
   readonly orders$ = this.orders.asReadonly();
 
-  private orderPerUser = signal<OrderCalculatedResponse>({} as OrderCalculatedResponse);
+  private orderPerUser = signal<OrderCalculatedResponse | null>(null);
   readonly orderPerUser$ = this.orderPerUser.asReadonly();
 
   private finalOrder = signal<FinalOrder>({
@@ -45,7 +50,6 @@ export class OrderService {
       ...data,
       groupName: this.finalOrder().groupName
     };
-    console.log(order);
     return this.http.post<OrderCalculatedResponse>(`${this.apiUrl}/calculate`, order);
   }
 
@@ -55,7 +59,6 @@ export class OrderService {
 
   setEventName(groupName: string) {
     this.finalOrder.update((fo) => ({ ...fo, groupName }));
-    console.log(this.finalOrder());
   }
 
   addOrder(data: OrderFormData, sharedUsers: User[]): Order {

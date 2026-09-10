@@ -1,6 +1,7 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { ButtonLinkComponent } from 'app/shared/components/button-link/button-link.component';
 import { SignupFormComponent } from './signup-form/signup-form.component';
@@ -25,7 +26,7 @@ export class SignupComponent {
 
   readonly isFormValid = computed(() => this.formStatus() === 'VALID');
 
-  private readonly isSubmitting = signal(false);
+  readonly errorMessage = signal<string | null>(null);
 
   constructor(private router: Router) {}
 
@@ -35,19 +36,20 @@ export class SignupComponent {
 
   submit() {
     if (this.signupFormModel.isValidForm()) {
-      this.isSubmitting.set(true);
-      const singInForm: SingInRequest = {
+      this.errorMessage.set(null);
+      const signInForm: SingInRequest = {
         name: this.signupFormModel.form.getRawValue().name,
         email: this.signupFormModel.form.getRawValue().email,
         password: this.signupFormModel.form.getRawValue().password
       };
-      this.authService.singIn(singInForm).subscribe({
-        next: (res) => {
-          console.log(res);
+      this.authService.signIn(signInForm).subscribe({
+        next: () => {
           this.router.navigate(['registrar']);
         },
-        error(err) {
-          console.error(err);
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage.set(
+            err.status === 409 ? 'Já existe uma conta com este e-mail.' : 'Erro ao criar conta. Tente novamente.'
+          );
         }
       });
     }

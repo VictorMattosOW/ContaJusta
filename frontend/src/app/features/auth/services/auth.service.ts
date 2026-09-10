@@ -22,12 +22,8 @@ export class AuthService {
   readonly isAuthenticated = computed(() => this.token() !== null);
   readonly currentToken = this.token.asReadonly();
 
-  singIn(credentials: SingInRequest): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/register`, credentials).pipe(
-      tap((res) => {
-        console.log(res);
-      })
-    );
+  signIn(credentials: SingInRequest): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/register`, credentials);
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
