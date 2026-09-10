@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HistoryComponent } from './history.component';
 
-import { ButtonLinkComponent } from './button-link.component';
-
-describe('ButtonLinkComponent', () => {
-  let component: ButtonLinkComponent;
-  let fixture: ComponentFixture<ButtonLinkComponent>;
+describe('HistoryComponent', () => {
+  let component: HistoryComponent;
+  let fixture: ComponentFixture<HistoryComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ButtonLinkComponent]
+      imports: [HistoryComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ButtonLinkComponent);
+    fixture = TestBed.createComponent(HistoryComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

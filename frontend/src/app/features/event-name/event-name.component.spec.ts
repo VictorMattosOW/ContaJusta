@@ -42,6 +42,6 @@ describe('EventNameComponent', () => {
     component.submit();
 
     expect(setEventNameSpy).toHaveBeenCalledWith('churrasco do João');
-    expect(routerMock.navigate).toHaveBeenCalledWith(['']);
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/orders']);
   });
 });

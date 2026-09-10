@@ -13,9 +13,9 @@ describe('RegistrationFormModel', () => {
     model = new RegistrationFormModel();
   });
 
-  it('começa com FormArray vazio', () => {
+  it('começa com FormArray vazio e sem capacidade de submit', () => {
     expect(model.inputs.length).toBe(0);
-    expect(model.form.valid).toBe(false);
+    expect(model.canEnableSubmitButton()).toBe(false);
   });
 
   describe('addNewUserInput', () => {
