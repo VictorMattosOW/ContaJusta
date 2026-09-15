@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, Signal, signal } from '@angular/core';
 import { FinalOrder, Order, OrderPerUser } from 'app/features/order/models/order.model';
 import { User } from 'app/features/user-registration/models/user.model';
 import {
@@ -6,7 +6,7 @@ import {
   sumTotalOrders as _sumTotalOrders
 } from '../utils/order-calculator';
 import { OrderFormData } from '../models/order-form.interface';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, httpResource } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface OrderCalculatedResponse {
@@ -14,9 +14,10 @@ export interface OrderCalculatedResponse {
   total: number;
 }
 
-export interface getAllOrders extends OrderCalculatedResponse {
+export interface HistoryOrder extends OrderCalculatedResponse {
   id: string;
   groupName: string;
+  created_at: string;
 }
 
 @Injectable({
@@ -39,7 +40,20 @@ export class OrderService {
     groupName: ''
   });
 
+  readonly histories = httpResource<HistoryOrder[]>(() => `${this.apiUrl}/history`);
+
   readonly finalOrder$ = this.finalOrder.asReadonly();
+
+  readonly orderPerUsers = (id: Signal<string | undefined>) => {
+    return computed<OrderPerUser[] | undefined>(() => {
+      const currentId = id();
+      if (!currentId) {
+        return this.orderPerUser$()?.ordersPerUser;
+      }
+
+      return this.histories.value()?.find((order) => order.id === currentId)?.ordersPerUser;
+    });
+  };
 
   setOrderPerUser(orderPerUser: OrderCalculatedResponse) {
     this.orderPerUser.set(orderPerUser);

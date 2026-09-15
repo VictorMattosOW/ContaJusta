@@ -1,0 +1,14 @@
+<button class="card" (click)="handleOpenCard()">
+  <div class="card-description">
+    <h4>{{ orderPerUser().name }}</h4>
+    <h3>{{ orderPerUser().totalValue | currency }}</h3>
+  </div>
+  @for (sharedFood of orderPerUser().orders; track sharedFood.orderId) {
+    @if (cardState()) {
+      <div class="card-description details">
+        <legend>{{ sharedFood.food }}</legend>
+        <legend>{{ sharedFood.sharedValue | currency }}</legend>
+      </div>
+    }
+  }
+</button>

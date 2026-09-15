@@ -5,20 +5,7 @@
         <h1 class="title">Conta justa feita com sucesso!</h1>
       </header>
       @for (user of orderPerUser() ?? []; track user.userId; let i = $index) {
-        <button class="card" (click)="openCard(i)">
-          <div class="card-description">
-            <h4>{{ user.name }}</h4>
-            <h3>{{ user.totalValue | currency }}</h3>
-          </div>
-          @for (sharedFood of user.orders; track sharedFood.orderId) {
-            @if (cardState[i]) {
-              <div class="card-description details">
-                <legend>{{ sharedFood.food }}</legend>
-                <legend>{{ sharedFood.sharedValue | currency }}</legend>
-              </div>
-            }
-          }
-        </button>
+        <app-division-card [orderPerUser]="user" [cardState]="cardState[i]" (openCard)="openCard(i)" />
       }
     </section>
     <footer>
@@ -26,23 +13,40 @@
         <h2>Total</h2>
         <div>
           <h1>{{ finalValue() | currency }}</h1>
-          <legend>com taxa de {{ finalOrder().tax }}%</legend>
+          <span>com taxa de {{ finalOrder().tax }}%</span>
         </div>
       </div>
-      <div class="button-content">
-        <app-button
-          [isDisabled]="false"
-          buttonTitle="Voltar"
-          size="small"
-          styleButton="yellow-secondary"
-          (buttonAction)="goToSummary()"></app-button>
-        <app-button
-          [isDisabled]="false"
-          buttonTitle="Finalizar"
-          size="small"
-          styleButton="yellow-primary"
-          (buttonAction)="goToEventName()"></app-button>
-      </div>
+      @if (!id()) {
+        <div class="button-content">
+          <app-button
+            [isDisabled]="false"
+            buttonTitle="Voltar"
+            size="small"
+            styleButton="yellow-secondary"
+            [routerLink]="['/resumo']"></app-button>
+          <app-button
+            [isDisabled]="false"
+            buttonTitle="Finalizar"
+            size="small"
+            styleButton="yellow-primary"
+            [routerLink]="['/evento']"></app-button>
+        </div>
+      } @else {
+        <div class="button-content">
+          <app-button
+            [isDisabled]="false"
+            buttonTitle="inicio"
+            size="small"
+            styleButton="yellow-secondary"
+            [routerLink]="['']"></app-button>
+          <app-button
+            [isDisabled]="false"
+            buttonTitle="Historico"
+            size="small"
+            styleButton="yellow-primary"
+            [routerLink]="['/history']"></app-button>
+        </div>
+      }
     </footer>
   </div>
 }

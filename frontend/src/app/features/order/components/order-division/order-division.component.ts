@@ -1,10 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, computed, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { OrderPerUser } from 'app/features/order/models/order.model';
+import { Component, OnInit, ChangeDetectionStrategy, computed, inject, input } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { OrderService } from '../../services/order.service';
 import { ButtonComponent } from 'app/shared/components/button/button.component';
 import { CurrencyPipe } from 'app/shared/pipes/currency.pipe';
 import { UserService } from 'app/shared/services/user/user.service';
+import { DivisionCardComponent } from './division-card/division-card.component';
 
 @Component({
   selector: 'app-order-division',
@@ -12,9 +12,11 @@ import { UserService } from 'app/shared/services/user/user.service';
   styleUrls: ['./order-division.component.css'],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: true,
-  imports: [CurrencyPipe, ButtonComponent]
+  imports: [RouterLink, CurrencyPipe, ButtonComponent, DivisionCardComponent]
 })
 export class OrderDivisionComponent implements OnInit {
+  id = input<string>();
+
   private readonly userService = inject(UserService);
   private readonly orderService = inject(OrderService);
   private readonly router = inject(Router);
@@ -23,13 +25,16 @@ export class OrderDivisionComponent implements OnInit {
   readonly orders = this.orderService.orders$;
   readonly finalOrder = this.orderService.finalOrder$;
   private readonly orderPerUserResponse = this.orderService.orderPerUser$;
-  readonly orderPerUser = computed<OrderPerUser[] | null>(() => this.orderPerUserResponse()?.ordersPerUser ?? null);
+
   readonly finalValue = computed<number>(() => this.orderPerUserResponse()?.total ?? 0);
+  readonly orderPerUser = this.orderService.orderPerUsers(this.id);
 
   cardState: boolean[] = [];
 
   ngOnInit(): void {
-    this.getUsers();
+    if (!this.id) {
+      this.getUsers();
+    }
   }
 
   getUsers() {
@@ -40,13 +45,5 @@ export class OrderDivisionComponent implements OnInit {
 
   openCard(index: number) {
     this.cardState[index] = !this.cardState[index];
-  }
-
-  goToSummary() {
-    this.router.navigate(['resumo']);
-  }
-
-  goToEventName() {
-    this.router.navigate(['history']);
   }
 }

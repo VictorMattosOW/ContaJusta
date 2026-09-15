@@ -1,0 +1,45 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 100%;
+  padding: 16px;
+  margin-top: 8px;
+  color: var(--white);
+  background-color: #7091fe;
+  min-height: 50px;
+  width: 346px;
+  border-radius: var(--radius-md);
+}
+
+.card-description {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.details {
+  margin-top: 16px;
+}
+
+.details > legend {
+  color: var(--gray5);
+  font-weight: 400;
+}
+
+.button-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 60px;
+  margin-top: 42px;
+  color: var(--yellow-500);
+}
+
+.total legend {
+  text-align: end;
+  color: var(--yellow-500);
+}
