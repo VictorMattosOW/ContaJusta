@@ -21,8 +21,8 @@
   width: 99px;
   height: 106px;
   padding: 8px;
-  border-radius: 8px;
-  margin: 0 1rem;
+  border-radius: var(--radius-md);
+  margin: 0 var(--space-sm);
   background: var(--cinza-2, #565d6c);
   color: var(--branco, #f9f9f9);
   font-size: 32px;

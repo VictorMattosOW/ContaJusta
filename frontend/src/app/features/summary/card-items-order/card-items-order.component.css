@@ -12,10 +12,10 @@
 }
 
 .description:is(:focus, :active) {
-  margin-left: -2rem;
-  margin-right: -2rem;
-  background-color: #ebefff;
-  padding: 0.8rem 2rem;
+  margin-left: -var(--space-lg);
+  margin-right: -var(--space-lg);
+  background-color: var(--color-surface-focus);
+  padding: 0.8rem var(--space-lg);
 }
 
 .names-content {

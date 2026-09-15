@@ -2,16 +2,16 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  padding: 1rem;
+  padding: var(--space-sm);
   background: var(--gray5);
-  border-radius: 8px;
-  margin-bottom: 2rem;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-lg);
 }
 
 .card-orders__header {
   color: var(--gray);
   align-self: center;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-sm);
 }
 
 .card-orders__item {
@@ -19,7 +19,7 @@
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 0.75rem;
-  gap: 0.5rem;
+  gap: var(--space-xs);
 }
 
 .card-orders__item-users {

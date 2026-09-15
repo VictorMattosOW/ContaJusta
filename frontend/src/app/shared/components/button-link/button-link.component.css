@@ -1,5 +1,5 @@
 button.link {
-  font-size: 1rem;
+  font-size: var(--space-sm);
   text-decoration: underline;
   color: var(--gray);
   opacity: 70%;

@@ -7,7 +7,7 @@
 
 .primary {
   color: var(--blue-primary-500);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-xs);
 }
 
 .subtitle {
@@ -16,7 +16,7 @@
 }
 
 .btn-next {
-  margin-top: 2rem;
+  margin-top: var(--space-lg);
   align-self: flex-end;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .error-message {
-  margin-top: 1rem;
+  margin-top: var(--space-sm);
   color: #d32f2f;
   font-size: 0.875rem;
   text-align: center;

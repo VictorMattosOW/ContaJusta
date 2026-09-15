@@ -15,13 +15,13 @@
 }
 
 .input-content input {
-  padding: 1rem 0.8rem;
-  border-radius: 8px;
+  padding: var(--space-sm) 0.8rem;
+  border-radius: var(--radius-md);
   display: block;
   border: 1px solid var(--gray2);
   width: 100%;
   height: 50px;
-  font-size: 1rem;
+  font-size: var(--space-sm);
   color: var(--gray4, #333);
 }
 
@@ -31,12 +31,12 @@
 }
 
 .input-content.error-input input {
-  border-color: #d2252f;
-  outline: 1px solid #d2252f;
+  border-color: var(--color-error);
+  outline: 1px solid var(--color-error);
 }
 
 .error-msg > span {
-  color: #d2252f;
+  color: var(--color-error);
   padding-top: 6px;
   font-size: 0.875rem;
   display: block;

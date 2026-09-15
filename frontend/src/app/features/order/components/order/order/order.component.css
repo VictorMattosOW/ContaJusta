@@ -7,7 +7,7 @@
 
 .content > h1 {
   color: var(--blue-primary-500);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-xs);
 }
 
 .price-content {
@@ -18,20 +18,20 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
 }
 
 .btn-content-edit {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
 }
 
 .title {
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-lg);
 }
 
 .primary {
@@ -43,8 +43,8 @@
 }
 
 .input-content.error-input input[type='text'] input[type='number'] {
-  border: #d2252f;
-  outline: 1px solid #d2252f;
+  border: var(--color-error);
+  outline: 1px solid var(--color-error);
 }
 
 .modal-footer {

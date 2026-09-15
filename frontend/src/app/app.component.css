@@ -4,7 +4,7 @@ router-outlet {
 
 .container {
   min-height: 100dvh;
-  padding: 2rem 2rem 2rem 2rem;
+  padding: var(--space-lg);
   position: relative;
   display: grid;
 }
@@ -20,12 +20,12 @@ router-outlet {
 
 @media (max-width: 360px) {
   .container {
-    padding: 1.5rem 2rem 0 2rem;
+    padding: var(--space-md); var(--space-lg); 0 var(--space-lg);;
   }
 }
 
 @media (max-height: 640px) {
   .container {
-    padding: 1rem 2rem 1rem 2rem;
+    padding: var(--space-sm); var(--space-lg); var(--space-sm); var(--space-lg);;
   }
 }

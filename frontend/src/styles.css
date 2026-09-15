@@ -9,6 +9,26 @@
   --gray3: #a3a9b7;
   --gray4: #d8dadd;
   --gray5: #e8e9ec;
+
+  /* NOVO: cores que estavam hardcoded */
+  --color-error: #d2252f;
+  --color-surface-focus: #ebefff;
+  --color-backdrop: rgba(31, 38, 51, 0.8);
+  --color-backdrop-modal: rgba(0, 0, 0, 0.5);
+
+  /* NOVO: forma */
+  --radius-md: 8px;
+
+  /* NOVO: camadas (ordem importa, não o valor) */
+  --z-base: 0;
+  --z-content: 10;
+  --z-modal: 1000;
+
+  /* NOVO: espaçamentos usados com frequência */
+  --space-xs: 0.5rem; /* 8px  */
+  --space-sm: 1rem; /* 16px */
+  --space-md: 1.5rem; /* 24px */
+  --space-lg: 2rem; /* 32px */
 }
 
 * {
@@ -27,7 +47,7 @@ input[type='text']:focus-visible {
 }
 
 ::backdrop {
-  --color-backdrop: rgba(31, 38, 51, 0.8);
+  --color-backdrop: var(--color-backdrop);
 }
 
 dialog::backdrop {

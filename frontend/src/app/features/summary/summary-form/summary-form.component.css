@@ -1,7 +1,7 @@
 .percent-content {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-xs);
 }
 
 .percent-content > input {
@@ -10,6 +10,6 @@
   text-align: center;
   font-size: 18px;
   flex-shrink: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--cinza-2, #565d6c);
 }

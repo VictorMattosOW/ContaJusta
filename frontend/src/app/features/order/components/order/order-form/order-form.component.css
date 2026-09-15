@@ -28,13 +28,13 @@
 }
 
 .order-form__input {
-  padding: 1rem 0.8rem;
-  margin-top: 1rem;
-  border-radius: 8px;
+  padding: var(--space-sm) 0.8rem;
+  margin-top: var(--space-sm);
+  border-radius: var(--radius-md);
   display: block;
   border: 1px solid var(--gray2);
   height: 50px;
-  font-size: 1rem;
+  font-size: var(--space-sm);
   width: 100%;
 }
 
@@ -54,12 +54,12 @@
 }
 
 .order-form__input--error {
-  border-color: var(--error, #d2252f);
+  border-color: var(--error, var(--color-error));
 }
 
 .order-form__button {
   padding: 0.8rem;
-  margin-top: 1rem;
+  margin-top: var(--space-sm);
   display: block;
   border: 1px solid var(--gray2);
   background: var(--gray2);
@@ -69,7 +69,7 @@
 
 .order-form__prefix {
   display: block;
-  margin-top: 1rem;
+  margin-top: var(--space-sm);
   height: 50px;
   background: var(--gray2);
   color: #f9f9f9;
@@ -84,7 +84,7 @@
 .order-form__button--decrement {
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
-  width: 2rem;
+  width: var(--space-lg);
 }
 
 .order-form__button--decrement:disabled {
@@ -95,7 +95,7 @@
 .order-form__button--increment {
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
-  width: 2rem;
+  width: var(--space-lg);
 }
 
 .order-form__button:hover:not(:disabled) {
@@ -107,7 +107,7 @@
 }
 
 .order-form__error p {
-  color: var(--error, #d2252f);
+  color: var(--error, var(--color-error));
   font-size: 12px;
   font-weight: 400;
   line-height: normal;

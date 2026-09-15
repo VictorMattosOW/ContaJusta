@@ -10,7 +10,7 @@ header {
 
 .subtitle {
   color: var(--yellow-400);
-  margin: 1rem 0 3.5rem 0;
+  margin: var(--space-sm); 0 3.5rem 0;
 }
 
 .btn {
@@ -33,7 +33,7 @@ header {
 
 @media (max-width: 375px) {
   .subtitle {
-    margin: 1rem 0 2rem 0;
+    margin: var(--space-sm); 0 var(--space-lg); 0;
   }
   .btn {
     position: relative;

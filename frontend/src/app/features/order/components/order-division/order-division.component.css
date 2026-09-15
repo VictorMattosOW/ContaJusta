@@ -21,7 +21,7 @@
   background-color: #7091fe;
   min-height: 50px;
   width: 346px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 
 .card-description {
@@ -34,7 +34,7 @@
   margin-top: 16px;
 }
 
-.details > legend {
+.details > span {
   color: var(--gray5);
   font-weight: 400;
 }
@@ -52,7 +52,7 @@
   color: var(--yellow-500);
 }
 
-.total legend {
+.total span {
   text-align: end;
   color: var(--yellow-500);
 }

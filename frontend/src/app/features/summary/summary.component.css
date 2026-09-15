@@ -7,7 +7,7 @@
 
 .title {
   color: var(--blue-primary-500);
-  margin-bottom: 2rem;
+  margin-bottom: var(--space-lg);
 }
 
 .service-payment {
@@ -29,7 +29,7 @@
 }
 
 .error-message {
-  margin-top: 1.5rem;
+  margin-top: var(--space-md);
   color: #d32f2f;
   font-size: 0.875rem;
 }

@@ -12,19 +12,19 @@
 } */
 
 input[type='text'] {
-  padding: 1rem 0.8rem;
-  border-radius: 8px;
+  padding: var(--space-sm); 0.8rem;
+  border-radius: var(--radius-md);
   display: block;
   border: 1px solid var(--gray2);
   width: 80%;
   height: 50px;
-  font-size: 1rem;
+  font-size: var(--space-sm);;
 }
 
 .btn-add {
   color: var(--gray3);
-  padding: 1rem 0.8rem;
-  border-radius: 8px;
+  padding: var(--space-sm); 0.8rem;
+  border-radius: var(--radius-md);
   border: 1px solid var(--gray2);
   width: 80%;
   height: 50px;
@@ -35,7 +35,7 @@ input[type='text'] {
 }
 
 .btn-add > p {
-  font-size: 1rem;
+  font-size: var(--space-sm);;
 }
 
 .btn {
@@ -44,15 +44,15 @@ input[type='text'] {
   justify-content: center;
   height: 50px;
   width: 182px;
-  font-size: 1rem;
+  font-size: var(--space-sm);;
   font-weight: 500;
   background-color: var(--blue-primary-500);
   color: var(--yellow-400);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 
 .btn-next {
-  margin-top: 2rem;
+  margin-top: var(--space-lg);;
   align-self: flex-end;
 }
 
@@ -60,17 +60,17 @@ input[type='text'] {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 1rem;
+  margin-top: var(--space-sm);;
 }
 
 .error-msg > span {
-  color: var(--error, #d2252f);
+  color: var(--error, var(--color-error));
   padding-top: 6px;
 }
 
 .input-content.error-input input[type='text'] {
-  border: #d2252f;
-  outline: 1px solid #d2252f;
+  border: var(--color-error);
+  outline: 1px solid var(--color-error);
 }
 
 .btn-edit {
@@ -84,7 +84,7 @@ input[type='text'] {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 350px;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--gray);
   padding: 24px 32px;
   z-index: 99999;
