@@ -1,9 +1,10 @@
-@if (orders.isLoading()) {
+@if (historyOrder.isLoading()) {
   <p>Carregando lista de ordens...</p>
-} @else if (orders.hasValue()) {
-  @for (order of orders.value(); track order.id) {
-    <div>
-      <h3>{{ order.groupName }}</h3>
-    </div>
-  }
+} @else if (historyOrder.hasValue()) {
+  <section>
+    <h1>Historico do seus rolês</h1>
+    @for (order of historyOrder.value(); track order.id) {
+      <app-history-card [history]="order" />
+    }
+  </section>
 }

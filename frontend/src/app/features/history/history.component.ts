@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
-import { HistoryService } from './service/history.service';
+import { HistoryCardComponent } from './history-card/history-card.component';
+import { OrderService } from '../order/services/order.service';
 
 @Component({
-  imports: [],
+  imports: [HistoryCardComponent],
   selector: 'app-history',
   styleUrl: './history.component.css',
   templateUrl: './history.component.html'
 })
 export class HistoryComponent {
-  private readonly historyService = inject(HistoryService);
-  orders = this.historyService.orders;
+  private readonly historyService = inject(OrderService);
+  historyOrder = this.historyService.histories;
 }

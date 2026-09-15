@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { OrderComponent } from './features/order/components/order/order/order.component';
 import { authGuard } from './core/guards/auth.guard';
+import { OrderDivisionComponent } from './features/order/components/order-division/order-division.component';
 
 export const routes: Routes = [
   {
@@ -45,6 +46,12 @@ export const routes: Routes = [
       import('./features/order/components/order-division/order-division.component').then(
         (m) => m.OrderDivisionComponent
       ),
+    // Divisão da conta também usa o fundo de marca
+    data: { background: 'primary' }
+  },
+  {
+    path: 'divisao-pedido/:id',
+    component: OrderDivisionComponent,
     // Divisão da conta também usa o fundo de marca
     data: { background: 'primary' }
   },

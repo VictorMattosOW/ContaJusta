@@ -1,0 +1,10 @@
+<a class="card" [routerLink]="['/divisao-pedido', history().id]">
+  <div>
+    <h3>{{ history().groupName }}</h3>
+    <span>{{ getUsers | userNamesDisplay }}</span>
+  </div>
+  <div class="card__content">
+    <span>Total: {{ history().total | currency }}</span>
+    <span>{{ history().created_at | date: 'dd/MM/yyyy' }}</span>
+  </div>
+</a>
